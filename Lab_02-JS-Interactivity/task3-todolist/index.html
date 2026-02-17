@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow ✨ | Smart To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section with Decoration -->
+        <div class="header">
+            <div class="header-decoration">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <h1>
+                <i class="fas fa-tasks"></i> 
+                TaskFlow
+                <span class="badge">3 Tasks</span>
+            </h1>
+            <p class="subtitle">Organize your daily priorities</p>
+        </div>
+
+        <!-- Progress Bar - FIXED VERSION -->
+        <div class="progress-container">
+            <div class="progress-stats">
+                <span>
+                    <i class="fas fa-check-circle"></i> 
+                    <span id="completedCount">0</span>/3 Completed
+                </span>
+                <span>
+                    <i class="fas fa-clock"></i> 
+                    <span id="remainingCount">3</span> Remaining
+                </span>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="tasks-container">
+            <!-- Task 1 - High Priority -->
+            <div class="task-card" id="task1" data-priority="high">
+                <div class="task-priority high"></div>
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge high">High Priority</span>
+                        <span class="task-deadline"><i class="far fa-calendar"></i> Today</span>
+                    </div>
+                    <div class="task-body">
+                        <i class="fas fa-code task-icon"></i>
+                        <input type="text" class="task-input" value="Complete JavaScript Lab" readonly>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button onclick="toggleComplete('task1')" class="btn-complete" title="Mark Complete">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button onclick="removeTask('task1')" class="btn-remove" title="Remove Task">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Task 2 - Medium Priority -->
+            <div class="task-card" id="task2" data-priority="medium">
+                <div class="task-priority medium"></div>
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge medium">Medium Priority</span>
+                        <span class="task-deadline"><i class="far fa-calendar"></i> Tomorrow</span>
+                    </div>
+                    <div class="task-body">
+                        <i class="fas fa-code-branch task-icon"></i>
+                        <input type="text" class="task-input" value="Review DOM Manipulation" readonly>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button onclick="toggleComplete('task2')" class="btn-complete" title="Mark Complete">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button onclick="removeTask('task2')" class="btn-remove" title="Remove Task">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Task 3 - Low Priority -->
+            <div class="task-card" id="task3" data-priority="low">
+                <div class="task-priority low"></div>
+                <div class="task-content">
+                    <div class="task-header">
+                        <span class="priority-badge low">Low Priority</span>
+                        <span class="task-deadline"><i class="far fa-calendar"></i> This Week</span>
+                    </div>
+                    <div class="task-body">
+                        <i class="fas fa-laptop-code task-icon"></i>
+                        <input type="text" class="task-input" value="Practice JavaScript" readonly>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button onclick="toggleComplete('task3')" class="btn-complete" title="Mark Complete">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button onclick="removeTask('task3')" class="btn-remove" title="Remove Task">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Center -->
+        <div class="action-center">
+            <button onclick="resetTasks()" class="btn-reset">
+                <i class="fas fa-undo-alt"></i> Reset All Tasks
+            </button>
+            
+            <div class="quick-actions">
+                <span class="quick-action-label">Quick Actions:</span>
+                <button onclick="completeAllTasks()" class="btn-quick" title="Complete All">
+                    <i class="fas fa-check-double"></i>
+                </button>
+                <button onclick="showStats()" class="btn-quick" title="Show Stats">
+                    <i class="fas fa-chart-pie"></i>
+                </button>
+                <button onclick="toggleTheme()" class="btn-quick" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Message with Animation -->
+        <div id="statusMessage" class="status-message">
+            <i class="fas fa-info-circle"></i>
+            <span>👆 Click on tasks to manage them</span>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="quote-section">
+            <i class="fas fa-quote-left"></i>
+            <p id="motivationalQuote">The secret of getting ahead is getting started.</p>
+        </div>
+
+        <!-- Keyboard Shortcuts Info -->
+        <div class="shortcuts-info">
+            <div class="shortcuts-header" onclick="toggleShortcuts()">
+                <i class="fas fa-keyboard"></i> Keyboard Shortcuts
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="shortcuts-content">
+                <div class="shortcut-item"><kbd>1</kbd> <span>Toggle Task 1</span></div>
+                <div class="shortcut-item"><kbd>2</kbd> <span>Toggle Task 2</span></div>
+                <div class="shortcut-item"><kbd>3</kbd> <span>Toggle Task 3</span></div>
+                <div class="shortcut-item"><kbd>R</kbd> <span>Reset All Tasks</span></div>
+                <div class="shortcut-item"><kbd>C</kbd> <span>Complete All</span></div>
+                <div class="shortcut-item"><kbd>S</kbd> <span>Show Statistics</span></div>
+                <div class="shortcut-item"><kbd>H</kbd> <span>Toggle Theme</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

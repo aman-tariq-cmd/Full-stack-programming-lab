@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    width: 600px;
+    max-width: 100%;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h1 + p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.question-card {
+    background: #f9f9f9;
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.question-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.question-card h3 {
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.question-card p {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.options {
+    margin-left: 20px;
+}
+
+.options input[type="radio"] {
+    margin: 10px 5px 10px 0;
+    cursor: pointer;
+}
+
+.options label {
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.options label:hover {
+    color: #667eea;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0 20px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.submit-btn {
+    background: #667eea;
+    color: white;
+}
+
+.submit-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.reset-btn {
+    background: #e53e3e;
+    color: white;
+}
+
+.reset-btn:hover {
+    background: #c53030;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229, 62, 62, 0.4);
+}
+
+.result-box {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    animation: slideIn 0.5s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-box h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.result-box p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}

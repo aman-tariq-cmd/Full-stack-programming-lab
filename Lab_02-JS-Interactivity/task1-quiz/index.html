@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quiz - Task 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>JavaScript Quiz</h1>
+        <p>Test your JavaScript knowledge!</p>
+        
+        <!-- Question 1 -->
+        <div class="question-card">
+            <h3>Question 1:</h3>
+            <p id="question1">What does DOM stand for in JavaScript?</p>
+            <div class="options">
+                <input type="radio" name="q1" value="Document Object Model" id="q1a">
+                <label for="q1a">Document Object Model</label><br>
+                <input type="radio" name="q1" value="Data Object Model" id="q1b">
+                <label for="q1b">Data Object Model</label><br>
+                <input type="radio" name="q1" value="Document Oriented Model" id="q1c">
+                <label for="q1c">Document Oriented Model</label><br>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card">
+            <h3>Question 2:</h3>
+            <p id="question2">Which keyword is used to declare a block-scoped variable?</p>
+            <div class="options">
+                <input type="radio" name="q2" value="var" id="q2a">
+                <label for="q2a">var</label><br>
+                <input type="radio" name="q2" value="let" id="q2b">
+                <label for="q2b">let</label><br>
+                <input type="radio" name="q2" value="const" id="q2c">
+                <label for="q2c">const</label><br>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card">
+            <h3>Question 3:</h3>
+            <p id="question3">What will typeof 42 return?</p>
+            <div class="options">
+                <input type="radio" name="q3" value="string" id="q3a">
+                <label for="q3a">string</label><br>
+                <input type="radio" name="q3" value="number" id="q3b">
+                <label for="q3b">number</label><br>
+                <input type="radio" name="q3" value="boolean" id="q3c">
+                <label for="q3c">boolean</label><br>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card">
+            <h3>Question 4:</h3>
+            <p id="question4">Which method is used to access an element by its ID?</p>
+            <div class="options">
+                <input type="radio" name="q4" value="getElementById" id="q4a">
+                <label for="q4a">getElementById()</label><br>
+                <input type="radio" name="q4" value="getElementsByClass" id="q4b">
+                <label for="q4b">getElementsByClass()</label><br>
+                <input type="radio" name="q4" value="querySelectorAll" id="q4c">
+                <label for="q4c">querySelectorAll()</label><br>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card">
+            <h3>Question 5:</h3>
+            <p id="question5">Which operator is used for strict equality comparison?</p>
+            <div class="options">
+                <input type="radio" name="q5" value="==" id="q5a">
+                <label for="q5a">== (loose equality)</label><br>
+                <input type="radio" name="q5" value="===" id="q5b">
+                <label for="q5b">=== (strict equality)</label><br>
+                <input type="radio" name="q5" value="=" id="q5c">
+                <label for="q5c">= (assignment)</label><br>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button onclick="submitQuiz()" class="btn submit-btn">Submit Quiz</button>
+            <button onclick="resetQuiz()" class="btn reset-btn">Reset Quiz</button>
+        </div>
+
+        <!-- Result Display -->
+        <div id="result" class="result-box"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,188 +1,413 @@
-// Store questions and correct answers in variables
-// Using different variable types as per lab requirements
-const question1 = "What does DOM stand for in JavaScript?";
-const question2 = "Which keyword is used to declare a block-scoped variable?";
-const question3 = "What will typeof 42 return?";
-const question4 = "Which method is used to access an element by its ID?";
-const question5 = "Which operator is used for strict equality comparison?";
-
-// Store correct answers
-const correctAnswer1 = "Document Object Model";
-const correctAnswer2 = "let";  // let is block-scoped
-const correctAnswer3 = "number";
-const correctAnswer4 = "getElementById";
-const correctAnswer5 = "===";
-
-// Using different data types as per lab requirements
-let totalQuestions = 5;  // Number
-const quizName = "JavaScript Fundamentals Quiz";  // String
-let isQuizSubmitted = false;  // Boolean
-let quizScore = null;  // Null initially
-let unansweredQuestions;  // Undefined initially
-
-// Function to check individual answer
-function checkAnswer(questionNumber, userAnswer) {
-    // Using switch statement as per lab requirements
-    switch(questionNumber) {
-        case 1:
-            return userAnswer === correctAnswer1;
-        case 2:
-            return userAnswer === correctAnswer2;
-        case 3:
-            return userAnswer === correctAnswer3;
-        case 4:
-            return userAnswer === correctAnswer4;
-        case 5:
-            return userAnswer === correctAnswer5;
-        default:
-            return false;
-    }
-}
-
-// Main function to submit quiz and calculate score
-function submitQuiz() {
-    let score = 0;
-    let answers = [];
-    
-    // Get all selected answers using loop (as per lab requirements)
-    for(let i = 1; i <= totalQuestions; i++) {
-        let radios = document.getElementsByName(`q${i}`);
-        let selectedValue = "";
-        
-        // Check which radio is selected
-        for(let radio of radios) {
-            if(radio.checked) {
-                selectedValue = radio.value;
-                break;
-            }
+// Quiz Data
+const quizData = {
+    questions: [
+        {
+            id: 1,
+            text: "What does DOM stand for in JavaScript?",
+            options: ["Document Object Model", "Data Object Model", "Document Oriented Model", "Dynamic Object Management"],
+            correct: "Document Object Model",
+            difficulty: "easy",
+            hint: "It's about HTML elements"
+        },
+        {
+            id: 2,
+            text: "Which keyword is used to declare a block-scoped variable?",
+            options: ["var", "let", "const", "function"],
+            correct: "let",
+            difficulty: "medium",
+            hint: "ES6 introduced two new keywords"
+        },
+        {
+            id: 3,
+            text: "What will typeof 42 return?",
+            options: ["string", "number", "boolean", "object"],
+            correct: "number",
+            difficulty: "easy",
+            hint: "It's a primitive data type"
+        },
+        {
+            id: 4,
+            text: "Which method is used to access an element by its ID?",
+            options: ["getElementById()", "getElementsByClass()", "querySelector()", "getElementByTag()"],
+            correct: "getElementById",
+            difficulty: "medium",
+            hint: "It starts with 'getElement'"
+        },
+        {
+            id: 5,
+            text: "Which operator is used for strict equality comparison?",
+            options: ["==", "===", "=", "!="],
+            correct: "===",
+            difficulty: "hard",
+            hint: "It compares both value and type"
         }
-        
-        answers.push(selectedValue);
-        
-        // Check if answer is correct using function
-        if(selectedValue && checkAnswer(i, selectedValue)) {
-            score++;
-        }
-    }
-    
-    // Calculate percentage
-    let percentage = (score / totalQuestions) * 100;
-    
-    // Display results using DOM manipulation
-    displayResults(score, percentage, answers);
-    
-    // Mark quiz as submitted
-    isQuizSubmitted = true;
-    quizScore = score;
-}
+    ]
+};
 
-// Function to display results dynamically
-function displayResults(score, percentage, answers) {
-    let resultDiv = document.getElementById('result');
-    
-    // Determine message based on score using conditional statements
-    let message = "";
-    let messageClass = "";
-    
-    if(score === totalQuestions) {
-        message = "🏆 Excellent! Perfect Score! You're a JavaScript Master!";
-        messageClass = "excellent";
-    } else if(score >= 4) {
-        message = "🌟 Great Job! You have good JavaScript knowledge!";
-        messageClass = "great";
-    } else if(score >= 3) {
-        message = "👍 Good attempt! Keep practicing!";
-        messageClass = "good";
-    } else if(score >= 2) {
-        message = "📚 Need more practice. Try again!";
-        messageClass = "average";
-    } else {
-        message = "💪 Don't give up! Review the concepts and try again!";
-        messageClass = "poor";
-    }
-    
-    // Build result HTML using DOM manipulation
-    let resultHTML = `
-        <h2>Quiz Results</h2>
-        <p class="score">Your Score: ${score}/${totalQuestions} (${percentage.toFixed(1)}%)</p>
-        <p class="message ${messageClass}">${message}</p>
-    `;
-    
-    // Add detailed breakdown (using ternary operator - part of conditional)
-    resultHTML += `<h3>Question Breakdown:</h3><ul>`;
-    
-    // Using loop to display each question result
-    for(let i = 0; i < answers.length; i++) {
-        let isCorrect = checkAnswer(i + 1, answers[i]);
-        let status = isCorrect ? "✅ Correct" : "❌ Incorrect";
-        let color = isCorrect ? "green" : "red";
-        
-        resultHTML += `<li style="color: ${color};">Question ${i + 1}: ${answers[i] ? answers[i] : "Not answered"} - ${status}</li>`;
-    }
-    
-    resultHTML += `</ul>`;
-    
-    // Display in DOM
-    resultDiv.innerHTML = resultHTML;
-    
-    // Change background color based on score
-    if(score === totalQuestions) {
-        resultDiv.style.backgroundColor = "#d4edda";
-        resultDiv.style.color = "#155724";
-        resultDiv.style.border = "2px solid #c3e6cb";
-    } else if(score >= 3) {
-        resultDiv.style.backgroundColor = "#fff3cd";
-        resultDiv.style.color = "#856404";
-        resultDiv.style.border = "2px solid #ffeeba";
-    } else {
-        resultDiv.style.backgroundColor = "#f8d7da";
-        resultDiv.style.color = "#721c24";
-        resultDiv.style.border = "2px solid #f5c6cb";
-    }
-}
+// State Management
+let userAnswers = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null
+};
 
-// Reset quiz function
-function resetQuiz() {
-    // Clear all radio buttons using loop
-    for(let i = 1; i <= totalQuestions; i++) {
-        let radios = document.getElementsByName(`q${i}`);
-        for(let radio of radios) {
-            radio.checked = false;
-        }
-    }
-    
-    // Clear result display
-    let resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = '';
-    resultDiv.style.backgroundColor = '';
-    resultDiv.style.border = '';
-    
-    // Reset variables
-    isQuizSubmitted = false;
-    quizScore = null;
-    
-    // Show confirmation using BOM (Browser Object Model)
-    alert('Quiz has been reset! You can start over.');
-}
+let questionStatus = {
+    1: 'unanswered',
+    2: 'unanswered',
+    3: 'unanswered',
+    4: 'unanswered',
+    5: 'unanswered'
+};
 
-// Bonus: Add keyboard shortcut (Ctrl+Enter to submit)
-document.addEventListener('keydown', function(event) {
-    if(event.ctrlKey && event.key === 'Enter') {
-        submitQuiz();
-    }
+let score = 0;
+let timerInterval;
+let timeLeft = 300; // 5 minutes in seconds
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('QuizMaster Pro Initialized');
+    initializeQuiz();
+    startTimer();
+    setupEventListeners();
 });
 
-// Initialize quiz with console message (demonstrating typeof)
-console.log('Quiz initialized!');
-console.log('Type of totalQuestions:', typeof totalQuestions);  // number
-console.log('Type of quizName:', typeof quizName);  // string
-console.log('Type of isQuizSubmitted:', typeof isQuizSubmitted);  // boolean
-console.log('Type of quizScore:', typeof quizScore);  // object (null)
-console.log('Type of unansweredQuestions:', typeof unansweredQuestions);  // undefined
+// Initialize Quiz
+function initializeQuiz() {
+    updateProgress();
+    updateTimerDisplay();
+    displayBrowserInfo();
+    
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', handleKeyboardShortcuts);
+}
 
-// Display welcome message using BOM
-window.onload = function() {
-    // Using BOM to show browser info
-    console.log('Browser Info:', navigator.userAgent);
+// Timer Functions
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        // Update progress bar
+        let progress = ((300 - timeLeft) / 300) * 100;
+        document.getElementById('timerProgress').style.transform = `scaleX(${progress / 100})`;
+        
+        // Time's up
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timeUp();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    
+    // Warning when less than 1 minute
+    if (timeLeft <= 60) {
+        document.getElementById('timerDisplay').style.color = 'var(--danger)';
+    }
+}
+
+function timeUp() {
+    showNotification('⏰ Time\'s up! Submitting quiz...', 'warning');
+    submitQuiz();
+}
+
+// Browser Info (BONUS)
+function displayBrowserInfo() {
+    console.log('=== Browser Information ===');
+    console.log('User Agent:', navigator.userAgent);
     console.log('Window Size:', window.innerWidth, 'x', window.innerHeight);
-};
+    console.log('Screen Size:', screen.width, 'x', screen.height);
+    console.log('Platform:', navigator.platform);
+    console.log('Language:', navigator.language);
+    console.log('Online Status:', navigator.onLine ? 'Online' : 'Offline');
+    console.log('========================');
+}
+
+// Check Individual Answer
+function checkAnswer(questionId) {
+    let selectedOption = document.querySelector(`input[name="q${questionId}"]:checked`);
+    let questionCard = document.getElementById(`question${questionId}`);
+    let checkBtn = document.getElementById(`checkBtn${questionId}`);
+    
+    if (!selectedOption) {
+        showNotification(`⚠️ Please select an answer for Question ${questionId}`, 'warning');
+        questionCard.classList.add('shake');
+        setTimeout(() => questionCard.classList.remove('shake'), 300);
+        return;
+    }
+    
+    let answer = selectedOption.value;
+    let isCorrect = answer === quizData.questions[questionId - 1].correct;
+    
+    // Store answer
+    userAnswers[questionId] = answer;
+    
+    // Update status
+    questionStatus[questionId] = isCorrect ? 'correct' : 'incorrect';
+    
+    // Update UI
+    questionCard.classList.remove('answered', 'correct', 'incorrect');
+    questionCard.classList.add('answered', isCorrect ? 'correct' : 'incorrect');
+    
+    // Update check button
+    checkBtn.innerHTML = isCorrect ? 
+        '<i class="fas fa-check-circle"></i> Correct!' : 
+        '<i class="fas fa-times-circle"></i> Incorrect';
+    checkBtn.style.background = isCorrect ? 'var(--success)' : 'var(--danger)';
+    checkBtn.style.color = 'white';
+    
+    // Show feedback
+    showNotification(
+        isCorrect ? '✅ Correct answer!' : '❌ Incorrect. Try again!',
+        isCorrect ? 'success' : 'error'
+    );
+    
+    // Update progress
+    updateProgress();
+}
+
+// Submit Quiz
+function submitQuiz() {
+    clearInterval(timerInterval);
+    
+    let answered = 0;
+    let correctAnswers = 0;
+    
+    // Calculate score
+    for (let i = 1; i <= 5; i++) {
+        if (userAnswers[i]) {
+            answered++;
+            if (userAnswers[i] === quizData.questions[i - 1].correct) {
+                correctAnswers++;
+            }
+        }
+    }
+    
+    score = correctAnswers;
+    
+    // Show results
+    displayResults(answered, correctAnswers);
+}
+
+// Display Results
+function displayResults(answered, correctAnswers) {
+    let resultDiv = document.getElementById('result');
+    let percentage = (correctAnswers / 5) * 100;
+    
+    // Determine result class and message
+    let resultClass, icon, title, message;
+    
+    if (correctAnswers === 5) {
+        resultClass = 'excellent';
+        icon = '🎉';
+        title = 'Perfect Score!';
+        message = 'Outstanding! You\'re a JavaScript Master!';
+    } else if (correctAnswers >= 4) {
+        resultClass = 'excellent';
+        icon = '🌟';
+        title = 'Great Job!';
+        message = 'Excellent knowledge of JavaScript fundamentals!';
+    } else if (correctAnswers >= 3) {
+        resultClass = 'good';
+        icon = '👍';
+        title = 'Good Effort!';
+        message = 'Good attempt! Keep practicing to improve.';
+    } else {
+        resultClass = 'poor';
+        icon = '💪';
+        title = 'Keep Learning!';
+        message = 'Don\'t give up! Review the concepts and try again.';
+    }
+    
+    // Build result HTML
+    let resultHTML = `
+        <div class="result-header">
+            <i class="fas ${resultClass === 'excellent' ? 'fa-trophy' : (resultClass === 'good' ? 'fa-smile' : 'fa-book')}"></i>
+            <h2>${icon} ${title}</h2>
+        </div>
+        <div class="result-score">
+            <div class="score-circle">
+                ${correctAnswers}/5
+            </div>
+            <div class="score-percentage">${percentage.toFixed(0)}%</div>
+            <div class="score-message">${message}</div>
+        </div>
+        <div class="result-breakdown">
+    `;
+    
+    // Add breakdown
+    for (let i = 1; i <= 5; i++) {
+        let isCorrect = userAnswers[i] === quizData.questions[i - 1].correct;
+        let status = isCorrect ? '✅ Correct' : '❌ Incorrect';
+        let statusClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultHTML += `
+            <div class="breakdown-item ${statusClass}">
+                <i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                <span>Question ${i}: ${userAnswers[i] ? userAnswers[i] : 'Not answered'} - ${status}</span>
+            </div>
+        `;
+    }
+    
+    resultHTML += '</div>';
+    
+    // Display result
+    resultDiv.innerHTML = resultHTML;
+    resultDiv.style.display = 'block';
+    resultDiv.className = `result-container ${resultClass}`;
+    
+    // Show feedback section
+    showFeedback();
+    
+    // Scroll to results
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Reset Quiz
+function resetQuiz() {
+    if (confirm('Are you sure you want to reset the quiz?')) {
+        // Reset state
+        userAnswers = {1: null, 2: null, 3: null, 4: null, 5: null};
+        questionStatus = {1: 'unanswered', 2: 'unanswered', 3: 'unanswered', 4: 'unanswered', 5: 'unanswered'};
+        score = 0;
+        
+        // Clear all selections
+        for (let i = 1; i <= 5; i++) {
+            let radios = document.getElementsByName(`q${i}`);
+            radios.forEach(radio => radio.checked = false);
+            
+            // Reset question cards
+            let questionCard = document.getElementById(`question${i}`);
+            questionCard.classList.remove('answered', 'correct', 'incorrect');
+            
+            // Reset check buttons
+            let checkBtn = document.getElementById(`checkBtn${i}`);
+            checkBtn.innerHTML = `<i class="fas fa-check-circle"></i> Check Q${i}`;
+            checkBtn.style.background = '';
+            checkBtn.style.color = '';
+        }
+        
+        // Reset timer
+        clearInterval(timerInterval);
+        timeLeft = 300;
+        updateTimerDisplay();
+        startTimer();
+        
+        // Hide result
+        document.getElementById('result').style.display = 'none';
+        
+        // Update progress
+        updateProgress();
+        
+        showNotification('🔄 Quiz has been reset!', 'info');
+    }
+}
+
+// Show Answers
+function showAnswers() {
+    let answersList = '';
+    quizData.questions.forEach((q, index) => {
+        answersList += `Q${index + 1}: ${q.correct}\n`;
+    });
+    
+    alert('📝 Correct Answers:\n\n' + answersList);
+}
+
+// Show Feedback
+function showFeedback() {
+    let feedbackContent = document.getElementById('feedbackContent');
+    let feedbackHTML = '';
+    
+    quizData.questions.forEach((q, index) => {
+        let questionNum = index + 1;
+        let userAnswer = userAnswers[questionNum];
+        let isCorrect = userAnswer === q.correct;
+        
+        feedbackHTML += `
+            <div class="feedback-item ${isCorrect ? 'correct' : 'incorrect'}">
+                <i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                <div>
+                    <strong>Q${questionNum}:</strong> ${q.text}<br>
+                    <small>Your answer: ${userAnswer || 'Not answered'}</small><br>
+                    <small>Correct answer: ${q.correct}</small>
+                </div>
+            </div>
+        `;
+    });
+    
+    feedbackContent.innerHTML = feedbackHTML;
+    document.getElementById('feedbackSection').style.display = 'block';
+}
+
+// Toggle Feedback
+function toggleFeedback() {
+    let content = document.getElementById('feedbackContent');
+    let header = document.querySelector('.feedback-header');
+    content.classList.toggle('show');
+    header.classList.toggle('active');
+}
+
+// Update Progress
+function updateProgress() {
+    let answered = 0;
+    let correct = 0;
+    
+    for (let i = 1; i <= 5; i++) {
+        if (userAnswers[i]) {
+            answered++;
+            if (userAnswers[i] === quizData.questions[i - 1].correct) {
+                correct++;
+            }
+        }
+    }
+    
+    let answeredPercent = (answered / 5) * 100;
+    document.getElementById('answeredCount').textContent = answered;
+    document.getElementById('scoreDisplay').textContent = correct;
+    document.getElementById('progressFill').style.width = answeredPercent + '%';
+}
+
+// Show Notification
+function showNotification(message, type = 'info') {
+    // Create temporary notification
+    let notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        background: ${type === 'success' ? 'var(--success)' : (type === 'error' ? 'var(--danger)' : 'var(--primary)')};
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// Keyboard Shortcuts
+function handleKeyboardShortcuts(event) {
+    let key = event.key;
+    
+    // Numbers 1-5 for checking questions
+    if (key >= '1' && key <= '5') {
+        checkAnswer(parseInt(key));
+    }
+    
+    // S for submit
+    if (key.toLowerCase() === 's')

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 1 — Student Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Lab Task 1</div>
+    <h1>Student Management System</h1>
+    <p>ES6 Classes · Template Literals · Dynamic DOM</p>
+  </header>
+
+  <!-- Add Student Form -->
+  <div class="controls">
+    <input type="text" id="inp-name"    placeholder="Student Name" />
+    <input type="text" id="inp-sem"     placeholder="Semester (e.g. 4th)" />
+    <input type="text" id="inp-courses" placeholder="Courses (comma-separated)" />
+    <button onclick="addStudent()">+ Add Student</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val" id="stat-count">0</div>
+      <div class="stat-lbl">Students</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stat-courses">0</div>
+      <div class="stat-lbl">Total Courses</div>
+    </div>
+  </div>
+
+  <!-- Student Cards Grid -->
+  <div class="grid" id="student-grid"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

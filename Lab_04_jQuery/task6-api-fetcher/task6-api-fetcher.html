@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 6 — API Data Fetcher</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f0f4ff;
+      --white: #ffffff;
+      --primary: #4361ee;
+      --primary-dark: #3347c4;
+      --secondary: #7209b7;
+      --accent: #f72585;
+      --success: #2ec4b6;
+      --text: #1a1e3c;
+      --muted: #8892b0;
+      --border: #dde3f0;
+      --card-shadow: 0 4px 24px rgba(67,97,238,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      padding: 0 0 4rem;
+    }
+
+    /* Hero Header */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; right: 0; height: 30px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.9);
+      padding: 0.3rem 1rem; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      letter-spacing: 0.05em; color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-sub { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.8rem; }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: inline-flex;
+      background: rgba(255,255,255,0.12);
+      border-radius: 30px; padding: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .mode-btn {
+      padding: 0.55rem 1.4rem;
+      border-radius: 26px; border: none;
+      background: transparent; color: rgba(255,255,255,0.6);
+      font-family: inherit; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .mode-btn.active { background: #fff; color: var(--primary); }
+
+    /* Container */
+    .main {
+      max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--white); border-radius: 10px;
+      border: 1px solid var(--border); padding: 0.85rem 1.25rem;
+      margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;
+    }
+
+    .status-left { font-size: 0.82rem; color: var(--muted); }
+    .status-left strong { color: var(--text); }
+
+    .status-right { display: flex; gap: 0.5rem; }
+
+    .tag {
+      font-size: 0.7rem; padding: 0.25rem 0.75rem;
+      border-radius: 20px; font-weight: 700;
+    }
+
+    .tag-blue { background: rgba(67,97,238,0.1); color: var(--primary); }
+    .tag-purple { background: rgba(114,9,183,0.1); color: var(--secondary); }
+
+    /* Card grid */
+    #results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .data-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.25s;
+      animation: cardIn 0.35s ease both;
+      box-shadow: var(--card-shadow);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .data-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(67,97,238,0.18);
+      border-color: rgba(67,97,238,0.3);
+    }
+
+    .card-color-bar { height: 5px; }
+    .card-body { padding: 1.25rem; }
+
+    .card-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800; color: #fff;
+      margin-bottom: 0.85rem; flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 1rem; font-weight: 800; color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .card-username {
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 0.85rem;
+    }
+
+    .card-meta { display: flex; flex-direction: column; gap: 0.3rem; }
+
+    .card-meta-row {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; color: var(--muted);
+    }
+
+    .card-meta-row i { color: var(--primary); width: 14px; }
+
+    /* Post cards */
+    .post-id-badge {
+      display: inline-block;
+      background: rgba(67,97,238,0.1); color: var(--primary);
+      font-size: 0.65rem; font-weight: 800;
+      padding: 0.2rem 0.5rem; border-radius: 4px;
+      margin-bottom: 0.6rem;
+    }
+
+    .post-title {
+      font-size: 0.95rem; font-weight: 800; color: var(--text);
+      margin-bottom: 0.5rem; line-height: 1.35; text-transform: capitalize;
+    }
+
+    .post-body {
+      font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Spinner */
+    #spinner {
+      display: none;
+      text-align: center; padding: 3rem;
+    }
+
+    .spin-ring {
+      width: 52px; height: 52px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .spin-label { font-size: 0.82rem; color: var(--muted); }
+
+    /* Load more */
+    #loadMoreBtn {
+      display: block; margin: 2rem auto 0;
+      padding: 0.9rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none; border-radius: 30px; color: #fff;
+      font-family: inherit; font-size: 0.9rem; font-weight: 800;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(67,97,238,0.3);
+    }
+
+    #loadMoreBtn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(67,97,238,0.4); }
+    #loadMoreBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Empty */
+    .empty { text-align: center; padding: 3rem; color: var(--muted); }
+    .empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
+
+    /* Error */
+    .error-banner {
+      background: rgba(247,37,133,0.1); border: 1px solid rgba(247,37,133,0.3);
+      color: var(--accent); padding: 1rem 1.25rem; border-radius: 10px;
+      margin-bottom: 1rem; font-size: 0.875rem;
+    }
+
+    @media (max-width: 500px) {
+      #results { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label"><i class="fas fa-satellite-dish"></i> &nbsp;Live API Data</div>
+    <h1>DataPulse</h1>
+    <div class="hero-sub">Fetching from JSONPlaceholder · jQuery AJAX</div>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="users"><i class="fas fa-users"></i> Users</button>
+      <button class="mode-btn" data-mode="posts"><i class="fas fa-newspaper"></i> Posts</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-left">Showing <strong id="shownCount">0</strong> of <strong id="totalCount">0</strong> results</div>
+      <div class="status-right">
+        <span class="tag tag-blue" id="modeTag">Users</span>
+        <span class="tag tag-purple">JSONPlaceholder</span>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-banner" id="errorMsg" style="display:none">
+      <i class="fas fa-triangle-exclamation"></i> Failed to fetch data. Check your internet connection and try again.
+    </div>
+
+    <!-- Spinner -->
+    <div id="spinner">
+      <div class="spin-ring"></div>
+      <div class="spin-label">Fetching data…</div>
+    </div>
+
+    <!-- Results -->
+    <div id="results"></div>
+
+    <!-- Load more -->
+    <button id="loadMoreBtn" style="display:none">
+      <i class="fas fa-plus"></i> Load More
+    </button>
+
+  </div>
+
+<script>
+$(function () {
+
+  /* ── Colours for avatars ─────────────── */
+  const COLORS = ['#4361ee','#7209b7','#f72585','#2ec4b6','#ff9f1c','#3a86ff','#e63946'];
+  const colorBar = ['#4361ee','#7209b7','#f72585','#2ec4b6','#ff9f1c','#3a86ff','#e63946','#06d6a0','#118ab2','#ef476f'];
+
+  let mode        = 'users';
+  let allData     = [];
+  let shown       = 0;
+  const PAGE_SIZE = 6;
+
+  /* ── Fetch ───────────────────────────── */
+  function fetchData() {
+    allData = []; shown = 0;
+    $('#results').empty();
+    $('#errorMsg').hide();
+    $('#loadMoreBtn').hide();
+    $('#spinner').show();
+
+    const url = mode === 'users'
+      ? 'https://jsonplaceholder.typicode.com/users'
+      : 'https://jsonplaceholder.typicode.com/posts';
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function (data) {
+        $('#spinner').hide();
+        allData = data;
+        $('#totalCount').text(allData.length);
+        renderPage();
+      },
+      error: function () {
+        $('#spinner').hide();
+        $('#errorMsg').show();
+      }
+    });
+  }
+
+  /* ── Render a page ───────────────────── */
+  function renderPage() {
+    const slice = allData.slice(shown, shown + PAGE_SIZE);
+
+    slice.forEach(function (item, i) {
+      const $card = mode === 'users' ? buildUserCard(item, shown + i) : buildPostCard(item, shown + i);
+      $card.css('animation-delay', (i * 0.05) + 's');
+      $('#results').append($card);
+    });
+
+    shown += slice.length;
+    $('#shownCount').text(shown);
+
+    // Load more button
+    if (shown < allData.length) {
+      $('#loadMoreBtn').show();
+    } else {
+      $('#loadMoreBtn').hide();
+    }
+  }
+
+  /* ── User card ───────────────────────── */
+  function buildUserCard(user, idx) {
+    const c  = COLORS[idx % COLORS.length];
+    const cb = colorBar[idx % colorBar.length];
+    const initials = user.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+    return $(`
+      <div class="data-card">
+        <div class="card-color-bar" style="background:${cb}"></div>
+        <div class="card-body">
+          <div class="card-avatar" style="background:${c}">${initials}</div>
+          <div class="card-name">${user.name}</div>
+          <div class="card-username">@${user.username}</div>
+          <div class="card-meta">
+            <div class="card-meta-row"><i class="fas fa-envelope"></i>${user.email}</div>
+            <div class="card-meta-row"><i class="fas fa-phone"></i>${user.phone}</div>
+            <div class="card-meta-row"><i class="fas fa-globe"></i>${user.website}</div>
+            <div class="card-meta-row"><i class="fas fa-building"></i>${user.company.name}</div>
+            <div class="card-meta-row"><i class="fas fa-location-dot"></i>${user.address.city}</div>
+          </div>
+        </div>
+      </div>`);
+  }
+
+  /* ── Post card ───────────────────────── */
+  function buildPostCard(post, idx) {
+    const cb = colorBar[idx % colorBar.length];
+    return $(`
+      <div class="data-card">
+        <div class="card-color-bar" style="background:${cb}"></div>
+        <div class="card-body">
+          <div class="post-id-badge">#${post.id} · User ${post.userId}</div>
+          <div class="post-title">${post.title}</div>
+          <div class="post-body">${post.body}</div>
+        </div>
+      </div>`);
+  }
+
+  /* ── Mode switch ─────────────────────── */
+  $('.mode-btn').on('click', function () {
+    if ($(this).hasClass('active')) return;
+    $('.mode-btn').removeClass('active');
+    $(this).addClass('active');
+    mode = $(this).data('mode');
+    $('#modeTag').text(mode === 'users' ? 'Users' : 'Posts');
+    fetchData();
+  });
+
+  /* ── Load more ───────────────────────── */
+  $('#loadMoreBtn').on('click', function () {
+    renderPage();
+  });
+
+  /* ── Initial load ────────────────────── */
+  fetchData();
+});
+</script>
+</body>
+</html>

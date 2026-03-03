@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 2 — Animated Image Gallery</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0e0c0a;
+      --gold: #c9a84c;
+      --gold-light: #e8c97d;
+      --white: #f5f0e8;
+      --muted: #6b6355;
+      --panel: #1a1710;
+      --border: #2c2820;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .masthead {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .masthead-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    h1 em { color: var(--gold); font-style: italic; }
+
+    /* Gallery Stage */
+    .gallery-wrap {
+      width: 100%; max-width: 820px;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .slide {
+      position: absolute; inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+
+    .slide.active { display: flex; }
+
+    /* Colorful placeholder slides */
+    .slide-inner {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .slide:nth-child(1) .slide-inner { background: linear-gradient(135deg, #1a0533 0%, #3d1a6e 40%, #1a0533 100%); }
+    .slide:nth-child(2) .slide-inner { background: linear-gradient(135deg, #0d2233 0%, #0a4d68 40%, #0d2233 100%); }
+    .slide:nth-child(3) .slide-inner { background: linear-gradient(135deg, #1a1a00 0%, #4d4400 40%, #1a1a00 100%); }
+    .slide:nth-child(4) .slide-inner { background: linear-gradient(135deg, #1a0808 0%, #5c1212 40%, #1a0808 100%); }
+    .slide:nth-child(5) .slide-inner { background: linear-gradient(135deg, #001a0d 0%, #004d29 40%, #001a0d 100%); }
+
+    .slide-number {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);
+    }
+
+    .slide-icon {
+      font-size: 4.5rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .slide:nth-child(1) .slide-icon { color: #b97eff; }
+    .slide:nth-child(2) .slide-icon { color: #7ecfff; }
+    .slide:nth-child(3) .slide-icon { color: var(--gold); }
+    .slide:nth-child(4) .slide-icon { color: #ff8080; }
+    .slide:nth-child(5) .slide-icon { color: #80ffb0; }
+
+    /* Caption overlay */
+    .caption-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 2rem 1.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    }
+
+    .caption-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .caption-sub {
+      font-size: 0.78rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.05em;
+    }
+
+    /* Arrow controls */
+    .arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50%; color: var(--gold);
+      font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s; z-index: 10;
+    }
+
+    .arrow:hover { background: var(--gold); color: #000; }
+    #prevBtn { left: 1rem; }
+    #nextBtn { right: 1rem; }
+
+    /* Auto-play bar */
+    .controls-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.25rem; padding: 0 0.25rem;
+    }
+
+    .autoplay-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.5rem 1rem;
+      border-radius: 20px; cursor: pointer;
+      font-family: inherit; font-size: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .autoplay-btn:hover, .autoplay-btn.active {
+      border-color: var(--gold); color: var(--gold);
+    }
+
+    .progress-bar {
+      flex: 1; height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0 1.25rem;
+      overflow: hidden;
+    }
+
+    #progressFill {
+      height: 100%; width: 0%;
+      background: var(--gold);
+      transition: width 0.1s linear;
+    }
+
+    .slide-counter {
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    /* Thumbnails */
+    .thumbs {
+      display: flex; gap: 0.6rem;
+      margin-top: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .thumb {
+      width: 80px; height: 52px;
+      border-radius: 4px; cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.25s;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; overflow: hidden;
+      opacity: 0.5;
+    }
+
+    .thumb.active { border-color: var(--gold); opacity: 1; box-shadow: 0 0 14px rgba(201,168,76,0.35); }
+    .thumb:hover { opacity: 0.85; }
+
+    .thumb:nth-child(1) { background: linear-gradient(135deg, #1a0533, #3d1a6e); color: #b97eff; }
+    .thumb:nth-child(2) { background: linear-gradient(135deg, #0d2233, #0a4d68); color: #7ecfff; }
+    .thumb:nth-child(3) { background: linear-gradient(135deg, #1a1a00, #4d4400); color: var(--gold); }
+    .thumb:nth-child(4) { background: linear-gradient(135deg, #1a0808, #5c1212); color: #ff8080; }
+    .thumb:nth-child(5) { background: linear-gradient(135deg, #001a0d, #004d29); color: #80ffb0; }
+
+    @media (max-width: 600px) {
+      .thumb { width: 56px; height: 40px; font-size: 1rem; }
+      .caption-title { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">jQuery Gallery</div>
+    <h1>Visual <em>Showcase</em></h1>
+  </div>
+
+  <div class="gallery-wrap">
+
+    <!-- Stage -->
+    <div class="stage">
+
+      <!-- Prev / Next -->
+      <button class="arrow" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+      <button class="arrow" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+
+      <!-- Slides -->
+      <div class="slide active">
+        <div class="slide-inner">
+          <div class="slide-number">01 / 05</div>
+          <i class="fas fa-mountain slide-icon"></i>
+          <div class="caption-overlay">
+            <div class="caption-title">Mystic Highlands</div>
+            <div class="caption-sub">Alpine dreamscapes at dusk</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-inner">
+          <div class="slide-number">02 / 05</div>
+          <i class="fas fa-water slide-icon"></i>
+          <div class="caption-overlay">
+            <div class="caption-title">Pacific Silence</div>
+            <div class="caption-sub">Where the ocean meets the sky</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-inner">
+          <div class="slide-number">03 / 05</div>
+          <i class="fas fa-sun slide-icon"></i>
+          <div class="caption-overlay">
+            <div class="caption-title">Golden Meridian</div>
+            <div class="caption-sub">Sahara light at noon</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-inner">
+          <div class="slide-number">04 / 05</div>
+          <i class="fas fa-fire slide-icon"></i>
+          <div class="caption-overlay">
+            <div class="caption-title">Ember Nights</div>
+            <div class="caption-sub">Volcanic drama from above</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-inner">
+          <div class="slide-number">05 / 05</div>
+          <i class="fas fa-leaf slide-icon"></i>
+          <div class="caption-overlay">
+            <div class="caption-title">Forest Floor</div>
+            <div class="caption-sub">Ancient canopy, primordial green</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /stage -->
+
+    <!-- Controls bar -->
+    <div class="controls-bar">
+      <button class="autoplay-btn" id="autoplayBtn">
+        <i class="fas fa-play" id="autoIcon"></i> Auto
+      </button>
+      <div class="progress-bar"><div id="progressFill"></div></div>
+      <div class="slide-counter"><span id="curIdx">1</span> / <span id="totalSlides">5</span></div>
+    </div>
+
+    <!-- Thumbnails -->
+    <div class="thumbs">
+      <div class="thumb active"><i class="fas fa-mountain"></i></div>
+      <div class="thumb"><i class="fas fa-water"></i></div>
+      <div class="thumb"><i class="fas fa-sun"></i></div>
+      <div class="thumb"><i class="fas fa-fire"></i></div>
+      <div class="thumb"><i class="fas fa-leaf"></i></div>
+    </div>
+
+  </div><!-- /gallery-wrap -->
+
+<script>
+$(function () {
+  const $slides   = $('.slide');
+  const $thumbs   = $('.thumb');
+  const TOTAL     = $slides.length;
+  let current     = 0;
+  let autoTimer   = null;
+  let progTimer   = null;
+  let progVal     = 0;
+  const AUTO_DELAY = 4000; // ms
+
+  /* ── Go to slide ─────────────────────── */
+  function goTo(idx) {
+    // wrap
+    idx = (idx + TOTAL) % TOTAL;
+
+    $slides.eq(current).fadeOut(400);
+    $slides.eq(idx).fadeIn(400);
+
+    $thumbs.eq(current).removeClass('active');
+    $thumbs.eq(idx).addClass('active');
+
+    current = idx;
+    $('#curIdx').text(current + 1);
+  }
+
+  /* ── Nav buttons ─────────────────────── */
+  $('#prevBtn').on('click', function () { goTo(current - 1); resetProgress(); });
+  $('#nextBtn').on('click', function () { goTo(current + 1); resetProgress(); });
+
+  /* ── Thumbnails ──────────────────────── */
+  $thumbs.on('click', function () {
+    goTo($(this).index());
+    resetProgress();
+  });
+
+  /* ── Keyboard ────────────────────────── */
+  $(document).on('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); resetProgress(); }
+    if (e.key === 'ArrowRight') { goTo(current + 1); resetProgress(); }
+  });
+
+  /* ── Auto-play ───────────────────────── */
+  function startAuto() {
+    stopAuto();
+    progVal = 0;
+    $('#progressFill').css('width', '0%');
+
+    progTimer = setInterval(function () {
+      progVal += (100 / (AUTO_DELAY / 100));
+      $('#progressFill').css('width', progVal + '%');
+      if (progVal >= 100) {
+        goTo(current + 1);
+        progVal = 0;
+      }
+    }, 100);
+
+    autoTimer = true;
+    $('#autoplayBtn').addClass('active');
+    $('#autoIcon').removeClass('fa-play').addClass('fa-pause');
+  }
+
+  function stopAuto() {
+    clearInterval(progTimer);
+    autoTimer = null;
+    $('#progressFill').css('width', '0%');
+    $('#autoplayBtn').removeClass('active');
+    $('#autoIcon').removeClass('fa-pause').addClass('fa-play');
+  }
+
+  function resetProgress() {
+    if (autoTimer) { startAuto(); }
+  }
+
+  $('#autoplayBtn').on('click', function () {
+    autoTimer ? stopAuto() : startAuto();
+  });
+
+  // Total
+  $('#totalSlides').text(TOTAL);
+});
+</script>
+</body>
+</html>

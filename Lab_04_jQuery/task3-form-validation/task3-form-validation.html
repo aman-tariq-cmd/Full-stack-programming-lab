@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 3 — Form Validation</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg1: #0f1724;
+      --bg2: #151e2e;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --border-focus: rgba(99,179,237,0.6);
+      --accent: #63b3ed;
+      --success: #68d391;
+      --error: #fc8181;
+      --warn: #f6ad55;
+      --text: #e2e8f0;
+      --muted: #718096;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg1);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(99,179,237,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(104,211,145,0.06) 0%, transparent 50%);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      width: 100%; max-width: 480px;
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+
+    .card-header { text-align: center; margin-bottom: 2rem; }
+
+    .card-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--accent), #4299e1);
+      border-radius: 14px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: #fff; margin-bottom: 1rem;
+      box-shadow: 0 8px 24px rgba(99,179,237,0.35);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.9rem; color: var(--text); margin-bottom: 0.3rem;
+    }
+
+    .subtitle { font-size: 0.85rem; color: var(--muted); }
+
+    /* Form */
+    .form-group { margin-bottom: 1.25rem; position: relative; }
+
+    label {
+      display: block;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.07em;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: 0.85rem; pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .input-status {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 0.85rem; display: none;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 2.6rem;
+      color: var(--text);
+      font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: all 0.25s;
+    }
+
+    input:focus {
+      border-color: var(--border-focus);
+      background: rgba(99,179,237,0.06);
+      box-shadow: 0 0 0 3px rgba(99,179,237,0.12);
+    }
+
+    input:focus ~ .input-icon { color: var(--accent); }
+
+    input.valid   { border-color: var(--success); }
+    input.invalid { border-color: var(--error); }
+    input.valid ~ .input-status   { display: block; color: var(--success); }
+    input.invalid ~ .input-status { display: block; color: var(--error); }
+
+    .error-msg {
+      font-size: 0.75rem; color: var(--error);
+      margin-top: 0.4rem; display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Password strength */
+    .strength-bar {
+      display: flex; gap: 4px; margin-top: 0.6rem;
+    }
+
+    .strength-seg {
+      flex: 1; height: 4px; border-radius: 2px;
+      background: var(--border); transition: background 0.3s;
+    }
+
+    .strength-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%; padding: 1rem;
+      background: linear-gradient(135deg, var(--accent), #4299e1);
+      border: none; border-radius: 10px; color: #fff;
+      font-family: inherit; font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(99,179,237,0.3);
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99,179,237,0.4); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Success overlay */
+    #successMsg {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .success-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--success), #38a169);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #fff; margin-bottom: 1.25rem;
+      box-shadow: 0 10px 30px rgba(104,211,145,0.4);
+      animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .success-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem; color: var(--text); margin-bottom: 0.5rem;
+    }
+
+    .success-sub { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+
+    .reset-btn {
+      background: transparent; border: 1.5px solid var(--border);
+      color: var(--muted); padding: 0.7rem 1.5rem; border-radius: 8px;
+      cursor: pointer; font-family: inherit; font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 480px) { .card { padding: 2rem 1.25rem; } }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Success State -->
+  <div id="successMsg">
+    <div class="success-icon"><i class="fas fa-check"></i></div>
+    <div class="success-title">You're In!</div>
+    <div class="success-sub">Account created successfully. Welcome aboard.</div>
+    <button class="reset-btn" id="resetBtn"><i class="fas fa-rotate-left"></i> Start Over</button>
+  </div>
+
+  <!-- Form -->
+  <div id="formWrap">
+    <div class="card-header">
+      <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+      <h1>Create Account</h1>
+      <div class="subtitle">All fields are validated in real-time</div>
+    </div>
+
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <div class="input-wrap">
+        <i class="fas fa-user input-icon"></i>
+        <input type="text" id="fullName" placeholder="Jane Doe"/>
+        <i class="fas fa-circle-check input-status" id="nameStatus"></i>
+      </div>
+      <div class="error-msg" id="nameError">Name must be at least 2 characters.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <div class="input-wrap">
+        <i class="fas fa-envelope input-icon"></i>
+        <input type="email" id="email" placeholder="jane@example.com"/>
+        <i class="fas fa-circle-check input-status" id="emailStatus"></i>
+      </div>
+      <div class="error-msg" id="emailError">Please enter a valid email address.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <div class="input-wrap">
+        <i class="fas fa-at input-icon"></i>
+        <input type="text" id="username" placeholder="jane_doe42"/>
+        <i class="fas fa-circle-check input-status" id="userStatus"></i>
+      </div>
+      <div class="error-msg" id="userError">3–20 chars, letters, numbers, underscores only.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock input-icon"></i>
+        <input type="password" id="password" placeholder="At least 8 characters…"/>
+        <i class="fas fa-circle-check input-status" id="passStatus"></i>
+      </div>
+      <div class="strength-bar">
+        <div class="strength-seg" id="s1"></div>
+        <div class="strength-seg" id="s2"></div>
+        <div class="strength-seg" id="s3"></div>
+        <div class="strength-seg" id="s4"></div>
+      </div>
+      <div class="strength-label" id="strengthLabel">Enter a password</div>
+      <div class="error-msg" id="passError">Password must be at least 8 characters.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirm">Confirm Password</label>
+      <div class="input-wrap">
+        <i class="fas fa-lock-open input-icon"></i>
+        <input type="password" id="confirm" placeholder="Repeat your password"/>
+        <i class="fas fa-circle-check input-status" id="confStatus"></i>
+      </div>
+      <div class="error-msg" id="confError">Passwords do not match.</div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn">
+      <i class="fas fa-rocket"></i> Create Account
+    </button>
+  </div>
+
+</div>
+
+<script>
+$(function () {
+
+  /* ── Validators ─────────────────────── */
+  function setField($input, $msg, valid, msg) {
+    $input.toggleClass('valid', valid).toggleClass('invalid', !valid);
+    $msg.text(msg).toggle(!valid);
+    // status icon class swap
+    const $si = $input.siblings('.input-status');
+    $si.toggleClass('fa-circle-check', valid).toggleClass('fa-circle-xmark', !valid);
+  }
+
+  function validateName() {
+    const v = $('#fullName').val().trim();
+    const ok = v.length >= 2;
+    setField($('#fullName'), $('#nameError'), ok, 'Name must be at least 2 characters.');
+    return ok;
+  }
+
+  function validateEmail() {
+    const v = $('#email').val().trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    setField($('#email'), $('#emailError'), ok, 'Please enter a valid email address.');
+    return ok;
+  }
+
+  function validateUser() {
+    const v = $('#username').val().trim();
+    const ok = /^\w{3,20}$/.test(v);
+    setField($('#username'), $('#userError'), ok, '3–20 chars, letters/numbers/underscores only.');
+    return ok;
+  }
+
+  function getStrength(pw) {
+    let score = 0;
+    if (pw.length >= 8)  score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    return score;
+  }
+
+  function validatePassword() {
+    const v = $('#password').val();
+    const ok = v.length >= 8;
+    setField($('#password'), $('#passError'), ok, 'Password must be at least 8 characters.');
+
+    // strength meter
+    const s = getStrength(v);
+    const colors = ['', '#fc8181', '#f6ad55', '#63b3ed', '#68d391'];
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    for (let i = 1; i <= 4; i++) {
+      $('#s' + i).css('background', i <= s ? colors[s] : 'var(--border)');
+    }
+    $('#strengthLabel').text(v ? labels[s] : 'Enter a password').css('color', v ? colors[s] : 'var(--muted)');
+    return ok;
+  }
+
+  function validateConfirm() {
+    const p = $('#password').val();
+    const c = $('#confirm').val();
+    const ok = c.length > 0 && p === c;
+    setField($('#confirm'), $('#confError'), ok, 'Passwords do not match.');
+    return ok;
+  }
+
+  /* ── Blur events ─────────────────────── */
+  $('#fullName').on('blur', validateName);
+  $('#email').on('blur', validateEmail);
+  $('#username').on('blur', validateUser);
+  $('#password').on('blur', validatePassword);
+  $('#password').on('input', validatePassword);
+  $('#confirm').on('blur input', validateConfirm);
+
+  /* ── Submit ──────────────────────────── */
+  $('#submitBtn').on('click', function () {
+    const ok = validateName() & validateEmail() & validateUser() & validatePassword() & validateConfirm();
+    if (!ok) {
+      // shake
+      $('.card').css({ animation: 'none' });
+      setTimeout(() => {
+        $('.card').css({ animation: 'shake 0.4s ease' });
+      }, 10);
+      return;
+    }
+
+    // Show success
+    $('#formWrap').fadeOut(300, function () {
+      $('#successMsg').fadeIn(400);
+    });
+  });
+
+  /* ── Reset ───────────────────────────── */
+  $('#resetBtn').on('click', function () {
+    $('input').val('').removeClass('valid invalid');
+    $('.error-msg').hide();
+    $('.input-status').hide();
+    $('.strength-seg').css('background', 'var(--border)');
+    $('#strengthLabel').text('Enter a password').css('color', 'var(--muted)');
+    $('#successMsg').hide();
+    $('#formWrap').fadeIn(400);
+  });
+});
+</script>
+
+<style>
+  @keyframes shake {
+    0%,100%{ transform: translateX(0); }
+    20%    { transform: translateX(-8px); }
+    40%    { transform: translateX(8px); }
+    60%    { transform: translateX(-6px); }
+    80%    { transform: translateX(6px); }
+  }
+</style>
+
+</body>
+</html>

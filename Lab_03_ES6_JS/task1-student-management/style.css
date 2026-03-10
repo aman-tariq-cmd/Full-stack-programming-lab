@@ -1,0 +1,226 @@
+/* ======================================================
+   Task 1 — Student Management System
+   style.css
+   ====================================================== */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --bg:      #0a0a0f;
+  --surface: #13131a;
+  --border:  #1e1e2e;
+  --accent:  #7c3aed;
+  --accent2: #06b6d4;
+  --text:    #e2e8f0;
+  --muted:   #64748b;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* ---------- Header ---------- */
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+header .badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #c4b5fd, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+header p {
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* ---------- Controls / Form ---------- */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.controls input,
+.controls select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.controls input:focus {
+  border-color: var(--accent);
+}
+
+.controls button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1.4rem;
+  border-radius: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.controls button:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* ---------- Stats ---------- */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.stat-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #c4b5fd;
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---------- Student Card ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* top colored stripe */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+.card-id {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.card-sem {
+  display: inline-block;
+  background: rgba(124, 58, 237, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.card-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.course-tag {
+  background: rgba(6, 182, 212, 0.1);
+  color: #67e8f9;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.empty-msg {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+/* ---------- Animation ---------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

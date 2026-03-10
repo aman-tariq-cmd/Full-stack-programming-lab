@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 2 — Online Shopping Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Lab Task 2</div>
+    <h1>Online Shopping Cart</h1>
+    <p>Rest · Spread · Destructuring · ES6 Arrays</p>
+  </header>
+
+  <div class="layout">
+
+    <!-- LEFT PANEL: Products -->
+    <div class="panel">
+      <div class="panel-title">
+        <span class="icon">🛍️</span> Products — Click to Add
+      </div>
+      <!-- Filled by JS -->
+      <div class="products" id="product-grid"></div>
+    </div>
+
+    <!-- RIGHT PANEL: Cart -->
+    <div class="panel">
+      <div class="panel-title">
+        <span class="icon">🛒</span> Your Cart
+      </div>
+
+      <!-- Summary boxes -->
+      <div class="cart-summary">
+        <div class="sum-box">
+          <div class="val" id="total-items">0</div>
+          <div class="lbl">Total Items</div>
+        </div>
+        <div class="sum-box">
+          <div class="val" id="total-price">$0</div>
+          <div class="lbl">Total Price</div>
+        </div>
+      </div>
+
+      <!-- Destructuring output -->
+      <div id="first-item"></div>
+
+      <!-- Cart item list -->
+      <div class="cart-items" id="cart-items"></div>
+
+      <!-- Spread clone button -->
+      <button class="btn-clone" onclick="cloneAndShow()">
+        📋 Clone Cart (Spread Operator)
+      </button>
+
+      <!-- Clone output block -->
+      <pre id="clone-output"></pre>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

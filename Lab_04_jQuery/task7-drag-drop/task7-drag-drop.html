@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 7 — Drag & Drop Sorter</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --ink: #1c1917;
+      --sand: #e8dfc8;
+      --tan: #d4c5a9;
+      --clay: #b5936a;
+      --rust: #c0441e;
+      --olive: #667438;
+      --sky: #3b82c4;
+      --muted: #8a7d6b;
+      --border: #d6cdb8;
+      --white: #fff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .container { max-width: 680px; margin: 0 auto; }
+
+    /* Header */
+    .page-header {
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap;
+    }
+
+    .header-text h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      line-height: 1; color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .header-text p { font-size: 0.85rem; color: var(--muted); }
+
+    .header-badge {
+      margin-left: auto;
+      background: var(--ink); color: var(--bg);
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.4rem 0.9rem; border-radius: 4px;
+    }
+
+    /* Instruction strip */
+    .instruction {
+      background: var(--sand);
+      border: 1.5px solid var(--tan);
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.82rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .instruction i { color: var(--clay); font-size: 1rem; flex-shrink: 0; }
+
+    /* Sortable list */
+    #sortList {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+
+    .sort-item {
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 0;
+      display: flex; align-items: stretch;
+      cursor: grab;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      user-select: none;
+      position: relative;
+    }
+
+    .sort-item:active { cursor: grabbing; }
+
+    /* Color accent strip per item */
+    .item-accent {
+      width: 8px; border-radius: 8px 0 0 8px;
+      flex-shrink: 0;
+    }
+
+    .sort-item:nth-child(1) .item-accent { background: var(--rust); }
+    .sort-item:nth-child(2) .item-accent { background: var(--clay); }
+    .sort-item:nth-child(3) .item-accent { background: var(--olive); }
+    .sort-item:nth-child(4) .item-accent { background: var(--sky); }
+    .sort-item:nth-child(5) .item-accent { background: #9b59b6; }
+    .sort-item:nth-child(6) .item-accent { background: #e67e22; }
+    .sort-item:nth-child(7) .item-accent { background: #2ecc71; }
+    .sort-item:nth-child(8) .item-accent { background: #e74c3c; }
+
+    .item-content {
+      flex: 1; padding: 1rem 1.1rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+
+    .item-rank {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem; color: var(--border);
+      min-width: 28px; text-align: center;
+      font-weight: 700; transition: color 0.2s;
+    }
+
+    .item-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    .sort-item:nth-child(1) .item-icon { background: rgba(192,68,30,0.1); color: var(--rust); }
+    .sort-item:nth-child(2) .item-icon { background: rgba(181,147,106,0.15); color: var(--clay); }
+    .sort-item:nth-child(3) .item-icon { background: rgba(102,116,56,0.1); color: var(--olive); }
+    .sort-item:nth-child(4) .item-icon { background: rgba(59,130,196,0.1); color: var(--sky); }
+    .sort-item:nth-child(5) .item-icon { background: rgba(155,89,182,0.1); color: #9b59b6; }
+    .sort-item:nth-child(6) .item-icon { background: rgba(230,126,34,0.1); color: #e67e22; }
+    .sort-item:nth-child(7) .item-icon { background: rgba(46,204,113,0.1); color: #2ecc71; }
+    .sort-item:nth-child(8) .item-icon { background: rgba(231,76,60,0.1); color: #e74c3c; }
+
+    .item-label { font-weight: 600; font-size: 0.95rem; }
+    .item-sub   { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+
+    .drag-handle {
+      padding: 1rem 1rem 1rem 0;
+      color: var(--border); font-size: 1rem;
+      display: flex; align-items: center;
+      transition: color 0.2s;
+    }
+
+    .sort-item:hover .drag-handle { color: var(--clay); }
+    .sort-item:hover { border-color: var(--clay); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .sort-item:hover .item-rank { color: var(--ink); }
+
+    /* Dragging state */
+    .sort-item.dragging {
+      opacity: 0.92;
+      transform: rotate(1.5deg) scale(1.02);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.2);
+      border-color: var(--clay) !important;
+      z-index: 1000;
+    }
+
+    /* Drop target */
+    .sort-item.drop-target {
+      border-color: var(--olive) !important;
+      border-style: dashed !important;
+      background: rgba(102,116,56,0.05);
+    }
+
+    /* Actions */
+    .actions {
+      display: flex; gap: 0.75rem; align-items: center;
+      margin-top: 2rem; flex-wrap: wrap;
+    }
+
+    .btn-save {
+      padding: 0.85rem 1.8rem;
+      background: var(--ink); color: var(--bg);
+      border: none; border-radius: 8px;
+      font-family: inherit; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    .btn-save:hover { background: var(--rust); }
+
+    .btn-shuffle {
+      padding: 0.85rem 1.4rem;
+      background: transparent; color: var(--ink);
+      border: 2px solid var(--border); border-radius: 8px;
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .btn-shuffle:hover { border-color: var(--ink); background: var(--sand); }
+
+    /* Saved order preview */
+    #savedOrder {
+      display: none;
+      margin-top: 1.5rem;
+      background: var(--sand);
+      border: 1.5px solid var(--tan);
+      border-radius: 10px; padding: 1.25rem;
+    }
+
+    .saved-title {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--muted); margin-bottom: 0.85rem;
+    }
+
+    .saved-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .saved-chip {
+      background: var(--white);
+      border: 1.5px solid var(--tan);
+      border-radius: 20px;
+      padding: 0.25rem 0.8rem;
+      font-size: 0.75rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+
+    .saved-chip .chip-num {
+      background: var(--ink); color: var(--bg);
+      width: 16px; height: 16px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-text">
+      <h1>Priority<br/><em>Sorter</em></h1>
+      <p>Drag items to reorder your priorities</p>
+    </div>
+    <div class="header-badge">Task 07 · Drag &amp; Drop</div>
+  </div>
+
+  <!-- Instruction -->
+  <div class="instruction">
+    <i class="fas fa-hand-pointer"></i>
+    Drag items by the handle on the right to reorder them. Hit <strong>Save Order</strong> to persist your ranking.
+  </div>
+
+  <!-- Sortable List -->
+  <ul id="sortList">
+    <li class="sort-item" draggable="true" data-id="1">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">1</span>
+        <div class="item-icon"><i class="fas fa-bolt"></i></div>
+        <div>
+          <div class="item-label">Performance</div>
+          <div class="item-sub">Speed, latency &amp; throughput</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="2">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">2</span>
+        <div class="item-icon"><i class="fas fa-shield-halved"></i></div>
+        <div>
+          <div class="item-label">Security</div>
+          <div class="item-sub">Auth, encryption &amp; hardening</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="3">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">3</span>
+        <div class="item-icon"><i class="fas fa-paint-roller"></i></div>
+        <div>
+          <div class="item-label">Design</div>
+          <div class="item-sub">UI/UX &amp; visual polish</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="4">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">4</span>
+        <div class="item-icon"><i class="fas fa-vial"></i></div>
+        <div>
+          <div class="item-label">Testing</div>
+          <div class="item-sub">Unit, integration &amp; E2E</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="5">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">5</span>
+        <div class="item-icon"><i class="fas fa-book"></i></div>
+        <div>
+          <div class="item-label">Documentation</div>
+          <div class="item-sub">Guides, API docs &amp; changelogs</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="6">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">6</span>
+        <div class="item-icon"><i class="fas fa-cloud-arrow-up"></i></div>
+        <div>
+          <div class="item-label">Deployment</div>
+          <div class="item-sub">CI/CD, containers &amp; infra</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="7">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">7</span>
+        <div class="item-icon"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <div class="item-label">Analytics</div>
+          <div class="item-sub">Metrics, logging &amp; monitoring</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+    <li class="sort-item" draggable="true" data-id="8">
+      <div class="item-accent"></div>
+      <div class="item-content">
+        <span class="item-rank">8</span>
+        <div class="item-icon"><i class="fas fa-universal-access"></i></div>
+        <div>
+          <div class="item-label">Accessibility</div>
+          <div class="item-sub">A11y, ARIA &amp; keyboard nav</div>
+        </div>
+      </div>
+      <div class="drag-handle"><i class="fas fa-grip-lines"></i></div>
+    </li>
+  </ul>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-save" id="saveBtn"><i class="fas fa-floppy-disk"></i> Save Order</button>
+    <button class="btn-shuffle" id="shuffleBtn"><i class="fas fa-shuffle"></i> Shuffle</button>
+  </div>
+
+  <!-- Saved order display -->
+  <div id="savedOrder">
+    <div class="saved-title"><i class="fas fa-check-circle"></i> &nbsp;Saved Priority Order</div>
+    <div class="saved-chips" id="savedChips"></div>
+  </div>
+
+</div>
+
+<script>
+$(function () {
+
+  let draggedItem = null;
+
+  /* ── Drag events ─────────────────────── */
+  $(document).on('dragstart', '.sort-item', function (e) {
+    draggedItem = this;
+    $(this).addClass('dragging');
+    e.originalEvent.dataTransfer.effectAllowed = 'move';
+    e.originalEvent.dataTransfer.setData('text/plain', $(this).data('id'));
+  });
+
+  $(document).on('dragend', '.sort-item', function () {
+    $(this).removeClass('dragging');
+    $('.sort-item').removeClass('drop-target');
+    draggedItem = null;
+    updateRanks();
+  });
+
+  $(document).on('dragover', '.sort-item', function (e) {
+    e.preventDefault();
+    e.originalEvent.dataTransfer.dropEffect = 'move';
+    if (this !== draggedItem) {
+      $('.sort-item').removeClass('drop-target');
+      $(this).addClass('drop-target');
+    }
+  });
+
+  $(document).on('dragleave', '.sort-item', function () {
+    $(this).removeClass('drop-target');
+  });
+
+  $(document).on('drop', '.sort-item', function (e) {
+    e.preventDefault();
+    if (draggedItem && this !== draggedItem) {
+      const $list = $('#sortList');
+      const $dragged  = $(draggedItem);
+      const $target   = $(this);
+
+      // Determine insertion position
+      const dragIdx   = $dragged.index();
+      const targetIdx = $target.index();
+
+      if (dragIdx < targetIdx) {
+        $dragged.insertAfter($target);
+      } else {
+        $dragged.insertBefore($target);
+      }
+
+      $target.removeClass('drop-target');
+      updateRanks();
+    }
+  });
+
+  /* ── Update rank numbers ─────────────── */
+  function updateRanks() {
+    $('#sortList .sort-item').each(function (idx) {
+      $(this).find('.item-rank').text(idx + 1);
+    });
+  }
+
+  /* ── Save order ──────────────────────── */
+  $('#saveBtn').on('click', function () {
+    const order = [];
+    $('#sortList .sort-item').each(function () {
+      order.push({
+        id:    $(this).data('id'),
+        label: $(this).find('.item-label').text()
+      });
+    });
+
+    // Render chips
+    const html = order.map((item, i) =>
+      `<div class="saved-chip"><span class="chip-num">${i+1}</span>${item.label}</div>`
+    ).join('');
+
+    $('#savedChips').html(html);
+    $('#savedOrder').slideDown(300);
+
+    // Flash save button
+    $(this).html('<i class="fas fa-check"></i> Saved!');
+    const $btn = $(this);
+    setTimeout(() => $btn.html('<i class="fas fa-floppy-disk"></i> Save Order'), 2000);
+  });
+
+  /* ── Shuffle ─────────────────────────── */
+  $('#shuffleBtn').on('click', function () {
+    const $list = $('#sortList');
+    const items = $list.children('.sort-item').toArray();
+
+    // Fisher-Yates shuffle
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+
+    // Re-append with fade
+    $list.empty();
+    items.forEach((item, idx) => {
+      $(item).css({ opacity: 0 });
+      $list.append(item);
+      setTimeout(() => $(item).animate({ opacity: 1 }, 200), idx * 50);
+    });
+
+    updateRanks();
+    $('#savedOrder').slideUp(200);
+  });
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 5 — Style Editor</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #05030f;
+      --surface: #0d0820;
+      --panel: #110b26;
+      --border: #2a1f4e;
+      --cyan: #00e5ff;
+      --magenta: #ff2d78;
+      --yellow: #ffd000;
+      --green: #39ff14;
+      --white: #e8e0ff;
+      --muted: #5a5080;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      color: var(--white);
+      font-family: 'Exo 2', sans-serif;
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; }
+
+    /* Header */
+    .hdr {
+      text-align: center; margin-bottom: 2.5rem;
+    }
+
+    .hdr-badge {
+      display: inline-block;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem; letter-spacing: 0.35em;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 0 12px rgba(0,229,255,0.2);
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--white);
+      text-shadow: 0 0 30px rgba(0,229,255,0.4);
+      letter-spacing: 0.05em;
+    }
+
+    h1 span { color: var(--cyan); }
+
+    /* Preview pane */
+    #preview-pane {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-bottom: 1.5rem;
+      min-height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.4);
+    }
+
+    #preview-pane::before {
+      content: 'PREVIEW';
+      position: absolute; top: 0.75rem; left: 1rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.5rem; letter-spacing: 0.3em;
+      color: var(--muted);
+    }
+
+    #previewText {
+      font-size: 1.8rem;
+      transition: all 0.3s ease;
+      text-align: center;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    /* Controls grid */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .ctrl-group {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .ctrl-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem; letter-spacing: 0.25em;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 0.85rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .ctrl-label i { color: var(--cyan); font-size: 0.75rem; }
+
+    /* Button groups */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .style-btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px; border: 1.5px solid;
+      background: transparent; cursor: pointer;
+      font-family: 'Exo 2', sans-serif; font-size: 0.78rem; font-weight: 600;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+
+    .style-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: currentColor; opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .style-btn:hover::before { opacity: 0.1; }
+    .style-btn.active::before { opacity: 0.15; }
+
+    /* Font size buttons */
+    .btn-size { border-color: var(--cyan); color: var(--cyan); }
+    .btn-size.active { box-shadow: 0 0 12px rgba(0,229,255,0.4); }
+
+    /* Color buttons */
+    .btn-color-white  { border-color: #fff; color: #fff; }
+    .btn-color-cyan   { border-color: var(--cyan); color: var(--cyan); }
+    .btn-color-magenta{ border-color: var(--magenta); color: var(--magenta); }
+    .btn-color-yellow { border-color: var(--yellow); color: var(--yellow); }
+    .btn-color-green  { border-color: var(--green); color: var(--green); }
+
+    /* BG buttons */
+    .btn-bg-none      { border-color: var(--border); color: var(--muted); }
+    .btn-bg-dark      { border-color: #333; color: #aaa; }
+    .btn-bg-purple    { border-color: #7b2fff; color: #c88fff; }
+    .btn-bg-night     { border-color: #002233; color: #4499bb; }
+    .btn-bg-glow      { border-color: var(--cyan); color: var(--cyan); }
+
+    /* Transform buttons */
+    .btn-bold   { border-color: var(--yellow); color: var(--yellow); font-weight: 700; }
+    .btn-italic { border-color: var(--magenta); color: var(--magenta); font-style: italic; }
+    .btn-upper  { border-color: var(--green); color: var(--green); }
+    .btn-shadow { border-color: #ff9940; color: #ff9940; }
+    .btn-strike { border-color: var(--muted); color: var(--muted); text-decoration: line-through; }
+
+    .btn-transform.active { box-shadow: 0 0 12px rgba(255,210,0,0.3); }
+
+    /* Text input */
+    #customText {
+      width: 100%;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 8px; padding: 0.85rem 1rem;
+      color: var(--white); font-family: 'Exo 2', sans-serif; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+
+    #customText:focus { border-color: var(--cyan); }
+
+    /* Action bar */
+    .action-bar {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .act-btn {
+      padding: 0.75rem 1.4rem;
+      border-radius: 8px; border: 1.5px solid;
+      background: transparent; cursor: pointer;
+      font-family: 'Orbitron', monospace; font-size: 0.6rem;
+      letter-spacing: 0.1em; font-weight: 700;
+      transition: all 0.25s; display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .act-apply {
+      border-color: var(--cyan); color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0,229,255,0.15);
+    }
+
+    .act-apply:hover { background: var(--cyan); color: #000; box-shadow: 0 0 30px rgba(0,229,255,0.4); }
+
+    .act-reset {
+      border-color: var(--magenta); color: var(--magenta);
+    }
+
+    .act-reset:hover { background: var(--magenta); color: #fff; box-shadow: 0 0 30px rgba(255,45,120,0.4); }
+
+    /* Active styles chip list */
+    .chip-row {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.85rem;
+    }
+
+    .chip {
+      font-size: 0.65rem; padding: 0.2rem 0.6rem;
+      border-radius: 20px; border: 1px solid var(--cyan);
+      color: var(--cyan); background: rgba(0,229,255,0.07);
+      font-family: 'Orbitron', monospace;
+    }
+
+    @media (max-width: 600px) {
+      .controls-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-badge">TASK 05 · JQUERY CHAINING</div>
+    <h1>STYLE<span>FORGE</span></h1>
+  </div>
+
+  <!-- Preview -->
+  <div id="preview-pane">
+    <span id="previewText">Cyberpunk Style Editor</span>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-grid">
+
+    <!-- Font Size -->
+    <div class="ctrl-group">
+      <div class="ctrl-label"><i class="fas fa-text-height"></i> Font Size</div>
+      <div class="btn-row">
+        <button class="style-btn btn-size" data-size="0.9rem">XS</button>
+        <button class="style-btn btn-size" data-size="1.2rem">SM</button>
+        <button class="style-btn btn-size active" data-size="1.8rem">MD</button>
+        <button class="style-btn btn-size" data-size="2.4rem">LG</button>
+        <button class="style-btn btn-size" data-size="3.2rem">XL</button>
+      </div>
+    </div>
+
+    <!-- Text Color -->
+    <div class="ctrl-group">
+      <div class="ctrl-label"><i class="fas fa-paint-brush"></i> Text Color</div>
+      <div class="btn-row">
+        <button class="style-btn btn-color btn-color-white active" data-color="#e8e0ff">White</button>
+        <button class="style-btn btn-color btn-color-cyan" data-color="#00e5ff">Cyan</button>
+        <button class="style-btn btn-color btn-color-magenta" data-color="#ff2d78">Pink</button>
+        <button class="style-btn btn-color btn-color-yellow" data-color="#ffd000">Gold</button>
+        <button class="style-btn btn-color btn-color-green" data-color="#39ff14">Lime</button>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="ctrl-group">
+      <div class="ctrl-label"><i class="fas fa-fill-drip"></i> Background</div>
+      <div class="btn-row">
+        <button class="style-btn btn-bg btn-bg-none active" data-bg="transparent">None</button>
+        <button class="style-btn btn-bg btn-bg-dark" data-bg="#1a1a2e">Dark</button>
+        <button class="style-btn btn-bg btn-bg-purple" data-bg="#2a0a4e">Purple</button>
+        <button class="style-btn btn-bg btn-bg-night" data-bg="#00111f">Night</button>
+        <button class="style-btn btn-bg btn-bg-glow" data-bg="rgba(0,229,255,0.1)">Glow</button>
+      </div>
+    </div>
+
+    <!-- Transform -->
+    <div class="ctrl-group">
+      <div class="ctrl-label"><i class="fas fa-magic"></i> Transforms</div>
+      <div class="btn-row">
+        <button class="style-btn btn-transform btn-bold"   data-transform="bold">Bold</button>
+        <button class="style-btn btn-transform btn-italic" data-transform="italic">Italic</button>
+        <button class="style-btn btn-transform btn-upper"  data-transform="uppercase">CAPS</button>
+        <button class="style-btn btn-transform btn-shadow" data-transform="shadow">Glow</button>
+        <button class="style-btn btn-transform btn-strike" data-transform="strike">Strike</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Custom text input -->
+  <div class="ctrl-group" style="margin-bottom:1rem;">
+    <div class="ctrl-label"><i class="fas fa-keyboard"></i> Custom Text</div>
+    <input type="text" id="customText" placeholder="Type your own text here…" maxlength="80"/>
+  </div>
+
+  <!-- Apply / Reset -->
+  <div class="action-bar">
+    <button class="act-btn act-apply" id="applyBtn"><i class="fas fa-bolt"></i> APPLY STYLES</button>
+    <button class="act-btn act-reset" id="resetBtn"><i class="fas fa-rotate-left"></i> RESET ALL</button>
+  </div>
+
+  <!-- Active chips -->
+  <div class="chip-row" id="chipRow"></div>
+
+</div>
+
+<script>
+$(function () {
+
+  /* ── State ───────────────────────────── */
+  let state = {
+    size:     '1.8rem',
+    color:    '#e8e0ff',
+    bg:       'transparent',
+    bold:     false,
+    italic:   false,
+    uppercase:false,
+    shadow:   false,
+    strike:   false,
+  };
+
+  /* ── Toggle single-select buttons ─────── */
+  function singleSelect($group, $clicked) {
+    $group.removeClass('active');
+    $clicked.addClass('active');
+  }
+
+  $('.btn-size').on('click', function () {
+    singleSelect($('.btn-size'), $(this));
+    state.size = $(this).data('size');
+  });
+
+  $('.btn-color').on('click', function () {
+    singleSelect($('.btn-color'), $(this));
+    state.color = $(this).data('color');
+  });
+
+  $('.btn-bg').on('click', function () {
+    singleSelect($('.btn-bg'), $(this));
+    state.bg = $(this).data('bg');
+  });
+
+  /* ── Toggle multi-select transforms ───── */
+  $('.btn-transform').on('click', function () {
+    const t = $(this).data('transform');
+    $(this).toggleClass('active');
+    state[t] = !state[t];
+  });
+
+  /* ── Custom text ─────────────────────── */
+  $('#customText').on('input', function () {
+    const v = $(this).val().trim();
+    if (v) $('#previewText').text(v);
+    else   $('#previewText').text('Cyberpunk Style Editor');
+  });
+
+  /* ── Apply with jQuery chaining ─────── */
+  $('#applyBtn').on('click', function () {
+
+    // Build text-shadow
+    const shadow = state.shadow
+      ? '0 0 12px currentColor, 0 0 30px currentColor'
+      : 'none';
+
+    // Build text-decoration
+    const deco = state.strike ? 'line-through' : 'none';
+
+    /* ═══════════════════════════════════════
+       jQuery CHAINING — the key lab feature
+       ═══════════════════════════════════════ */
+    $('#previewText')
+      .css('font-size',        state.size)
+      .css('color',            state.color)
+      .css('background',       state.bg)
+      .css('padding',          state.bg !== 'transparent' ? '0.4em 0.8em' : '0')
+      .css('border-radius',    '6px')
+      .css('font-weight',      state.bold    ? '700' : '400')
+      .css('font-style',       state.italic  ? 'italic' : 'normal')
+      .css('text-transform',   state.uppercase ? 'uppercase' : 'none')
+      .css('text-shadow',      shadow)
+      .css('text-decoration',  deco)
+      .css('transition',       'all 0.35s ease')
+      // chained animation
+      .hide().fadeIn(300);
+
+    updateChips();
+  });
+
+  /* ── Reset ───────────────────────────── */
+  $('#resetBtn').on('click', function () {
+    state = { size:'1.8rem', color:'#e8e0ff', bg:'transparent',
+              bold:false, italic:false, uppercase:false, shadow:false, strike:false };
+
+    // Reset button states
+    singleSelect($('.btn-size'),  $('.btn-size[data-size="1.8rem"]'));
+    singleSelect($('.btn-color'), $('.btn-color[data-color="#e8e0ff"]'));
+    singleSelect($('.btn-bg'),    $('.btn-bg[data-bg="transparent"]'));
+    $('.btn-transform').removeClass('active');
+    $('#customText').val('');
+
+    $('#previewText')
+      .text('Cyberpunk Style Editor')
+      .removeAttr('style')
+      .css({ fontSize: '1.8rem', transition: 'all 0.35s ease' });
+
+    $('#chipRow').empty();
+  });
+
+  /* ── Active chip summary ─────────────── */
+  function updateChips() {
+    const chips = [];
+    chips.push(`Size: ${state.size}`);
+    chips.push(`Color: ${state.color}`);
+    if (state.bg !== 'transparent') chips.push(`BG: ${state.bg}`);
+    if (state.bold)      chips.push('Bold');
+    if (state.italic)    chips.push('Italic');
+    if (state.uppercase) chips.push('UPPERCASE');
+    if (state.shadow)    chips.push('Glow Shadow');
+    if (state.strike)    chips.push('Strikethrough');
+
+    $('#chipRow').html(chips.map(c => `<span class="chip">${c}</span>`).join(''));
+  }
+
+  // Apply once on load to set defaults
+  $('#applyBtn').trigger('click');
+});
+</script>
+</body>
+</html>

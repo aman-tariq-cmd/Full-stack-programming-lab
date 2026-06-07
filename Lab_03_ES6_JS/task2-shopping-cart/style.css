@@ -1,0 +1,244 @@
+/* ======================================================
+   Task 2 — Online Shopping Cart
+   style.css
+   ====================================================== */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --bg:      #faf7f2;
+  --surface: #ffffff;
+  --border:  #e8e0d5;
+  --accent:  #c0392b;
+  --accent2: #e67e22;
+  --dark:    #1a1209;
+  --muted:   #9a8e82;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* ---------- Header ---------- */
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+header p {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Two-column Layout ---------- */
+.layout {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Panel ---------- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------- Product Grid ---------- */
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.product-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(192, 57, 43, 0.1);
+}
+
+.product-card .emo   { font-size: 1.8rem; margin-bottom: 0.35rem; }
+.product-card .p-name  { font-weight: 600; font-size: 0.85rem; }
+.product-card .p-price { color: var(--accent); font-weight: 700; font-size: 0.8rem; }
+
+/* ---------- Cart Summary boxes ---------- */
+.cart-summary {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sum-box {
+  flex: 1;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.sum-box .val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.sum-box .lbl {
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ---------- Destructuring info box ---------- */
+#first-item {
+  background: linear-gradient(135deg, #fef9f0, #fde8d8);
+  border: 1px solid #fbc79a;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+#first-item strong { color: var(--accent2); }
+
+/* ---------- Cart Item list ---------- */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 40px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.82rem;
+  animation: slideIn 0.25s ease;
+}
+
+.cart-item .ci-emo   { font-size: 1.2rem; }
+.cart-item .ci-name  { flex: 1; font-weight: 500; }
+.cart-item .ci-qty   { color: var(--muted); }
+.cart-item .ci-price { color: var(--accent); font-weight: 600; }
+
+.cart-item .ci-rm {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 0 0.25rem;
+  transition: color 0.2s;
+}
+.cart-item .ci-rm:hover { color: var(--accent); }
+
+.empty-cart {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* ---------- Clone button ---------- */
+.btn-clone {
+  margin-top: 1rem;
+  width: 100%;
+  background: var(--dark);
+  color: #fff;
+  border: none;
+  padding: 0.65rem;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-clone:hover { opacity: 0.8; }
+
+/* ---------- Clone output (pre) ---------- */
+#clone-output {
+  margin-top: 0.75rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  color: #0369a1;
+  display: none;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+}
+
+/* ---------- Animation ---------- */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

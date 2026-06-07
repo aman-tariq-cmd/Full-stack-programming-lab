@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 8 — Quiz Game</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0b0f2a;
+      --surface: #141936;
+      --card: #1b2142;
+      --border: #2a3260;
+      --purple: #7c5cbf;
+      --violet: #9b59b6;
+      --blue: #3498db;
+      --teal: #1abc9c;
+      --coral: #e74c3c;
+      --gold: #f1c40f;
+      --text: #e8eaf6;
+      --muted: #7986a8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 15% 30%, rgba(124,92,191,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 70%, rgba(26,188,156,0.08) 0%, transparent 50%);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .quiz-wrap { width: 100%; max-width: 640px; }
+
+    /* ── INTRO SCREEN ─────────────────────────── */
+    #introScreen { text-align: center; }
+
+    .intro-icon {
+      width: 90px; height: 90px;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      border-radius: 50%; margin: 0 auto 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 0 40px rgba(124,92,191,0.4);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100%{ transform: translateY(0); }
+      50%    { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .intro-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+    .stats-row {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.85rem 1.5rem;
+    }
+
+    .stat-val {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem; color: var(--teal);
+    }
+
+    .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── QUIZ SCREEN ──────────────────────────── */
+    #quizScreen { display: none; }
+
+    /* Progress */
+    .progress-area { margin-bottom: 1.5rem; }
+
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem;
+    }
+
+    .progress-meta strong { color: var(--teal); }
+
+    .progress-track {
+      height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+    }
+
+    #progressFill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--teal));
+      border-radius: 4px; transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* Question card */
+    .q-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .q-category {
+      font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.15em; color: var(--purple);
+      margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .q-text {
+      font-size: 1.15rem; font-weight: 700; line-height: 1.5;
+      color: var(--text);
+    }
+
+    /* Options */
+    .options { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.5rem; }
+
+    .option-btn {
+      padding: 1rem 1.25rem;
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: 12px; color: var(--text);
+      font-family: inherit; font-size: 0.9rem; font-weight: 600;
+      text-align: left; cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.85rem;
+    }
+
+    .option-letter {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--border); color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--purple); background: rgba(124,92,191,0.12);
+      transform: translateX(4px);
+    }
+
+    .option-btn:hover:not(:disabled) .option-letter {
+      background: var(--purple); color: #fff;
+    }
+
+    /* Answer states */
+    .option-btn.correct {
+      border-color: var(--teal); background: rgba(26,188,156,0.12);
+      animation: pop 0.3s ease;
+    }
+
+    .option-btn.correct .option-letter { background: var(--teal); color: #fff; }
+
+    .option-btn.wrong {
+      border-color: var(--coral); background: rgba(231,76,60,0.1);
+    }
+
+    .option-btn.wrong .option-letter { background: var(--coral); color: #fff; }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    /* Feedback */
+    #feedback {
+      display: none;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px; font-size: 0.88rem; font-weight: 700;
+      margin-bottom: 1.25rem; text-align: center;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #feedback.correct { background: rgba(26,188,156,0.15); color: var(--teal); border: 1px solid rgba(26,188,156,0.3); }
+    #feedback.wrong   { background: rgba(231,76,60,0.12); color: var(--coral); border: 1px solid rgba(231,76,60,0.3); }
+
+    /* Nav bar */
+    .nav-bar {
+      display: flex; gap: 0.75rem; justify-content: space-between; align-items: center;
+    }
+
+    .score-pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 0.5rem 1rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 700; color: var(--gold);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px; border: none; cursor: pointer;
+      font-family: inherit; font-size: 0.85rem; font-weight: 800;
+      transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    #prevBtn {
+      background: var(--surface); border: 2px solid var(--border); color: var(--muted);
+    }
+
+    #prevBtn:hover:not(:disabled) { border-color: var(--purple); color: var(--text); }
+    #prevBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    #nextBtn {
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #fff; box-shadow: 0 6px 20px rgba(124,92,191,0.3);
+    }
+
+    #nextBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(124,92,191,0.45); }
+
+    /* ── RESULTS SCREEN ───────────────────────── */
+    #resultsScreen { display: none; text-align: center; }
+
+    .result-trophy {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      animation: bounceIn 0.8s cubic-bezier(0.34,1.56,0.64,1);
+      display: block;
+    }
+
+    @keyframes bounceIn {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .result-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem; margin-bottom: 0.4rem;
+    }
+
+    .result-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+    .result-score-ring {
+      width: 140px; height: 140px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+
+    .score-ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+    .ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
+    .ring-fill {
+      fill: none; stroke-width: 10;
+      stroke-linecap: round;
+      stroke: url(#ringGrad);
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .ring-score {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .ring-score-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.4rem; display: block; line-height: 1; color: var(--text);
+    }
+
+    .ring-score-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .result-breakdown {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .rb-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.9rem 1.4rem; text-align: center;
+    }
+
+    .rb-val { font-family: 'Fredoka One', cursive; font-size: 1.6rem; }
+    .rb-lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    .rb-item.correct-rb .rb-val { color: var(--teal); }
+    .rb-item.wrong-rb   .rb-val { color: var(--coral); }
+    .rb-item.score-rb   .rb-val { color: var(--gold); }
+
+    .restart-btn {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      border: none; border-radius: 30px; color: #fff;
+      font-family: inherit; font-size: 1rem; font-weight: 800;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 8px 30px rgba(124,92,191,0.3);
+    }
+
+    .restart-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(124,92,191,0.45); }
+
+    /* Start button */
+    .start-btn {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      border: none; border-radius: 30px; color: #fff;
+      font-family: inherit; font-size: 1.05rem; font-weight: 800;
+      cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 8px 30px rgba(124,92,191,0.3);
+    }
+
+    .start-btn:hover { transform: translateY(-3px); }
+
+    @media (max-width: 480px) {
+      .q-card { padding: 1.5rem; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="quiz-wrap">
+
+  <!-- ══ INTRO ══ -->
+  <div id="introScreen">
+    <div class="intro-icon"><i class="fas fa-star"></i></div>
+    <h1>CosmicQuiz</h1>
+    <p class="intro-sub">Test your knowledge across science, tech, and beyond!</p>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-val">10</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat-item"><div class="stat-val">4</div><div class="stat-lbl">Choices Each</div></div>
+      <div class="stat-item"><div class="stat-val">∞</div><div class="stat-lbl">Replays</div></div>
+    </div>
+    <button class="start-btn" id="startBtn"><i class="fas fa-rocket"></i> Launch Quiz</button>
+  </div>
+
+  <!-- ══ QUIZ ══ -->
+  <div id="quizScreen">
+    <!-- Progress -->
+    <div class="progress-area">
+      <div class="progress-meta">
+        <span>Question <strong id="qNum">1</strong> of <strong>10</strong></span>
+        <span>Score: <strong id="liveScore">0</strong></span>
+      </div>
+      <div class="progress-track"><div id="progressFill"></div></div>
+    </div>
+
+    <!-- Question -->
+    <div class="q-card">
+      <div class="q-category" id="qCategory"><i class="fas fa-circle-dot"></i> <span></span></div>
+      <div class="q-text" id="qText"></div>
+    </div>
+
+    <!-- Options -->
+    <div class="options" id="optionsWrap"></div>
+
+    <!-- Feedback -->
+    <div id="feedback"></div>
+
+    <!-- Nav -->
+    <div class="nav-bar">
+      <button class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> Prev</button>
+      <div class="score-pill"><i class="fas fa-star"></i> <span id="scoreCount">0</span> pts</div>
+      <button class="nav-btn" id="nextBtn">Next <i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ══ RESULTS ══ -->
+  <div id="resultsScreen">
+    <span class="result-trophy" id="resultEmoji">🏆</span>
+    <div class="result-title" id="resultTitle">Brilliant!</div>
+    <div class="result-sub" id="resultSub">You crushed it!</div>
+
+    <!-- Score ring -->
+    <div class="result-score-ring">
+      <svg class="score-ring-svg" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#7c5cbf"/>
+            <stop offset="100%" style="stop-color:#1abc9c"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg" cx="50" cy="50" r="40"/>
+        <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="40"
+          stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+      </svg>
+      <div class="ring-score">
+        <span class="ring-score-num" id="ringNum">0%</span>
+        <span class="ring-score-lbl">Score</span>
+      </div>
+    </div>
+
+    <div class="result-breakdown">
+      <div class="rb-item correct-rb"><div class="rb-val" id="resCorrect">0</div><div class="rb-lbl">Correct</div></div>
+      <div class="rb-item wrong-rb"><div class="rb-val" id="resWrong">0</div><div class="rb-lbl">Wrong</div></div>
+      <div class="rb-item score-rb"><div class="rb-val" id="resPoints">0</div><div class="rb-lbl">Points</div></div>
+    </div>
+
+    <button class="restart-btn" id="restartBtn"><i class="fas fa-rotate-left"></i> Play Again</button>
+  </div>
+
+</div>
+
+<script>
+$(function () {
+
+  /* ── Questions ───────────────────────── */
+  const QUESTIONS = [
+    {
+      category: 'Science', icon: 'fas fa-flask',
+      question: 'What is the chemical symbol for gold?',
+      options: ['Go', 'Gd', 'Au', 'Ag'], answer: 2
+    },
+    {
+      category: 'Technology', icon: 'fas fa-microchip',
+      question: 'Which programming language was created by Brendan Eich in 1995?',
+      options: ['Python', 'Java', 'JavaScript', 'Ruby'], answer: 2
+    },
+    {
+      category: 'Space', icon: 'fas fa-rocket',
+      question: 'How many planets are in our Solar System?',
+      options: ['7', '8', '9', '10'], answer: 1
+    },
+    {
+      category: 'History', icon: 'fas fa-landmark',
+      question: 'In which year did World War II end?',
+      options: ['1943', '1944', '1945', '1946'], answer: 2
+    },
+    {
+      category: 'Technology', icon: 'fas fa-code',
+      question: 'What does "HTML" stand for?',
+      options: ['HyperText Markup Language', 'HighText Machine Language', 'HyperText Modern Language', 'Hyperlink and Text Markup Language'], answer: 0
+    },
+    {
+      category: 'Science', icon: 'fas fa-atom',
+      question: 'What is the speed of light in a vacuum (approximately)?',
+      options: ['150,000 km/s', '300,000 km/s', '450,000 km/s', '600,000 km/s'], answer: 1
+    },
+    {
+      category: 'Geography', icon: 'fas fa-globe',
+      question: 'Which is the largest ocean on Earth?',
+      options: ['Atlantic', 'Indian', 'Arctic', 'Pacific'], answer: 3
+    },
+    {
+      category: 'Technology', icon: 'fas fa-network-wired',
+      question: 'What does "CSS" stand for?',
+      options: ['Creative Style Sheets', 'Cascading Style Sheets', 'Computer Style System', 'Coded Style Structure'], answer: 1
+    },
+    {
+      category: 'Mathematics', icon: 'fas fa-calculator',
+      question: 'What is the value of π (pi) to two decimal places?',
+      options: ['3.12', '3.14', '3.16', '3.18'], answer: 1
+    },
+    {
+      category: 'Nature', icon: 'fas fa-leaf',
+      question: 'What gas do plants absorb from the atmosphere during photosynthesis?',
+      options: ['Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Hydrogen'], answer: 2
+    }
+  ];
+
+  const LETTERS = ['A', 'B', 'C', 'D'];
+  let current   = 0;
+  let score     = 0;
+  let correct   = 0;
+  let answers   = new Array(QUESTIONS.length).fill(null); // store selected answers
+
+  /* ── Start ───────────────────────────── */
+  $('#startBtn').on('click', function () {
+    $('#introScreen').fadeOut(300, function () {
+      $('#quizScreen').fadeIn(400);
+      renderQuestion(0);
+    });
+  });
+
+  /* ── Render question ─────────────────── */
+  function renderQuestion(idx) {
+    const q = QUESTIONS[idx];
+    current = idx;
+
+    // Progress
+    $('#qNum').text(idx + 1);
+    const pct = ((idx) / QUESTIONS.length) * 100;
+    $('#progressFill').css('width', pct + '%');
+
+    // Category
+    $('#qCategory i').attr('class', q.icon);
+    $('#qCategory span').text(q.category);
+
+    // Question text with fade
+    $('#qText').fadeOut(150, function () {
+      $(this).text(q.question).fadeIn(250);
+    });
+
+    // Options
+    const $opts = $('#optionsWrap');
+    $opts.empty();
+
+    q.options.forEach(function (opt, i) {
+      const $btn = $(`
+        <button class="option-btn" data-idx="${i}">
+          <span class="option-letter">${LETTERS[i]}</span>
+          <span>${opt}</span>
+        </button>`);
+      $opts.append($btn);
+    });
+
+    // Restore previously selected answer if revisiting
+    if (answers[idx] !== null) {
+      restoreAnswer(idx);
+    }
+
+    // Feedback
+    $('#feedback').hide().removeClass('correct wrong');
+
+    // Prev/Next state
+    $('#prevBtn').prop('disabled', idx === 0);
+    const isLast = idx === QUESTIONS.length - 1;
+    $('#nextBtn').html(isLast ? 'Finish <i class="fas fa-flag-checkered"></i>' : 'Next <i class="fas fa-chevron-right"></i>');
+  }
+
+  /* ── Option click ────────────────────── */
+  $(document).on('click', '.option-btn', function () {
+    if (answers[current] !== null) return; // already answered
+
+    const selected = parseInt($(this).data('idx'));
+    const correct_idx = QUESTIONS[current].answer;
+    answers[current] = selected;
+
+    // Style buttons
+    $('.option-btn').prop('disabled', true);
+    $(this).addClass(selected === correct_idx ? 'correct' : 'wrong');
+
+    if (selected !== correct_idx) {
+      $(`.option-btn[data-idx="${correct_idx}"]`).addClass('correct');
+    }
+
+    // Update score
+    if (selected === correct_idx) {
+      score += 10;
+      correct++;
+      $('#liveScore, #scoreCount').text(score);
+      showFeedback(true, '✓ Correct! +10 points');
+    } else {
+      showFeedback(false, '✗ Wrong! The correct answer is ' + LETTERS[correct_idx]);
+    }
+  });
+
+  function showFeedback(isCorrect, msg) {
+    $('#feedback')
+      .text(msg)
+      .removeClass('correct wrong')
+      .addClass(isCorrect ? 'correct' : 'wrong')
+      .show();
+  }
+
+  /* ── Restore answer state ────────────── */
+  function restoreAnswer(idx) {
+    const sel = answers[idx];
+    const correct_idx = QUESTIONS[idx].answer;
+    $('.option-btn').prop('disabled', true);
+    $(`.option-btn[data-idx="${sel}"]`).addClass(sel === correct_idx ? 'correct' : 'wrong');
+    if (sel !== correct_idx) {
+      $(`.option-btn[data-idx="${correct_idx}"]`).addClass('correct');
+    }
+    if (answers[idx] !== null) {
+      const isC = sel === correct_idx;
+      showFeedback(isC, isC ? '✓ Correct!' : '✗ Wrong!');
+    }
+  }
+
+  /* ── Navigation ──────────────────────── */
+  $('#nextBtn').on('click', function () {
+    if (current < QUESTIONS.length - 1) {
+      renderQuestion(current + 1);
+    } else {
+      showResults();
+    }
+  });
+
+  $('#prevBtn').on('click', function () {
+    if (current > 0) renderQuestion(current - 1);
+  });
+
+  /* ── Results ─────────────────────────── */
+  function showResults() {
+    const pct = Math.round((correct / QUESTIONS.length) * 100);
+    const wrong = QUESTIONS.length - correct;
+
+    // Title & emoji
+    let emoji, title, sub;
+    if (pct >= 90) { emoji = '🏆'; title = 'Legendary!'; sub = 'You aced the cosmos — nothing can stop you!'; }
+    else if (pct >= 70) { emoji = '🌟'; title = 'Brilliant!'; sub = 'Stellar performance — just a few stars away from perfect!'; }
+    else if (pct >= 50) { emoji = '🚀'; title = 'Not Bad!'; sub = 'You\'re on the launchpad — keep exploring!'; }
+    else { emoji = '☄️'; title = 'Keep Going!'; sub = 'Every expert was once a beginner. Try again!'; }
+
+    $('#resultsScreen').find('.result-trophy').text(emoji);
+    $('#resultTitle').text(title);
+    $('#resultSub').text(sub);
+    $('#ringNum').text(pct + '%');
+    $('#resCorrect').text(correct);
+    $('#resWrong').text(wrong);
+    $('#resPoints').text(score);
+
+    $('#quizScreen').fadeOut(300, function () {
+      $('#resultsScreen').fadeIn(400);
+
+      // Animate ring
+      const circumference = 251.2;
+      const offset = circumference - (pct / 100) * circumference;
+      setTimeout(() => {
+        $('#ringFill').css('stroke-dashoffset', offset);
+      }, 300);
+    });
+  }
+
+  /* ── Restart ─────────────────────────── */
+  $('#restartBtn').on('click', function () {
+    score = 0; correct = 0;
+    answers.fill(null);
+    $('#liveScore, #scoreCount').text(0);
+    $('#ringFill').css('stroke-dashoffset', 251.2);
+
+    $('#resultsScreen').fadeOut(300, function () {
+      $('#introScreen').fadeIn(400);
+    });
+  });
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 3 — Async Data Loader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Decorative grid overlay handled by CSS ::before -->
+
+  <div class="wrap">
+    <header>
+      <div class="badge">Lab Task 3</div>
+      <h1>Async Data Loader</h1>
+      <p>Promise · setTimeout · .then() · .catch()</p>
+    </header>
+
+    <!-- Failure toggle -->
+    <div class="toggle-row">
+      <span>Simulate Success</span>
+      <label class="toggle">
+        <input type="checkbox" id="fail-toggle"/>
+        <span class="slider"></span>
+      </label>
+      <span>Simulate Failure</span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="controls">
+      <button class="btn btn-primary" id="load-btn" onclick="triggerFetch()">
+        ⚡ Fetch Users
+      </button>
+      <button class="btn btn-danger" onclick="clearOutput()">
+        ✕ Clear
+      </button>
+    </div>
+
+    <!-- Status bar -->
+    <div id="status-bar">
+      <div class="dot" id="dot"></div>
+      <span id="status-msg">Ready — click "Fetch Users" to load data</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div id="progress-wrap">
+      <div id="progress-bar"></div>
+    </div>
+
+    <!-- Error box -->
+    <div id="error-box"></div>
+
+    <!-- User cards grid -->
+    <div id="user-grid"></div>
+
+  </div><!-- /.wrap -->
+
+  <script src="script.js"></script>
+</body>
+</html>

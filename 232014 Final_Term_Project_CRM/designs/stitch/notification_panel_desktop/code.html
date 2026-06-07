@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131315",
+                        "on-tertiary-container": "#4f3d00",
+                        "accent-yellow-dim": "#3D3010",
+                        "tertiary-fixed-dim": "#eec13c",
+                        "surface-tint": "#a5c8ff",
+                        "on-secondary-fixed-variant": "#005230",
+                        "on-primary": "#00315e",
+                        "surface-bright": "#39393b",
+                        "tertiary": "#eec13c",
+                        "on-tertiary": "#3d2e00",
+                        "border-strong": "#3D3D47",
+                        "outline-variant": "#414752",
+                        "on-primary-container": "#003464",
+                        "inverse-on-surface": "#313032",
+                        "text-primary": "#F0F0F5",
+                        "surface-dim": "#131315",
+                        "secondary-fixed": "#6bfdaf",
+                        "on-surface-variant": "#c1c7d4",
+                        "bg-elevated": "#1C1C21",
+                        "on-secondary-fixed": "#002110",
+                        "error": "#ffb4ab",
+                        "secondary-container": "#01bb74",
+                        "primary-fixed": "#d4e3ff",
+                        "secondary": "#49e095",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "primary-container": "#4d9eff",
+                        "on-primary-fixed-variant": "#004785",
+                        "on-secondary": "#003920",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e10",
+                        "secondary-fixed-dim": "#49e095",
+                        "accent-green-dim": "#0F3D26",
+                        "accent-red-dim": "#3D1010",
+                        "surface-container-high": "#2a2a2c",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353437",
+                        "primary": "#a5c8ff",
+                        "border-subtle": "#2A2A31",
+                        "on-background": "#e5e1e4",
+                        "inverse-primary": "#005fae",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "inverse-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffe08f",
+                        "on-primary-fixed": "#001c3a",
+                        "outline": "#8b919e",
+                        "background": "#131315",
+                        "surface-container-low": "#1b1b1d",
+                        "accent-red": "#FF5C5C",
+                        "text-secondary": "#9090A0",
+                        "on-secondary-container": "#004326",
+                        "on-surface": "#e5e1e4",
+                        "accent-blue-dim": "#1A3D6B",
+                        "text-muted": "#55555F",
+                        "surface-variant": "#353437",
+                        "surface-container": "#201f21",
+                        "tertiary-container": "#d0a61f",
+                        "bg-surface": "#141417",
+                        "bg-overlay": "#242429",
+                        "accent-blue": "#4d9eff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "modal-sm": "420px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "sidebar-width": "240px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "modal-lg": "640px"
+                    },
+                    "fontFamily": {
+                        "body": ["IBM Plex Sans"],
+                        "h2": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "mono": ["IBM Plex Mono"],
+                        "h1": ["IBM Plex Sans"],
+                        "small": ["IBM Plex Sans"],
+                        "h3": ["IBM Plex Sans"],
+                        "mono-sm": ["IBM Plex Mono"],
+                        "label-caps": ["IBM Plex Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2A31;
+            border-radius: 10px;
+        }
+        .pulse-accent {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.1; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-body overflow-hidden">
+<!-- DASHBOARD BACKGROUND (SCREEN_9 SIMULATION) -->
+<div class="flex h-screen w-screen opacity-40 select-none pointer-events-none">
+<!-- SideNav (Shared Component Mapping) -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg">
+<div class="px-md mb-xl">
+<div class="font-h2 text-h2 font-bold text-primary">Acme Corp</div>
+<div class="text-text-secondary text-small">Enterprise CRM</div>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<div class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary">
+<span class="material-symbols-outlined">business</span>
+<span>Accounts</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary">
+<span class="material-symbols-outlined">person_search</span>
+<span>Leads</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Area (Background) -->
+<main class="ml-[240px] flex-1">
+<header class="h-14 border-b border-border-subtle flex items-center px-lg justify-between">
+<div class="font-h3 text-h3 text-primary">CRM Dashboard</div>
+<div class="flex gap-md items-center">
+<span class="material-symbols-outlined">search</span>
+<span class="material-symbols-outlined">apps</span>
+<div class="w-8 h-8 rounded-full bg-surface-container"></div>
+</div>
+</header>
+<div class="p-lg grid grid-cols-12 gap-md">
+<div class="col-span-8 h-[200px] bg-bg-surface rounded-lg border-t-2 border-primary"></div>
+<div class="col-span-4 h-[200px] bg-bg-surface rounded-lg border-t-2 border-secondary"></div>
+<div class="col-span-12 h-[400px] bg-bg-surface rounded-lg"></div>
+</div>
+</main>
+</div>
+<!-- OVERLAY BACKDROP -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"></div>
+<!-- NOTIFICATION SLIDE-IN PANEL -->
+<div class="fixed right-0 top-0 h-screen w-[360px] bg-bg-surface border-l border-border-subtle z-50 flex flex-col shadow-2xl transform transition-transform duration-300 translate-x-0" id="notification-panel">
+<!-- Header Section -->
+<div class="px-lg py-md flex items-center justify-between border-b border-border-subtle">
+<h2 class="font-h2 text-h2 font-bold text-text-primary">Notifications</h2>
+<button class="text-small font-label-caps text-text-secondary hover:text-text-primary transition-colors cursor-pointer active:scale-95">
+                CLEAR ALL
+            </button>
+</div>
+<!-- Filter Chips -->
+<div class="px-lg py-md flex gap-sm border-b border-border-subtle bg-bg-surface">
+<button class="px-md py-xs bg-primary text-on-primary font-small rounded-full transition-all">All</button>
+<button class="px-md py-xs bg-bg-elevated text-text-secondary font-small rounded-full hover:bg-surface-variant transition-all">Success</button>
+<button class="px-md py-xs bg-bg-elevated text-text-secondary font-small rounded-full hover:bg-surface-variant transition-all">Error</button>
+<button class="px-md py-xs bg-bg-elevated text-text-secondary font-small rounded-full hover:bg-surface-variant transition-all">Warning</button>
+</div>
+<!-- Notification List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Success Notification -->
+<div class="group relative flex gap-md p-md border-b border-border-subtle hover:bg-bg-elevated transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary"></div>
+<div class="w-10 h-10 rounded-lg bg-accent-green-dim flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_add</span>
+</div>
+<div class="flex-1 pr-base">
+<p class="font-body text-body text-text-primary mb-1">New customer <span class="font-bold">Alex Rivera</span> added successfully to the Northeast region.</p>
+<p class="font-mono-sm text-mono-sm text-text-muted">2 mins ago</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-xs text-text-muted hover:text-accent-red transition-opacity">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Success Notification 2 -->
+<div class="group relative flex gap-md p-md border-b border-border-subtle hover:bg-bg-elevated transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary"></div>
+<div class="w-10 h-10 rounded-lg bg-accent-green-dim flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="flex-1 pr-base">
+<p class="font-body text-body text-text-primary mb-1">Invoice <span class="font-mono text-primary">#INV-9402</span> has been paid in full via Stripe.</p>
+<p class="font-mono-sm text-mono-sm text-text-muted">14 mins ago</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-xs text-text-muted hover:text-accent-red transition-opacity">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Warning Notification -->
+<div class="group relative flex gap-md p-md border-b border-border-subtle hover:bg-bg-elevated transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-tertiary"></div>
+<div class="w-10 h-10 rounded-lg bg-accent-yellow-dim flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined">sync_problem</span>
+</div>
+<div class="flex-1 pr-base">
+<p class="font-body text-body text-text-primary mb-1">System sync complete with <span class="text-tertiary">2 warnings</span>. Check the log for field mapping errors.</p>
+<p class="font-mono-sm text-mono-sm text-text-muted">1 hour ago</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-xs text-text-muted hover:text-accent-red transition-opacity">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Error Notification -->
+<div class="group relative flex gap-md p-md border-b border-border-subtle hover:bg-bg-elevated transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-accent-red"></div>
+<div class="w-10 h-10 rounded-lg bg-accent-red-dim flex items-center justify-center text-accent-red shrink-0">
+<span class="material-symbols-outlined">error_outline</span>
+</div>
+<div class="flex-1 pr-base">
+<p class="font-body text-body text-text-primary mb-1">API connection failed for <span class="font-bold">Zendesk Integration</span>. Manual reconnect required.</p>
+<p class="font-mono-sm text-mono-sm text-text-muted">3 hours ago</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-xs text-text-muted hover:text-accent-red transition-opacity">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Info/System Notification -->
+<div class="group relative flex gap-md p-md border-b border-border-subtle hover:bg-bg-elevated transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"></div>
+<div class="w-10 h-10 rounded-lg bg-accent-blue-dim flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">update</span>
+</div>
+<div class="flex-1 pr-base">
+<p class="font-body text-body text-text-primary mb-1">Software update v2.4.0 is ready for deployment across all clusters.</p>
+<p class="font-mono-sm text-mono-sm text-text-muted">5 hours ago</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-xs text-text-muted hover:text-accent-red transition-opacity">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Footer / Action Area -->
+<div class="p-lg bg-bg-surface border-t border-border-subtle mt-auto">
+<button class="w-full bg-bg-elevated text-text-primary font-h3 h-[36px] flex items-center justify-center gap-sm rounded-lg hover:bg-surface-variant transition-colors border border-border-subtle active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+                Manage Settings
+            </button>
+</div>
+</div>
+<!-- Floating Chat / Help (With Pulse Ring) -->
+<div class="fixed bottom-lg right-[384px] z-30 group">
+<div class="absolute inset-0 pulse-accent bg-primary rounded-full"></div>
+<button class="relative w-12 h-12 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">support_agent</span>
+</button>
+</div>
+<!-- TOAST NOTIFICATION (Micro-interaction Example) -->
+<div class="fixed bottom-lg right-lg z-[60] flex items-center gap-md bg-bg-overlay border-l-[3px] border-secondary p-md rounded-lg shadow-xl translate-y-24 animate-bounce-in opacity-0" id="success-toast">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<div>
+<p class="text-body font-body text-text-primary">All cleared!</p>
+<p class="text-small text-text-muted">Notification panel emptied.</p>
+</div>
+</div>
+<script>
+        // Simple Interaction logic for demo
+        document.querySelectorAll('button').forEach(btn => {
+            if(btn.innerText.includes('CLEAR ALL')) {
+                btn.onclick = () => {
+                    const list = document.querySelector('.custom-scrollbar');
+                    list.style.opacity = '0';
+                    list.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        list.innerHTML = `
+                            <div class="h-full flex flex-col items-center justify-center p-xl text-center">
+                                <span class="material-symbols-outlined text-[64px] text-text-muted mb-md">notifications_off</span>
+                                <p class="font-h2 text-h2 text-text-secondary">All caught up!</p>
+                                <p class="font-body text-body text-text-muted mt-sm">There are no new notifications at this time.</p>
+                            </div>
+                        `;
+                        list.style.opacity = '1';
+                    }, 500);
+                }
+            }
+        });
+
+        // Close panel logic (Simulated)
+        const backdrop = document.querySelector('.fixed.inset-0');
+        backdrop.onclick = () => {
+            const panel = document.getElementById('notification-panel');
+            panel.style.transform = 'translateX(100%)';
+            backdrop.style.opacity = '0';
+            setTimeout(() => {
+                backdrop.style.display = 'none';
+            }, 300);
+        };
+    </script>
+</body></html>

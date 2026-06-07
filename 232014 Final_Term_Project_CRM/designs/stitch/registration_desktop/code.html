@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d4e3ff",
+                        "on-primary-container": "#003464",
+                        "accent-yellow-dim": "#3D3010",
+                        "surface-bright": "#39393b",
+                        "tertiary-fixed": "#ffe08f",
+                        "surface": "#131315",
+                        "background": "#131315",
+                        "on-secondary-container": "#004326",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#3d2e00",
+                        "on-surface": "#e5e1e4",
+                        "secondary-container": "#01bb74",
+                        "text-primary": "#F0F0F5",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-container-lowest": "#0e0e10",
+                        "inverse-surface": "#e5e1e4",
+                        "on-secondary-fixed": "#002110",
+                        "secondary-fixed-dim": "#49e095",
+                        "outline-variant": "#414752",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "surface-container-high": "#2a2a2c",
+                        "surface-tint": "#a5c8ff",
+                        "accent-blue-dim": "#1A3D6B",
+                        "inverse-primary": "#005fae",
+                        "outline": "#8b919e",
+                        "tertiary-container": "#d0a61f",
+                        "on-secondary-fixed-variant": "#005230",
+                        "bg-overlay": "#242429",
+                        "surface-variant": "#353437",
+                        "primary-container": "#4d9eff",
+                        "bg-surface": "#141417",
+                        "on-background": "#e5e1e4",
+                        "accent-green-dim": "#0F3D26",
+                        "inverse-on-surface": "#313032",
+                        "on-error-container": "#ffdad6",
+                        "border-subtle": "#2A2A31",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#6bfdaf",
+                        "surface-container-highest": "#353437",
+                        "accent-red-dim": "#3D1010",
+                        "secondary": "#49e095",
+                        "surface-container-low": "#1b1b1d",
+                        "on-tertiary-container": "#4f3d00",
+                        "on-primary-fixed-variant": "#004785",
+                        "border-strong": "#3D3D47",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-primary": "#00315e",
+                        "tertiary": "#eec13c",
+                        "primary": "#a5c8ff",
+                        "accent-red": "#FF5C5C",
+                        "surface-dim": "#131315",
+                        "tertiary-fixed-dim": "#eec13c",
+                        "on-surface-variant": "#c1c7d4",
+                        "text-muted": "#55555F",
+                        "bg-elevated": "#1C1C21",
+                        "text-secondary": "#9090A0",
+                        "on-secondary": "#003920",
+                        "error-container": "#93000a",
+                        "surface-container": "#201f21"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "modal-sm": "420px",
+                        "modal-lg": "640px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["IBM Plex Sans"],
+                        "mono": ["IBM Plex Mono"],
+                        "h2": ["IBM Plex Sans"],
+                        "mono-sm": ["IBM Plex Mono"],
+                        "body": ["IBM Plex Sans"],
+                        "small": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "h1": ["IBM Plex Sans"],
+                        "h3": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "small": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .dot-grid {
+            background-image: radial-gradient(#2A2A31 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-card {
+            background: rgba(20, 20, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(42, 42, 49, 0.5);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 15px rgba(77, 158, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-body text-body selection:bg-primary/30 min-h-screen flex items-center justify-center overflow-hidden relative">
+<!-- Subtle Atmospheric Background -->
+<div class="fixed inset-0 dot-grid opacity-40"></div>
+<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[120px]"></div>
+<!-- Registration Container -->
+<main class="relative z-10 w-full max-w-[440px] px-md">
+<!-- Branding Anchor -->
+<div class="flex flex-col items-center mb-xl">
+<div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center mb-md shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-on-primary-container text-[28px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<h1 class="font-h1 text-h1 text-primary tracking-tight">Acme Corp</h1>
+<p class="font-small text-small text-text-secondary mt-xs uppercase tracking-widest">Enterprise CRM Workspace</p>
+</div>
+<!-- Main Card -->
+<div class="glass-card rounded-xl p-xl shadow-2xl">
+<header class="mb-lg">
+<h2 class="font-h2 text-h2 text-text-primary">Create your account</h2>
+<p class="font-body text-body text-text-secondary mt-xs">Start managing your leads with precision.</p>
+</header>
+<form action="#" class="space-y-md" method="POST">
+<!-- Name Field -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase" for="full-name">Full Name</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px] group-focus-within:text-primary transition-colors">badge</span>
+</div>
+<input class="w-full h-[42px] bg-bg-elevated border border-border-subtle rounded-lg pl-11 pr-md font-body text-body text-text-primary placeholder:text-text-muted focus:ring-1 focus:ring-primary focus:border-primary-container transition-all outline-none" id="full-name" name="name" placeholder="John Doe" required="" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase" for="email">Email Address</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px] group-focus-within:text-primary transition-colors">alternate_email</span>
+</div>
+<input class="w-full h-[42px] bg-bg-elevated border border-border-subtle rounded-lg pl-11 pr-md font-body text-body text-text-primary placeholder:text-text-muted focus:ring-1 focus:ring-primary focus:border-primary-container transition-all outline-none" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase" for="password">Password</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-muted text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+</div>
+<input class="w-full h-[42px] bg-bg-elevated border border-border-subtle rounded-lg pl-11 pr-11 font-body text-body text-text-primary placeholder:text-text-muted focus:ring-1 focus:ring-primary focus:border-primary-container transition-all outline-none" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-md flex items-center text-text-muted hover:text-text-primary transition-colors cursor-pointer active:scale-90" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<div class="flex gap-xs mt-xs">
+<div class="h-1 flex-1 bg-border-subtle rounded-full overflow-hidden">
+<div class="h-full bg-accent-red w-0 transition-all duration-500" id="pwd-strength"></div>
+</div>
+<span class="font-mono-sm text-mono-sm text-text-muted uppercase">Strength</span>
+</div>
+</div>
+<!-- Terms -->
+<div class="flex items-start gap-md py-xs">
+<input class="mt-1 h-4 w-4 bg-bg-elevated border-border-subtle text-primary rounded focus:ring-offset-background focus:ring-primary" id="terms" required="" type="checkbox"/>
+<label class="font-small text-small text-text-secondary leading-snug" for="terms">
+                        I agree to the <a class="text-primary hover:underline transition-all" href="#">Terms of Service</a> and <a class="text-primary hover:underline transition-all" href="#">Privacy Policy</a>.
+                    </label>
+</div>
+<!-- CTA -->
+<button class="w-full h-[44px] bg-primary text-on-primary font-h3 text-h3 rounded-lg glow-button active:scale-[0.98] transition-all flex items-center justify-center gap-sm" type="submit">
+                    Create Account
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Social/Alt Login -->
+<div class="mt-lg pt-lg border-t border-border-subtle">
+<p class="font-label-caps text-label-caps text-text-muted text-center uppercase mb-md">Or continue with</p>
+<div class="grid grid-cols-2 gap-md">
+<button class="flex items-center justify-center h-[38px] bg-bg-elevated border border-border-subtle rounded-lg hover:bg-bg-overlay transition-colors group">
+<span class="font-body text-body group-hover:text-text-primary">Github</span>
+</button>
+<button class="flex items-center justify-center h-[38px] bg-bg-elevated border border-border-subtle rounded-lg hover:bg-bg-overlay transition-colors group">
+<span class="font-body text-body group-hover:text-text-primary">Google</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Footer -->
+<footer class="mt-xl text-center">
+<p class="font-body text-body text-text-secondary">
+                Already have an account? 
+                <a class="text-primary font-h3 hover:underline underline-offset-4 ml-xs" href="#">Sign in</a>
+</p>
+</footer>
+</main>
+<!-- Side Decoration (Technical Aesthetic) -->
+<div class="fixed right-lg top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-xl">
+<div class="space-y-sm">
+<div class="font-mono-sm text-mono-sm text-text-muted flex items-center gap-sm">
+<span class="w-1 h-1 bg-secondary rounded-full"></span>
+                UPTIME: 99.9%
+            </div>
+<div class="font-mono-sm text-mono-sm text-text-muted flex items-center gap-sm">
+<span class="w-1 h-1 bg-primary rounded-full"></span>
+                REGION: US-EAST-1
+            </div>
+<div class="font-mono-sm text-mono-sm text-text-muted flex items-center gap-sm">
+<span class="w-1 h-1 bg-tertiary rounded-full animate-pulse"></span>
+                STATUS: SYNCING...
+            </div>
+</div>
+</div>
+<!-- Notification Toast (Hidden by default) -->
+<div class="fixed bottom-lg right-lg bg-bg-overlay border-l-[3px] border-l-primary p-md rounded-lg shadow-2xl translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-md" id="toast">
+<span class="material-symbols-outlined text-primary">info</span>
+<div class="flex flex-col">
+<span class="font-h3 text-h3 text-text-primary">Welcome Aboard</span>
+<span class="font-small text-small text-text-secondary">Your workspace is being prepared...</span>
+</div>
+</div>
+<script>
+        // Password visibility toggle
+        const toggleBtn = document.getElementById('toggle-password');
+        const pwdInput = document.getElementById('password');
+        toggleBtn.addEventListener('click', () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            toggleBtn.querySelector('span').textContent = isPwd ? 'visibility_off' : 'visibility';
+        });
+
+        // Simple Strength Meter
+        pwdInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const meter = document.getElementById('pwd-strength');
+            if (val.length === 0) {
+                meter.style.width = '0%';
+                meter.className = 'h-full transition-all duration-500 bg-accent-red';
+            } else if (val.length < 6) {
+                meter.style.width = '33%';
+                meter.className = 'h-full transition-all duration-500 bg-accent-red';
+            } else if (val.length < 10) {
+                meter.style.width = '66%';
+                meter.className = 'h-full transition-all duration-500 bg-tertiary';
+            } else {
+                meter.style.width = '100%';
+                meter.className = 'h-full transition-all duration-500 bg-secondary';
+            }
+        });
+
+        // Form Submit Interaction
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Processing...';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+            
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                btn.innerHTML = 'Account Created <span class="material-symbols-outlined">check_circle</span>';
+                btn.classList.replace('bg-primary', 'bg-secondary');
+            }, 1200);
+        });
+
+        // Random dot parallax micro-interaction
+        document.addEventListener('mousemove', (e) => {
+            const grid = document.querySelector('.dot-grid');
+            const x = (e.clientX / window.innerWidth) * 10;
+            const y = (e.clientY / window.innerHeight) * 10;
+            grid.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    </script>
+</body></html>

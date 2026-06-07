@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRM Pro - Invoice Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "text-secondary": "#9090A0",
+                      "accent-yellow-dim": "#3D3010",
+                      "surface-tint": "#a5c8ff",
+                      "surface-bright": "#39393b",
+                      "bg-overlay": "#242429",
+                      "background": "#131315",
+                      "bg-elevated": "#1C1C21",
+                      "secondary": "#49e095",
+                      "text-muted": "#55555F",
+                      "on-error": "#690005",
+                      "on-secondary": "#003920",
+                      "surface-container-high": "#2a2a2c",
+                      "border-strong": "#3D3D47",
+                      "surface-dim": "#131315",
+                      "tertiary-fixed-dim": "#eec13c",
+                      "secondary-container": "#01bb74",
+                      "on-primary-container": "#003464",
+                      "on-secondary-container": "#004326",
+                      "on-secondary-fixed-variant": "#005230",
+                      "accent-red-dim": "#3D1010",
+                      "on-tertiary-container": "#4f3d00",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-low": "#1b1b1d",
+                      "outline": "#8b919e",
+                      "accent-blue-dim": "#1A3D6B",
+                      "secondary-fixed-dim": "#49e095",
+                      "primary-fixed-dim": "#a5c8ff",
+                      "on-tertiary-fixed": "#241a00",
+                      "inverse-on-surface": "#313032",
+                      "secondary-fixed": "#6bfdaf",
+                      "error": "#ffb4ab",
+                      "surface-container-highest": "#353437",
+                      "surface-variant": "#353437",
+                      "on-secondary-fixed": "#002110",
+                      "on-tertiary-fixed-variant": "#584400",
+                      "primary-container": "#4d9eff",
+                      "primary": "#a5c8ff",
+                      "surface": "#131315",
+                      "tertiary-container": "#d0a61f",
+                      "on-tertiary": "#3d2e00",
+                      "outline-variant": "#414752",
+                      "on-background": "#e5e1e4",
+                      "tertiary": "#eec13c",
+                      "inverse-primary": "#005fae",
+                      "border-subtle": "#2A2A31",
+                      "primary-fixed": "#d4e3ff",
+                      "text-primary": "#F0F0F5",
+                      "accent-red": "#FF5C5C",
+                      "on-primary-fixed-variant": "#004785",
+                      "on-primary": "#00315e",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-surface": "#e5e1e4",
+                      "inverse-surface": "#e5e1e4",
+                      "surface-container": "#201f21",
+                      "error-container": "#93000a",
+                      "accent-green-dim": "#0F3D26",
+                      "bg-surface": "#141417",
+                      "on-surface-variant": "#c1c7d4",
+                      "tertiary-fixed": "#ffe08f",
+                      "on-primary-fixed": "#001c3a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "sidebar-width": "240px",
+                      "base": "8px",
+                      "md": "16px",
+                      "modal-sm": "420px",
+                      "xl": "32px",
+                      "modal-lg": "640px"
+              },
+              "fontFamily": {
+                      "small": ["IBM Plex Sans"],
+                      "label-caps": ["IBM Plex Sans"],
+                      "h3": ["IBM Plex Sans"],
+                      "body": ["IBM Plex Sans"],
+                      "mono": ["IBM Plex Mono"],
+                      "h2": ["IBM Plex Sans"],
+                      "h1": ["IBM Plex Sans"],
+                      "display": ["IBM Plex Sans"],
+                      "mono-sm": ["IBM Plex Mono"]
+              },
+              "fontSize": {
+                      "small": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #0D0D0F;
+            color: #F0F0F5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .invoice-card {
+            border-top: 2px solid #a5c8ff;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #131315;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2A31;
+        }
+    </style>
+</head>
+<body class="font-body text-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- Fixed Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary-container rounded flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">layers</span>
+</div>
+<div>
+<div class="font-h2 text-h2 font-bold text-primary leading-none">Acme Corp</div>
+<div class="font-small text-small text-text-secondary">Enterprise CRM</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-xs overflow-y-auto custom-scrollbar">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</a>
+<!-- Accounts (Inactive) -->
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body text-body">Accounts</span>
+</a>
+<!-- Leads (Inactive) -->
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</a>
+<!-- Pipeline (Active Selection Logic: Invoice Details maps conceptually to transaction tracking/pipeline) -->
+<!-- Note: Mapping 'Pipeline' as active for this detail view context -->
+<a class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-md space-y-lg">
+<button class="w-full bg-primary text-on-primary font-h3 text-h3 h-[36px] rounded-lg flex items-center justify-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Record</span>
+</button>
+<div class="pt-lg border-t border-border-subtle space-y-xs">
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width min-h-screen bg-background flex flex-col items-center py-xl px-lg">
+<!-- Document Card Container -->
+<div class="w-full max-width-[700px] max-w-[700px] flex flex-col gap-lg">
+<!-- Invoice Card -->
+<div class="invoice-card bg-bg-surface p-xl shadow-2xl rounded-lg">
+<!-- Header -->
+<div class="flex justify-between items-start mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 bg-text-primary rounded-sm flex items-center justify-center text-background">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<div class="font-h2 text-h2 font-bold text-text-primary">CRM PRO</div>
+<div class="font-small text-small text-text-muted">SYSTEMS DIVISION</div>
+</div>
+</div>
+<div class="text-right">
+<h1 class="font-display text-text-muted tracking-widest opacity-40 uppercase">INVOICE</h1>
+</div>
+</div>
+<!-- Invoice Details -->
+<div class="flex justify-between items-end border-b border-border-subtle pb-md mb-xl">
+<div>
+<div class="font-label-caps text-label-caps text-text-muted uppercase mb-xs">Invoice Number</div>
+<div class="font-mono text-h2 text-primary">INV-2026-0042</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-text-muted uppercase mb-xs">Issue Date</div>
+<div class="font-body text-body text-text-primary">October 24, 2026</div>
+</div>
+</div>
+<!-- Info Block -->
+<div class="grid grid-cols-2 gap-xl mb-xl">
+<div>
+<div class="font-label-caps text-label-caps text-text-muted uppercase mb-sm">From</div>
+<div class="font-body text-body font-bold text-text-primary">Acme Corp Enterprise</div>
+<div class="font-body text-body text-text-secondary mt-xs">
+                            128 Technology Way<br/>
+                            Palo Alto, CA 94304<br/>
+                            billing@acme-corp.io
+                        </div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-text-muted uppercase mb-sm">Bill To</div>
+<div class="font-body text-body font-bold text-text-primary">Global Logistics Ltd.</div>
+<div class="font-body text-body text-text-secondary mt-xs">
+                            4522 Industrial Blvd, Suite 200<br/>
+                            Chicago, IL 60601<br/>
+                            finance@globallogistics.com
+                        </div>
+</div>
+</div>
+<!-- Table -->
+<div class="mb-xl overflow-hidden rounded-lg border border-border-subtle">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-bg-elevated">
+<th class="px-md py-sm font-label-caps text-label-caps text-text-secondary uppercase">Description</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-secondary uppercase text-center">Qty</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-secondary uppercase text-right">Unit Price</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-secondary uppercase text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="bg-bg-surface hover:bg-bg-elevated transition-colors">
+<td class="px-md py-sm font-body text-body text-text-primary">
+                                    Enterprise CRM License (Annual)
+                                    <div class="font-small text-small text-text-muted mt-xs">Seats: 50 | Support: Premium 24/7</div>
+</td>
+<td class="px-md py-sm font-mono text-body text-center text-text-secondary">1</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-secondary">$12,400.00</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-primary">$12,400.00</td>
+</tr>
+<tr class="bg-bg-surface/50 hover:bg-bg-elevated transition-colors">
+<td class="px-md py-sm font-body text-body text-text-primary">
+                                    API Integration Services
+                                    <div class="font-small text-small text-text-muted mt-xs">Custom Webhooks &amp; ERP Bridge</div>
+</td>
+<td class="px-md py-sm font-mono text-body text-center text-text-secondary">12</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-secondary">$150.00</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-primary">$1,800.00</td>
+</tr>
+<tr class="bg-bg-surface hover:bg-bg-elevated transition-colors">
+<td class="px-md py-sm font-body text-body text-text-primary">
+                                    Cloud Storage Expansion
+                                    <div class="font-small text-small text-text-muted mt-xs">+500GB Managed Storage</div>
+</td>
+<td class="px-md py-sm font-mono text-body text-center text-text-secondary">1</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-secondary">$450.00</td>
+<td class="px-md py-sm font-mono text-body text-right text-text-primary">$450.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Summary -->
+<div class="flex justify-end">
+<div class="w-1/2 space-y-sm">
+<div class="flex justify-between items-center">
+<span class="font-body text-body text-text-secondary">Subtotal</span>
+<span class="font-mono text-body text-text-primary">$14,650.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body text-body text-text-secondary">Tax (8.25%)</span>
+<span class="font-mono text-body text-text-primary">$1,208.62</span>
+</div>
+<div class="pt-sm border-t border-border-strong flex justify-between items-center">
+<span class="font-h2 text-h2 text-text-primary">Total</span>
+<span class="font-mono text-h1 text-primary">$15,858.62</span>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="mt-xl pt-lg border-t border-border-subtle text-center">
+<p class="italic font-body text-body text-text-muted">Thank you for your business</p>
+<div class="mt-md flex justify-center gap-lg">
+<div class="flex items-center gap-xs text-small text-text-muted">
+<span class="material-symbols-outlined text-[14px]">public</span>
+<span>www.acme-corp.io</span>
+</div>
+<div class="flex items-center gap-xs text-small text-text-muted">
+<span class="material-symbols-outlined text-[14px]">mail</span>
+<span>support@acme-corp.io</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex justify-between items-center pt-md">
+<button class="flex items-center gap-sm font-body text-body text-text-secondary hover:text-text-primary transition-colors group">
+<span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Back to Invoices
+                </button>
+<div class="flex gap-md">
+<button class="h-[36px] px-lg rounded-lg border border-border-strong font-h3 text-h3 text-text-primary hover:bg-bg-elevated transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">print</span>
+                        Print
+                    </button>
+<button class="h-[36px] px-xl rounded-lg bg-primary text-on-primary font-h3 text-h3 hover:opacity-90 transition-opacity flex items-center gap-sm shadow-lg shadow-primary/10 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Download PDF
+                    </button>
+</div>
+</div>
+<!-- Audit Trail / Context (Extra visual density for Enterprise feel) -->
+<div class="mt-xl p-md bg-bg-surface/30 rounded-lg border border-dashed border-border-subtle">
+<div class="font-label-caps text-label-caps text-text-muted uppercase mb-sm">Audit Trail</div>
+<div class="space-y-sm">
+<div class="flex items-center gap-sm">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+<div class="font-mono-sm text-mono-sm text-text-secondary">
+<span class="text-text-primary">2026-10-24 09:12:00</span> - Invoice generated by <span class="text-primary">System Automator</span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-1.5 h-1.5 rounded-full bg-accent-yellow-dim border border-tertiary"></div>
+<div class="font-mono-sm text-mono-sm text-text-secondary">
+<span class="text-text-primary">2026-10-24 10:05:42</span> - Viewed by <span class="text-text-primary">Global Logistics Finance Dept.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction / Hover effects for visual interest -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    row.style.transform = 'translateX(4px)';
+                    row.style.transition = 'all 0.2s ease-out';
+                });
+                row.addEventListener('mouseleave', () => {
+                    row.style.transform = 'translateX(0px)';
+                });
+            });
+        });
+    </script>
+</body></html>

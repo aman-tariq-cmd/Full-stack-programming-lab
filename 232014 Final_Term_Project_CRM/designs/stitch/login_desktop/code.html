@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | CRM Dashboard Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary-fixed": "#d4e3ff",
+                "on-primary-container": "#003464",
+                "accent-yellow-dim": "#3D3010",
+                "surface-bright": "#39393b",
+                "tertiary-fixed": "#ffe08f",
+                "surface": "#131315",
+                "background": "#131315",
+                "on-secondary-container": "#004326",
+                "error": "#ffb4ab",
+                "on-tertiary": "#3d2e00",
+                "on-surface": "#e5e1e4",
+                "secondary-container": "#01bb74",
+                "text-primary": "#F0F0F5",
+                "on-tertiary-fixed-variant": "#584400",
+                "on-primary-fixed": "#001c3a",
+                "surface-container-lowest": "#0e0e10",
+                "inverse-surface": "#e5e1e4",
+                "on-secondary-fixed": "#002110",
+                "secondary-fixed-dim": "#49e095",
+                "outline-variant": "#414752",
+                "primary-fixed-dim": "#a5c8ff",
+                "surface-container-high": "#2a2a2c",
+                "surface-tint": "#a5c8ff",
+                "accent-blue-dim": "#1A3D6B",
+                "inverse-primary": "#005fae",
+                "outline": "#8b919e",
+                "tertiary-container": "#d0a61f",
+                "on-secondary-fixed-variant": "#005230",
+                "bg-overlay": "#242429",
+                "surface-variant": "#353437",
+                "primary-container": "#4d9eff",
+                "bg-surface": "#141417",
+                "on-background": "#e5e1e4",
+                "accent-green-dim": "#0F3D26",
+                "inverse-on-surface": "#313032",
+                "on-error-container": "#ffdad6",
+                "border-subtle": "#2A2A31",
+                "on-error": "#690005",
+                "secondary-fixed": "#6bfdaf",
+                "surface-container-highest": "#353437",
+                "accent-red-dim": "#3D1010",
+                "secondary": "#49e095",
+                "surface-container-low": "#1b1b1d",
+                "on-tertiary-container": "#4f3d00",
+                "on-primary-fixed-variant": "#004785",
+                "border-strong": "#3D3D47",
+                "on-tertiary-fixed": "#241a00",
+                "on-primary": "#00315e",
+                "tertiary": "#eec13c",
+                "primary": "#a5c8ff",
+                "accent-red": "#FF5C5C",
+                "surface-dim": "#131315",
+                "tertiary-fixed-dim": "#eec13c",
+                "on-surface-variant": "#c1c7d4",
+                "text-muted": "#55555F",
+                "bg-elevated": "#1C1C21",
+                "text-secondary": "#9090A0",
+                "on-secondary": "#003920",
+                "error-container": "#93000a",
+                "surface-container": "#201f21"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "sidebar-width": "240px",
+                "lg": "24px",
+                "base": "8px",
+                "xs": "4px",
+                "md": "16px",
+                "xl": "32px",
+                "sm": "8px",
+                "modal-sm": "420px",
+                "modal-lg": "640px"
+            },
+            "fontFamily": {
+                "label-caps": ["IBM Plex Sans"],
+                "mono": ["IBM Plex Mono"],
+                "h2": ["IBM Plex Sans"],
+                "mono-sm": ["IBM Plex Mono"],
+                "body": ["IBM Plex Sans"],
+                "small": ["IBM Plex Sans"],
+                "display": ["IBM Plex Sans"],
+                "h1": ["IBM Plex Sans"],
+                "h3": ["IBM Plex Sans"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body {
+            background-color: #0D0D0F; /* Layer 0 Base */
+        }
+        .login-card-gradient {
+            background: linear-gradient(135deg, rgba(20, 20, 23, 1) 0%, rgba(28, 28, 33, 1) 100%);
+        }
+        .accent-bar {
+            height: 2px;
+            width: 100%;
+            background: #4d9eff;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="font-body text-body text-text-primary min-h-screen flex items-center justify-center p-md">
+<!-- Atmospheric Background Effect -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+<div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary-container/5 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-secondary-container/5 rounded-full blur-[120px]"></div>
+</div>
+<!-- Login Container -->
+<main class="w-full max-w-[400px] relative">
+<!-- The Card -->
+<div class="login-card-gradient border border-border-subtle rounded-xl overflow-hidden relative shadow-2xl">
+<!-- Contextual Accent Bar (Style Guidance) -->
+<div class="accent-bar"></div>
+<div class="p-xl flex flex-col gap-lg">
+<!-- Brand Anchor Logic: Logo and Identity -->
+<div class="flex flex-col items-center gap-base">
+<div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center mb-xs shadow-lg shadow-primary-container/10">
+<span class="material-symbols-outlined text-on-primary-container text-[28px]" style="font-variation-settings: 'FILL' 1;">business</span>
+</div>
+<h1 class="font-h1 text-h1 text-primary tracking-tight">Acme Corp</h1>
+<p class="font-body text-body text-text-secondary">Enterprise CRM</p>
+</div>
+<!-- Form Heading -->
+<div class="space-y-xs">
+<h2 class="font-h2 text-h2 text-text-primary">Welcome back</h2>
+<p class="font-small text-small text-text-muted">Enter your credentials to access your dashboard</p>
+</div>
+<!-- Login Form -->
+<form action="/dashboard" class="flex flex-col gap-md">
+<!-- Email Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">mail</span>
+<input class="w-full h-[42px] bg-bg-elevated border border-border-subtle rounded-lg pl-xl pr-md font-body text-body text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all" id="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase" for="password">Password</label>
+<a class="font-small text-small text-primary hover:text-primary-fixed-dim transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full h-[42px] bg-bg-elevated border border-border-subtle rounded-lg pl-xl pr-md font-body text-body text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all" id="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- CTA Section -->
+<button class="mt-base w-full h-11 bg-primary-container text-on-primary-container font-h3 text-h3 rounded-lg flex items-center justify-center gap-xs hover:bg-primary-fixed-dim active:scale-[0.98] transition-all shadow-lg shadow-primary-container/10" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Divider -->
+<div class="relative py-base">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-border-subtle"></div>
+</div>
+<div class="relative flex justify-center text-xs">
+<span class="px-md bg-bg-surface text-text-muted font-label-caps">OR CONTINUE WITH</span>
+</div>
+</div>
+<!-- SSO Options -->
+<div class="grid grid-cols-2 gap-md">
+<button class="flex items-center justify-center h-10 border border-border-subtle rounded-lg bg-bg-elevated hover:bg-surface-container-high transition-colors group">
+<img alt="Google" class="w-5 h-5 grayscale group-hover:grayscale-0 transition-all mr-xs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmO8wBeLilJrLo_0RksVo-VFRvIrgLpDp_r26jS6vWT5ngjhe1TMPSpBrh_Zsy5JiIlEf7Oayc7K3_f3Y6X5FOBQDAIpVNJ9-q-QSpVaZ1vwsrpyGewAxhSHcptYeZxVOF8QZGG2UpubGuGHVb4KsBWA3h1Qi896wfbSFhNbUHEprywtcELSM8gr5qM38-5TzFfg904ViCFoqAiXKWJzveRpND4xl6UGpHzNKGYm2-No2hLv7J6xdk-wOHuLOgBs4SngEpMMF9zQ"/>
+<span class="font-small text-small text-text-secondary">Google</span>
+</button>
+<button class="flex items-center justify-center h-10 border border-border-subtle rounded-lg bg-bg-elevated hover:bg-surface-container-high transition-colors group">
+<span class="material-symbols-outlined text-text-secondary mr-xs text-[20px]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-small text-small text-text-secondary">SSO</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Navigation -->
+<p class="text-center mt-xl font-body text-body text-text-secondary">
+            Don't have an account? 
+            <a class="text-primary font-medium hover:underline" href="/register">Request Access</a>
+</p>
+<!-- Technical Metadata Decoration (Style Guidance Influenced) -->
+<div class="mt-xl flex justify-between items-center px-base opacity-40">
+<div class="flex items-center gap-xs">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+<span class="font-mono-sm text-mono-sm text-text-muted">SYSTEM_STABLE</span>
+</div>
+<span class="font-mono-sm text-mono-sm text-text-muted">v2.4.0-PRO</span>
+</div>
+</main>
+<!-- Visual Polish: Floating Card Background Decoration -->
+<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none opacity-20 -z-20">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-[100px] animate-pulse"></div>
+</div>
+<script>
+        // Simple Interaction Feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const btn = this.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Validating...`;
+            
+            // Artificial delay to simulate authentication
+            setTimeout(() => {
+                // In a real app, this would redirect
+                console.log('Login initiated');
+            }, 1000);
+        });
+
+        // Background atmosphere movement
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const lights = document.querySelectorAll('.fixed > div');
+            lights[0].style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+            lights[1].style.transform = `translate(${-x * 20}px, ${-y * 20}px)`;
+        });
+    </script>
+</body></html>

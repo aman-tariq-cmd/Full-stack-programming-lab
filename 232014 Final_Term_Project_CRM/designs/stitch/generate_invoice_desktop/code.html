@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Invoice Generation | CRM Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-secondary": "#9090A0",
+                        "accent-yellow-dim": "#3D3010",
+                        "surface-tint": "#a5c8ff",
+                        "surface-bright": "#39393b",
+                        "bg-overlay": "#242429",
+                        "background": "#131315",
+                        "bg-elevated": "#1C1C21",
+                        "secondary": "#49e095",
+                        "text-muted": "#55555F",
+                        "on-error": "#690005",
+                        "on-secondary": "#003920",
+                        "surface-container-high": "#2a2a2c",
+                        "border-strong": "#3D3D47",
+                        "surface-dim": "#131315",
+                        "tertiary-fixed-dim": "#eec13c",
+                        "secondary-container": "#01bb74",
+                        "on-primary-container": "#003464",
+                        "on-secondary-container": "#004326",
+                        "on-secondary-fixed-variant": "#005230",
+                        "accent-red-dim": "#3D1010",
+                        "on-tertiary-container": "#4f3d00",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1b1b1d",
+                        "outline": "#8b919e",
+                        "accent-blue-dim": "#1A3D6B",
+                        "secondary-fixed-dim": "#49e095",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "on-tertiary-fixed": "#241a00",
+                        "inverse-on-surface": "#313032",
+                        "secondary-fixed": "#6bfdaf",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#353437",
+                        "surface-variant": "#353437",
+                        "on-secondary-fixed": "#002110",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "primary-container": "#4d9eff",
+                        "primary": "#a5c8ff",
+                        "surface": "#131315",
+                        "tertiary-container": "#d0a61f",
+                        "on-tertiary": "#3d2e00",
+                        "outline-variant": "#414752",
+                        "on-background": "#e5e1e4",
+                        "tertiary": "#eec13c",
+                        "inverse-primary": "#005fae",
+                        "border-subtle": "#2A2A31",
+                        "primary-fixed": "#d4e3ff",
+                        "text-primary": "#F0F0F5",
+                        "accent-red": "#FF5C5C",
+                        "on-primary-fixed-variant": "#004785",
+                        "on-primary": "#00315e",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-surface": "#e5e1e4",
+                        "inverse-surface": "#e5e1e4",
+                        "surface-container": "#201f21",
+                        "error-container": "#93000a",
+                        "accent-green-dim": "#0F3D26",
+                        "bg-surface": "#141417",
+                        "on-surface-variant": "#c1c7d4",
+                        "tertiary-fixed": "#ffe08f",
+                        "on-primary-fixed": "#001c3a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "sidebar-width": "240px",
+                        "base": "8px",
+                        "md": "16px",
+                        "modal-sm": "420px",
+                        "xl": "32px",
+                        "modal-lg": "640px"
+                    },
+                    "fontFamily": {
+                        "small": ["IBM Plex Sans"],
+                        "label-caps": ["IBM Plex Sans"],
+                        "h3": ["IBM Plex Sans"],
+                        "body": ["IBM Plex Sans"],
+                        "mono": ["IBM Plex Mono"],
+                        "h2": ["IBM Plex Sans"],
+                        "h1": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "mono-sm": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "small": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3D3D47; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4D4D57; }
+        
+        .glow-blue:focus {
+            box-shadow: 0 0 0 4px rgba(77, 158, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-body">
+<!-- Sidebar Wrapper -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h1 class="font-h2 text-h2 font-bold text-primary">Acme Corp</h1>
+<p class="font-small text-text-secondary">Enterprise CRM</p>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<!-- Active: Dashboard (closest match for context) -->
+<a class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body text-body">Accounts</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-sm space-y-xs pt-lg border-t border-border-subtle">
+<button class="w-full mb-md h-9 bg-primary text-on-primary-container font-h3 text-h3 rounded-lg flex items-center justify-center gap-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Record
+            </button>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width min-h-screen">
+<!-- Top Bar -->
+<header class="h-14 bg-background border-b border-border-subtle flex justify-between items-center px-lg sticky top-0 z-40">
+<div class="flex items-center gap-lg">
+<span class="font-h1 text-h1 text-primary font-bold">CRM Dashboard</span>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="w-full bg-bg-elevated border border-border-subtle rounded-lg py-xs pl-xl pr-sm font-body text-body focus:border-primary outline-none glow-blue transition-all" placeholder="Search invoices..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-text-secondary hover:text-text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-text-secondary hover:text-text-primary transition-colors">help</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-strong">
+<img alt="User Profile" data-alt="Close-up professional portrait of a tech worker with a soft-focus office background, lit with cool, high-key studio lighting to match a clean enterprise aesthetic. The person is smiling confidently, wearing a dark navy blazer over a modern grey shirt, epitomizing high-performance corporate leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK4kCMuoeshq-fuM1HMn-6eBF7cMtHhKCS8FDOnAeS-8bYDsIrN3fMJ01PmRL0zl7Fc1FJwDqhxBdCdo_WcaQBUyhfqikfS3lOz_ULXktLl7_tQxn4kcmoAmV0MYdMh1J_Tkhr8m48YGs907rgh-rTyLSa4pVYkeH2NqchmCAMknAw6ZVMTDEkRuWOZRJ7Zy_PquoxeE_lWYcpXJ2jt-weigWC832mWRYDTG2X21YOezFeq0xyRWeQshd72g24px7BEDYGTcMfew"/>
+</div>
+</div>
+</header>
+<!-- Page Grid -->
+<div class="p-lg grid grid-cols-12 gap-lg">
+<!-- Left Column: Form (60%) -->
+<div class="col-span-7 space-y-lg">
+<div class="flex items-center justify-between mb-sm">
+<h2 class="font-display text-display">Generate Invoice</h2>
+<span class="font-mono text-small text-text-muted bg-bg-elevated px-sm py-xs rounded">INV-2024-0042</span>
+</div>
+<!-- Section 1: Customer Selection -->
+<div class="bg-bg-surface border border-border-subtle rounded-xl p-md">
+<label class="block font-label-caps text-label-caps text-text-secondary uppercase mb-xs">Customer Selection</label>
+<div class="relative">
+<select class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-md py-sm font-body text-body appearance-none focus:border-primary outline-none glow-blue transition-all">
+<option>Select a client...</option>
+<option>Starlight Industries Ltd.</option>
+<option>NexGen Systems Corp</option>
+<option>Blue Horizon Logistics</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 pointer-events-none text-text-muted">expand_more</span>
+</div>
+</div>
+<!-- Section 2: Services Table -->
+<div class="bg-bg-surface border border-border-subtle rounded-xl overflow-hidden">
+<div class="p-md border-b border-border-subtle flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-text-secondary uppercase">Services &amp; Line Items</label>
+</div>
+<table class="w-full text-left border-collapse">
+<thead class="bg-bg-elevated">
+<tr>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase">Description</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase w-20">Qty</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase w-32 text-right">Unit Price</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase w-32 text-right">Total</th>
+<th class="w-12 px-md"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle" id="invoice-rows">
+<tr class="hover:bg-bg-elevated transition-colors">
+<td class="px-md py-sm">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body text-body text-text-primary" type="text" value="Enterprise CRM License - Annual"/>
+</td>
+<td class="px-md py-sm">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-mono text-mono text-text-primary" type="number" value="1"/>
+</td>
+<td class="px-md py-sm text-right">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-mono text-mono text-text-primary text-right" type="text" value="12,000.00"/>
+</td>
+<td class="px-md py-sm text-right font-mono text-mono text-text-primary">$12,000.00</td>
+<td class="px-md py-sm">
+<button class="material-symbols-outlined text-text-muted hover:text-accent-red transition-colors">close</button>
+</td>
+</tr>
+<tr class="hover:bg-bg-elevated transition-colors">
+<td class="px-md py-sm">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body text-body text-text-primary" placeholder="Cloud Implementation Services" type="text"/>
+</td>
+<td class="px-md py-sm">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-mono text-mono text-text-primary" type="number" value="40"/>
+</td>
+<td class="px-md py-sm text-right">
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-mono text-mono text-text-primary text-right" type="text" value="150.00"/>
+</td>
+<td class="px-md py-sm text-right font-mono text-mono text-text-primary">$6,000.00</td>
+<td class="px-md py-sm">
+<button class="material-symbols-outlined text-text-muted hover:text-accent-red transition-colors">close</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-md">
+<button class="flex items-center gap-xs font-body text-body text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+                            Add Line Item
+                        </button>
+</div>
+</div>
+<!-- Section 3 & 4: Dates, Notes & Summary -->
+<div class="grid grid-cols-2 gap-lg">
+<div class="space-y-lg">
+<div class="bg-bg-surface border border-border-subtle rounded-xl p-md">
+<label class="block font-label-caps text-label-caps text-text-secondary uppercase mb-xs">Invoice Details</label>
+<div class="grid grid-cols-2 gap-sm">
+<div>
+<label class="block font-small text-text-muted mb-xs">Issue Date</label>
+<input class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-sm py-xs font-mono text-mono focus:border-primary outline-none glow-blue transition-all" type="date" value="2024-05-20"/>
+</div>
+<div>
+<label class="block font-small text-text-muted mb-xs">Due Date</label>
+<input class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-sm py-xs font-mono text-mono focus:border-primary outline-none glow-blue transition-all" type="date" value="2024-06-20"/>
+</div>
+</div>
+<div class="mt-md">
+<label class="block font-small text-text-muted mb-xs">Notes / Terms</label>
+<textarea class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-sm py-xs font-body text-body focus:border-primary outline-none glow-blue transition-all resize-none" placeholder="Standard 30-day payment terms..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<div class="bg-bg-surface border border-border-subtle rounded-xl p-md flex flex-col justify-between">
+<div>
+<label class="block font-label-caps text-label-caps text-text-secondary uppercase mb-md">Summary</label>
+<div class="space-y-sm">
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Subtotal</span>
+<span class="font-mono text-mono text-text-primary">$18,000.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-text-secondary">Tax (10%)</span>
+<span class="font-mono text-mono text-text-primary">$1,800.00</span>
+</div>
+</div>
+</div>
+<div class="pt-md border-t border-border-subtle mt-md">
+<div class="flex justify-between items-center">
+<span class="font-h3 text-h3 text-text-primary">Total Amount</span>
+<span class="font-h1 text-h1 text-primary">$19,800.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex items-center gap-md pt-md">
+<button class="px-xl h-9 bg-primary text-on-primary-container font-h3 text-h3 rounded-lg flex items-center gap-sm active:scale-95 transition-all shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        Save Invoice
+                    </button>
+<button class="px-lg h-9 bg-transparent text-text-secondary hover:bg-bg-elevated font-h3 text-h3 rounded-lg transition-colors">
+                        Reset
+                    </button>
+</div>
+</div>
+<!-- Right Column: Live Preview (40%) -->
+<div class="col-span-5 sticky top-24 h-fit">
+<div class="flex items-center justify-between mb-sm">
+<h3 class="font-h2 text-h2">Live Preview</h3>
+<div class="flex gap-xs">
+<span class="w-3 h-3 rounded-full bg-accent-red opacity-50"></span>
+<span class="w-3 h-3 rounded-full bg-accent-yellow-dim opacity-50 border border-tertiary"></span>
+<span class="w-3 h-3 rounded-full bg-secondary opacity-50"></span>
+</div>
+</div>
+<!-- Preview Card -->
+<div class="bg-bg-surface border border-border-subtle rounded-xl shadow-2xl relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="p-xl space-y-xl">
+<!-- Header -->
+<div class="flex justify-between items-start">
+<div>
+<h1 class="font-display text-display leading-none mb-xs">INVOICE</h1>
+<p class="font-mono text-small text-text-muted">No: #INV-2024-0042</p>
+</div>
+<div class="text-right">
+<h4 class="font-h3 text-h3 text-primary">ACME CORP</h4>
+<p class="text-small text-text-secondary leading-tight">123 Tech Avenue, Silicon Valley<br/>California, US 94043</p>
+</div>
+</div>
+<!-- Bill To -->
+<div class="grid grid-cols-2 gap-lg border-t border-border-subtle pt-lg">
+<div>
+<h5 class="font-label-caps text-label-caps text-text-muted uppercase mb-xs">Bill To:</h5>
+<p class="font-h3 text-h3 text-text-primary">Starlight Industries Ltd.</p>
+<p class="text-small text-text-secondary leading-tight">Attention: Jane Cooper<br/>456 Stellar Way, Austin, TX 78701</p>
+</div>
+<div class="text-right">
+<h5 class="font-label-caps text-label-caps text-text-muted uppercase mb-xs">Payment Due:</h5>
+<p class="font-mono text-mono text-accent-red font-bold">June 20, 2024</p>
+<p class="text-small text-text-secondary mt-xs">Issue Date: May 20, 2024</p>
+</div>
+</div>
+<!-- Items Table -->
+<div class="border-t border-border-subtle pt-lg">
+<table class="w-full text-left">
+<thead class="border-b border-border-subtle">
+<tr>
+<th class="py-sm font-label-caps text-label-caps text-text-muted">ITEM</th>
+<th class="py-sm font-label-caps text-label-caps text-text-muted text-center">QTY</th>
+<th class="py-sm font-label-caps text-label-caps text-text-muted text-right">PRICE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle/50">
+<tr>
+<td class="py-md text-body">Enterprise CRM License - Annual</td>
+<td class="py-md text-center font-mono">1</td>
+<td class="py-md text-right font-mono">$12,000.00</td>
+</tr>
+<tr>
+<td class="py-md text-body">Cloud Implementation Services</td>
+<td class="py-md text-center font-mono">40</td>
+<td class="py-md text-right font-mono">$6,000.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Summary -->
+<div class="flex justify-end pt-lg">
+<div class="w-1/2 space-y-sm">
+<div class="flex justify-between items-center text-small text-text-secondary">
+<span>Subtotal</span>
+<span class="font-mono">$18,000.00</span>
+</div>
+<div class="flex justify-between items-center text-small text-text-secondary">
+<span>Tax (10%)</span>
+<span class="font-mono">$1,800.00</span>
+</div>
+<div class="flex justify-between items-center pt-sm border-t border-border-strong">
+<span class="font-h3 text-h3">Total</span>
+<span class="font-h2 text-h2 text-primary">$19,800.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- PDF Action -->
+<div class="bg-bg-elevated p-md flex justify-center border-t border-border-subtle">
+<button class="flex items-center gap-sm text-secondary hover:text-secondary-fixed transition-colors font-h3 text-h3 active:scale-95 duration-200">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                            Download PDF Version
+                        </button>
+</div>
+</div>
+<!-- Helper Tip -->
+<div class="mt-lg p-md bg-accent-blue-dim rounded-xl border border-primary/20 flex gap-md items-center">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-small text-text-primary">All changes to the left form update this preview in real-time. Use for quick verification before finalizing.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Chatbot / Floating Action -->
+<div class="fixed bottom-lg right-lg z-50">
+<div class="relative group">
+<div class="absolute inset-0 rounded-full bg-primary/20 animate-pulse scale-110"></div>
+<button class="relative w-14 h-14 bg-primary text-on-primary-container rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple visual row deletion effect
+        document.querySelectorAll('tbody#invoice-rows button').forEach(btn => {
+            btn.onclick = (e) => {
+                const row = e.target.closest('tr');
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(20px)';
+                setTimeout(() => row.remove(), 200);
+            };
+        });
+
+        // Searchable focus effect
+        const searchInput = document.querySelector('header input');
+        searchInput.onfocus = () => searchInput.parentElement.classList.add('scale-[1.02]');
+        searchInput.onblur = () => searchInput.parentElement.classList.remove('scale-[1.02]');
+    </script>
+</body></html>

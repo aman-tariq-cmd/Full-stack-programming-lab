@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Customer | CRM Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0D0D0F; /* Layer 0 (Base) */
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-focus:focus {
+            outline: none;
+            border-color: #3D3D47;
+            box-shadow: 0 0 0 2px rgba(77, 158, 255, 0.15);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c1c7d4",
+                        "text-secondary": "#9090A0",
+                        "background": "#131315",
+                        "border-strong": "#3D3D47",
+                        "bg-elevated": "#1C1C21",
+                        "text-muted": "#55555F",
+                        "tertiary": "#eec13c",
+                        "secondary": "#49e095",
+                        "primary-container": "#4d9eff",
+                        "bg-surface": "#141417",
+                        "on-secondary": "#003920",
+                        "bg-overlay": "#242429",
+                        "on-surface": "#e5e1e4",
+                        "on-primary": "#00315e",
+                        "accent-blue": "#4d9eff",
+                        "accent-blue-dim": "#1A3D6B",
+                        "accent-red": "#FF5C5C",
+                        "border-subtle": "#2A2A31",
+                        "primary": "#a5c8ff",
+                        "on-primary-container": "#003464",
+                        "text-primary": "#F0F0F5",
+                        "accent-green-dim": "#0F3D26"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "modal-lg": "640px",
+                        "sidebar-width": "240px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "base": "8px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display": ["IBM Plex Sans"],
+                        "h3": ["IBM Plex Sans"],
+                        "h2": ["IBM Plex Sans"],
+                        "mono-sm": ["IBM Plex Mono"],
+                        "body": ["IBM Plex Sans"],
+                        "mono": ["IBM Plex Mono"],
+                        "h1": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body text-body text-text-primary antialiased">
+<!-- Global SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container font-bold" style="font-variation-settings: 'FILL' 1;">business</span>
+</div>
+<div>
+<h2 class="font-h2 text-h2 font-bold text-primary leading-tight">Acme Corp</h2>
+<p class="text-xs text-text-muted uppercase tracking-wider font-semibold">Enterprise CRM</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-1">
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">business</span>
+<span class="font-body text-body">Accounts</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</div>
+</nav>
+<div class="px-sm pt-lg border-t border-border-subtle space-y-1">
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200 rounded-xl">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="h-14 bg-background border-b border-border-subtle px-lg flex justify-between items-center sticky top-0 z-40">
+<div class="flex items-center gap-md">
+<h1 class="font-h1 text-h1 text-primary">CRM Dashboard</h1>
+<div class="h-4 w-[1px] bg-border-subtle mx-2"></div>
+<div class="flex items-center gap-base">
+<span class="text-text-secondary font-h3 text-h3">Main</span>
+<span class="material-symbols-outlined text-text-muted text-sm">chevron_right</span>
+<span class="text-text-primary font-h3 text-h3 border-b-2 border-primary pb-1">Add Customer</span>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">help</span>
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">apps</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-bg-elevated border border-border-subtle overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB-8vcnSZWXecuwWYOeBNSLYI2Dq09k1DXnR0MpSp4xFw5h0GgIbGPEFLql2JY2uExjaTVXPzU80bSQPo4YwCD9gfmgIjTFAWdRAu3cajR27iZvRSxJTu8xXNzaVxSgEsFWEz1Vf6pBxqgtee-w9A7S5A0osKxUMONOKkmuReVSIqIxatXmRZaxPluCOyuoHebvQuNLHqib0-e9Nb4sz-SaAQARk1k9lwU753JX8rumI-HpwP19LebxwKYHJrVNIpgU0jE4kHGZg"/>
+</div>
+</div>
+</header>
+<!-- Form Section -->
+<div class="flex-1 flex justify-center py-xl px-lg bg-background">
+<div class="w-full max-w-modal-lg">
+<div class="mb-lg">
+<h2 class="font-h1 text-h1 text-text-primary mb-xs">Add New Customer</h2>
+<p class="font-body text-body text-text-secondary">Create a new organizational profile for your CRM records.</p>
+</div>
+<!-- Main Form Card -->
+<div class="bg-bg-surface border border-border-subtle rounded-xl overflow-hidden shadow-2xl">
+<div class="h-[2px] w-full bg-accent-blue"></div>
+<form class="p-lg space-y-xl" id="customerForm">
+<!-- Primary Info Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Full Name <span class="text-accent-red">*</span></label>
+<input class="w-full h-9 px-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted" placeholder="e.g. Jonathan Doe" type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Email Address <span class="text-accent-red">*</span></label>
+<input class="w-full h-9 px-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted" placeholder="j.doe@enterprise.com" type="email"/>
+</div>
+</div>
+<!-- Secondary Info Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Phone Number</label>
+<div class="relative">
+<span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-text-muted text-[18px]">call</span>
+<input class="w-full h-9 pl-10 pr-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted font-mono text-sm" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Company</label>
+<input class="w-full h-9 px-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted" placeholder="Acme Industries" type="text"/>
+</div>
+</div>
+<!-- Address - Full Width -->
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Address</label>
+<div class="relative">
+<span class="absolute left-md top-base material-symbols-outlined text-text-muted text-[18px]">location_on</span>
+<textarea class="w-full pl-10 pr-md py-base bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted resize-none" placeholder="Street, Suite, City, State, ZIP" rows="2"></textarea>
+</div>
+</div>
+<!-- Status and Segment -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-xs">
+<label class="font-h3 text-h3 text-text-primary block">Account Status</label>
+<div class="relative">
+<select class="w-full h-9 px-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 appearance-none cursor-pointer">
+<option value="lead">Lead</option>
+<option value="active">Active Customer</option>
+<option value="prospect">Qualified Prospect</option>
+<option value="dormant">Dormant</option>
+</select>
+<span class="absolute right-md top-1/2 -translate-y-1/2 material-symbols-outlined text-text-muted pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex items-end pb-1">
+<div class="flex items-center gap-sm bg-accent-green-dim px-md py-1.5 rounded border border-secondary/20">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-mono-sm text-mono-sm text-secondary uppercase tracking-wider">Verification System Active</span>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="space-y-xs">
+<div class="flex justify-between items-center">
+<label class="font-h3 text-h3 text-text-primary block">Additional Notes</label>
+<span class="text-text-muted font-mono-sm text-mono-sm">Markdown Supported</span>
+</div>
+<textarea class="w-full px-md py-md bg-bg-elevated border border-border-subtle rounded-lg text-text-primary focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/20 transition-all placeholder:text-text-muted resize-none font-mono text-sm" placeholder="Relevant context, previous touchpoints, or specific requirements..." rows="4"></textarea>
+</div>
+</form>
+</div>
+<!-- Preview Area (Subtle Bento Style) -->
+<div class="mt-lg grid grid-cols-3 gap-md opacity-60">
+<div class="col-span-1 bg-bg-surface border border-border-subtle p-md rounded-xl flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-bg-elevated flex items-center justify-center text-text-muted">
+<span class="material-symbols-outlined">history</span>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-text-muted tracking-widest">Last Entry</p>
+<p class="font-mono text-sm text-text-secondary">2 mins ago</p>
+</div>
+</div>
+<div class="col-span-2 bg-bg-surface border border-border-subtle p-md rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-accent-blue-dim flex items-center justify-center text-accent-blue">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold text-text-muted tracking-widest">Integrity Check</p>
+<p class="font-body text-sm text-text-secondary">Duplicate detection active</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer -->
+<footer class="sticky bottom-0 w-full bg-bg-overlay/80 backdrop-blur-md border-t border-border-subtle px-xl py-md z-40 flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="text-accent-red font-bold">*</span>
+<span class="text-text-secondary text-small font-body">Required fields for database consistency</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-lg h-9 rounded-lg font-h3 text-h3 text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-all active:scale-95" type="button">
+                    Cancel
+                </button>
+<button class="px-xl h-9 bg-primary-container text-on-primary-container rounded-lg font-h3 text-h3 font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary-container/20" form="customerForm" type="submit">
+                    Save Customer
+                </button>
+</div>
+</footer>
+</main>
+<!-- Chatbot / FAB Tool -->
+<div class="fixed bottom-xl right-lg z-50 group">
+<div class="absolute inset-0 bg-primary opacity-20 rounded-full blur-md animate-pulse"></div>
+<button class="relative w-12 h-12 bg-primary-container rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform active:scale-90">
+<span class="material-symbols-outlined text-on-primary-container font-bold">auto_awesome</span>
+<!-- Pulse Ring -->
+<div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping"></div>
+</button>
+<!-- Tooltip -->
+<div class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-bg-overlay border border-border-subtle px-md py-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-2xl">
+<p class="text-xs text-text-primary font-bold">Need help with AI filling?</p>
+</div>
+</div>
+<script>
+        // Simple Interaction logic
+        document.getElementById('customerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.closest('main').querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Saving...';
+            btn.classList.add('opacity-80', 'pointer-events-none');
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check</span> Saved';
+                btn.classList.replace('bg-primary-container', 'bg-secondary');
+                btn.classList.replace('text-on-primary-container', 'text-on-secondary');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.replace('bg-secondary', 'bg-primary-container');
+                    btn.classList.replace('text-on-secondary', 'text-on-primary-container');
+                    btn.classList.remove('opacity-80', 'pointer-events-none');
+                }, 2000);
+            }, 1500);
+        });
+
+        // Hover atmosphere for input rows
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.space-y-xs').classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.space-y-xs').classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRM Dashboard - Assistant Active</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131315",
+                        "on-tertiary-container": "#4f3d00",
+                        "accent-yellow-dim": "#3D3010",
+                        "tertiary-fixed-dim": "#eec13c",
+                        "surface-tint": "#a5c8ff",
+                        "on-secondary-fixed-variant": "#005230",
+                        "on-primary": "#00315e",
+                        "surface-bright": "#39393b",
+                        "tertiary": "#eec13c",
+                        "on-tertiary": "#3d2e00",
+                        "border-strong": "#3D3D47",
+                        "outline-variant": "#414752",
+                        "on-primary-container": "#003464",
+                        "inverse-on-surface": "#313032",
+                        "text-primary": "#F0F0F5",
+                        "surface-dim": "#131315",
+                        "secondary-fixed": "#6bfdaf",
+                        "on-surface-variant": "#c1c7d4",
+                        "bg-elevated": "#1C1C21",
+                        "on-secondary-fixed": "#002110",
+                        "error": "#ffb4ab",
+                        "secondary-container": "#01bb74",
+                        "primary-fixed": "#d4e3ff",
+                        "secondary": "#49e095",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "primary-container": "#4d9eff",
+                        "on-primary-fixed-variant": "#004785",
+                        "on-secondary": "#003920",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e10",
+                        "secondary-fixed-dim": "#49e095",
+                        "accent-green-dim": "#0F3D26",
+                        "accent-red-dim": "#3D1010",
+                        "surface-container-high": "#2a2a2c",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353437",
+                        "primary": "#a5c8ff",
+                        "border-subtle": "#2A2A31",
+                        "on-background": "#e5e1e4",
+                        "inverse-primary": "#005fae",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "inverse-surface": "#e5e1e4",
+                        "tertiary-fixed": "#ffe08f",
+                        "on-primary-fixed": "#001c3a",
+                        "outline": "#8b919e",
+                        "background": "#131315",
+                        "surface-container-low": "#1b1b1d",
+                        "accent-red": "#FF5C5C",
+                        "text-secondary": "#9090A0",
+                        "on-secondary-container": "#004326",
+                        "on-surface": "#e5e1e4",
+                        "accent-blue-dim": "#1A3D6B",
+                        "text-muted": "#55555F",
+                        "surface-variant": "#353437",
+                        "surface-container": "#201f21",
+                        "tertiary-container": "#d0a61f",
+                        "bg-surface": "#141417",
+                        "bg-overlay": "#242429"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "modal-sm": "420px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "sidebar-width": "240px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "modal-lg": "640px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans', sans-serif; background-color: #0D0D0F; color: #F0F0F5; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .mono-data { font-family: 'IBM Plex Mono', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3D3D47; border-radius: 10px; }
+        
+        /* Pulse Animation for Chatbot FAB */
+        @keyframes chat-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(77, 158, 255, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(77, 158, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(77, 158, 255, 0); }
+        }
+        .pulse-bot { animation: chat-pulse 2s infinite; }
+    </style>
+</head>
+<body class="bg-background text-text-primary overflow-hidden">
+<!-- Global Layout Container -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-20">
+<div class="px-md mb-xl">
+<h2 class="font-h2 text-h2 font-bold text-primary">Acme Corp</h2>
+<p class="text-small text-text-muted">Enterprise CRM</p>
+</div>
+<nav class="flex-1 px-sm space-y-xs">
+<div class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body text-body">Accounts</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</div>
+</nav>
+<div class="mt-auto px-sm space-y-xs">
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar Anchor -->
+<header class="h-14 bg-background border-b border-border-subtle flex justify-between items-center px-lg z-10">
+<div class="flex items-center gap-lg">
+<h1 class="font-h1 text-h1 text-primary">CRM Dashboard</h1>
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full bg-bg-elevated border-none rounded-lg py-1.5 pl-10 text-body focus:ring-1 focus:ring-primary/30" placeholder="Search records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">help</span>
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary cursor-pointer transition-colors">apps</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-border-strong">
+<img alt="User Profile" data-alt="A professional close-up headshot portrait of a tech executive in a dark mode office environment. The subject has a confident expression, wearing a sleek charcoal suit. Soft blue ambient lighting from computer monitors reflects on their glasses. The background features blurred lines of a high-tech server room with glowing blue status lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAmJWctGbDDCJ7B3X-G90G6ufPCinL9izehmg-T-9YjoiY38w7m7ydvI5EpEAlOp1Z36pIAyVctP7p7sPt-DgztdIOxO1KvQ-87vc-WRRQI9CU3zbMqiNrIaRzv5h3ZVRziTfZFEF34FUI-TE3Uuoqi28cNgUpafqeaxsKNyyM-_P20jvWesmyc-beQi0PO5NH_wFDOba5nvoGENJfRGyhMrg0dwjepVnOxM-rSiuPQoc4cSDRjiypivgxfzmYg2C-L6gblVwntQ"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas (Dashboard Mockup) -->
+<div class="flex-1 p-lg overflow-y-auto custom-scrollbar space-y-lg">
+<!-- Metrics Grid -->
+<div class="grid grid-cols-4 gap-lg">
+<div class="bg-bg-surface p-md rounded-xl border-t-2 border-primary border-border-subtle shadow-sm">
+<p class="text-label-caps text-text-muted uppercase tracking-wider mb-1">Total Revenue</p>
+<h3 class="text-h1 font-bold mono-data text-text-primary">$2.4M</h3>
+<div class="mt-2 flex items-center text-secondary text-small">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>12% from last month</span>
+</div>
+</div>
+<div class="bg-bg-surface p-md rounded-xl border-t-2 border-secondary border-border-subtle shadow-sm">
+<p class="text-label-caps text-text-muted uppercase tracking-wider mb-1">Active Leads</p>
+<h3 class="text-h1 font-bold mono-data text-text-primary">842</h3>
+<div class="mt-2 flex items-center text-secondary text-small">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>5% increase</span>
+</div>
+</div>
+<div class="bg-bg-surface p-md rounded-xl border-t-2 border-accent-yellow-dim border-border-subtle shadow-sm">
+<p class="text-label-caps text-text-muted uppercase tracking-wider mb-1">Conversion Rate</p>
+<h3 class="text-h1 font-bold mono-data text-text-primary">18.4%</h3>
+<div class="mt-2 flex items-center text-accent-red text-small">
+<span class="material-symbols-outlined text-[16px]">trending_down</span>
+<span>0.5% decrease</span>
+</div>
+</div>
+<div class="bg-bg-surface p-md rounded-xl border-t-2 border-primary border-border-subtle shadow-sm">
+<p class="text-label-caps text-text-muted uppercase tracking-wider mb-1">Support Tickets</p>
+<h3 class="text-h1 font-bold mono-data text-text-primary">24</h3>
+<div class="mt-2 flex items-center text-secondary text-small">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>90% resolved</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity Section -->
+<div class="bg-bg-surface border border-border-subtle rounded-xl overflow-hidden">
+<div class="px-md py-sm border-b border-border-subtle flex justify-between items-center">
+<h3 class="text-h3 font-semibold text-text-primary">Recent Pipeline Activity</h3>
+<button class="text-small text-primary hover:underline">View All</button>
+</div>
+<div class="divide-y divide-border-subtle">
+<div class="p-md hover:bg-bg-elevated transition-colors flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-accent-blue-dim flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">monetization_on</span>
+</div>
+<div class="flex-1">
+<p class="text-body font-medium text-text-primary">Nexus Corp Deal</p>
+<p class="text-small text-text-muted">Moved to 'Negotiation' phase by Sarah L.</p>
+</div>
+<div class="text-right">
+<p class="mono-data font-medium text-text-primary">$450,000</p>
+<p class="text-small text-text-muted">2 hours ago</p>
+</div>
+</div>
+<div class="p-md hover:bg-bg-elevated transition-colors flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-accent-green-dim flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<div class="flex-1">
+<p class="text-body font-medium text-text-primary">Global Logistics Inc</p>
+<p class="text-small text-text-muted">New Lead assigned to you</p>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded text-mono-sm bg-accent-blue-dim text-primary">Hot Lead</span>
+<p class="text-small text-text-muted mt-1">5 hours ago</p>
+</div>
+</div>
+<div class="p-md hover:bg-bg-elevated transition-colors flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-accent-yellow-dim flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div class="flex-1">
+<p class="text-body font-medium text-text-primary">Vanguard Systems</p>
+<p class="text-small text-text-muted">Contract renewal meeting scheduled</p>
+</div>
+<div class="text-right">
+<p class="text-body font-medium text-text-primary">Dec 12</p>
+<p class="text-small text-text-muted">Yesterday</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- CHATBOT ASSISTANT (ACTIVE STATE) -->
+<div class="fixed bottom-lg right-lg w-[340px] h-[480px] bg-bg-surface border border-border-subtle rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden" id="chat-drawer" style="box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);">
+<!-- Chat Header -->
+<header class="h-14 px-md flex items-center justify-between border-b border-border-subtle bg-bg-surface">
+<div class="flex items-center gap-sm">
+<div class="relative w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-secondary rounded-full border-2 border-bg-surface"></div>
+</div>
+<div>
+<h4 class="text-body font-semibold text-text-primary">CRM Assistant</h4>
+<p class="text-small text-secondary flex items-center gap-xs">
+                            Online
+                        </p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-1 hover:bg-bg-elevated rounded transition-colors text-text-muted hover:text-text-primary">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="p-1 hover:bg-bg-elevated rounded transition-colors text-text-muted hover:text-text-primary">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</header>
+<!-- Chat Conversation -->
+<div class="flex-1 overflow-y-auto p-md custom-scrollbar space-y-md bg-surface-container-lowest">
+<!-- System/Bot Greeting -->
+<div class="flex justify-start">
+<div class="max-w-[85%] bg-bg-elevated p-sm rounded-xl rounded-tl-none border border-border-subtle">
+<p class="text-body text-text-primary">Hello! I'm your CRM assistant. How can I help you manage your enterprise data today?</p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="max-w-[85%] bg-accent-blue-dim p-sm rounded-xl rounded-tr-none border border-primary/20">
+<p class="text-body text-text-primary">Show my recent customers</p>
+</div>
+</div>
+<!-- Bot Response -->
+<div class="flex justify-start">
+<div class="max-w-[85%] space-y-sm">
+<div class="bg-bg-elevated p-sm rounded-xl rounded-tl-none border border-border-subtle">
+<p class="text-body text-text-primary">Here are your 3 most recent customers:</p>
+</div>
+<div class="bg-bg-elevated p-sm rounded-xl border border-border-subtle space-y-xs">
+<div class="flex items-center justify-between group cursor-pointer hover:bg-surface-container-high p-1 rounded transition-colors">
+<span class="text-body font-medium text-primary">Nexus Corp</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-text-primary text-[16px]">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer hover:bg-surface-container-high p-1 rounded transition-colors">
+<span class="text-body font-medium text-primary">Vanguard Systems</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-text-primary text-[16px]">chevron_right</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer hover:bg-surface-container-high p-1 rounded transition-colors">
+<span class="text-body font-medium text-primary">Aetheris Ltd</span>
+<span class="material-symbols-outlined text-text-muted group-hover:text-text-primary text-[16px]">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Typing indicator (Fake for effect) -->
+<div class="flex justify-start items-center gap-xs ml-1 opacity-60">
+<div class="w-1.5 h-1.5 bg-text-muted rounded-full animate-bounce"></div>
+<div class="w-1.5 h-1.5 bg-text-muted rounded-full animate-bounce [animation-delay:0.2s]"></div>
+<div class="w-1.5 h-1.5 bg-text-muted rounded-full animate-bounce [animation-delay:0.4s]"></div>
+</div>
+</div>
+<!-- Footer Area -->
+<footer class="p-sm bg-bg-surface border-t border-border-subtle space-y-sm">
+<!-- Quick Commands Row -->
+<div class="flex gap-xs overflow-x-auto custom-scrollbar pb-1 no-scrollbar">
+<button class="whitespace-nowrap px-3 py-1 bg-bg-elevated border border-border-subtle rounded-full text-small text-text-secondary hover:text-text-primary hover:border-primary transition-all active:scale-95">Add Customer</button>
+<button class="whitespace-nowrap px-3 py-1 bg-bg-elevated border border-border-subtle rounded-full text-small text-text-secondary hover:text-text-primary hover:border-primary transition-all active:scale-95">Generate Invoice</button>
+<button class="whitespace-nowrap px-3 py-1 bg-bg-elevated border border-border-subtle rounded-full text-small text-text-secondary hover:text-text-primary hover:border-primary transition-all active:scale-95">Help</button>
+</div>
+<!-- Input Bar -->
+<div class="flex items-center gap-xs bg-bg-elevated rounded-lg p-1 border border-border-subtle group focus-within:border-primary/50 transition-colors">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-body py-1 px-2 placeholder:text-text-muted" placeholder="Type a message..." type="text"/>
+<button class="w-8 h-8 bg-primary-container text-on-primary-container rounded-md flex items-center justify-center hover:brightness-110 active:scale-90 duration-200">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</footer>
+</div>
+<!-- Pulse Overlay for the Bot Button (if minimized) -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary-container text-on-primary-container rounded-full shadow-lg hidden items-center justify-center pulse-bot z-50" id="fab-trigger">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+</div>
+<script>
+        // Micro-interactions for the drawer
+        const chatDrawer = document.getElementById('chat-drawer');
+        const fabTrigger = document.getElementById('fab-trigger');
+        const minimizeBtn = chatDrawer.querySelector('button:nth-child(1)');
+        const closeBtn = chatDrawer.querySelector('button:nth-child(2)');
+
+        minimizeBtn.addEventListener('click', () => {
+            chatDrawer.classList.add('translate-y-full', 'opacity-0');
+            setTimeout(() => {
+                chatDrawer.classList.add('hidden');
+                fabTrigger.classList.remove('hidden');
+                fabTrigger.classList.add('flex');
+            }, 300);
+        });
+
+        fabTrigger.addEventListener('click', () => {
+            fabTrigger.classList.add('hidden');
+            chatDrawer.classList.remove('hidden', 'translate-y-full', 'opacity-0');
+        });
+
+        closeBtn.addEventListener('click', () => {
+             chatDrawer.classList.add('scale-95', 'opacity-0');
+             setTimeout(() => {
+                chatDrawer.classList.add('hidden');
+                fabTrigger.classList.remove('hidden');
+                fabTrigger.classList.add('flex');
+                chatDrawer.classList.remove('scale-95', 'opacity-0');
+             }, 200);
+        });
+
+        // Simple text input effect
+        const chatInput = chatDrawer.querySelector('input');
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && chatInput.value.trim() !== "") {
+                const message = chatInput.value;
+                const container = chatDrawer.querySelector('.flex-1.overflow-y-auto');
+                
+                // Add User Message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'flex justify-end';
+                userMsg.innerHTML = `
+                    <div class="max-w-[85%] bg-accent-blue-dim p-sm rounded-xl rounded-tr-none border border-primary/20">
+                        <p class="text-body text-text-primary">${message}</p>
+                    </div>
+                `;
+                container.appendChild(userMsg);
+                chatInput.value = "";
+                container.scrollTop = container.scrollHeight;
+            }
+        });
+    </script>
+</body></html>

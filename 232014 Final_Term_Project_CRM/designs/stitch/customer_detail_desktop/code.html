@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRM Pro | Customer Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c1c7d4",
+                        "text-secondary": "#9090A0",
+                        "background": "#131315",
+                        "border-strong": "#3D3D47",
+                        "on-primary-fixed-variant": "#004785",
+                        "inverse-on-surface": "#313032",
+                        "inverse-primary": "#005fae",
+                        "on-secondary-fixed-variant": "#005230",
+                        "on-background": "#e5e1e4",
+                        "accent-blue-dim": "#1A3D6B",
+                        "tertiary-fixed-dim": "#eec13c",
+                        "on-tertiary-container": "#4f3d00",
+                        "bg-elevated": "#1C1C21",
+                        "text-muted": "#55555F",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "on-secondary-fixed": "#002110",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f21",
+                        "tertiary": "#eec13c",
+                        "secondary": "#49e095",
+                        "primary-container": "#4d9eff",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "bg-surface": "#141417",
+                        "primary-fixed": "#d4e3ff",
+                        "secondary-fixed-dim": "#49e095",
+                        "on-secondary": "#003920",
+                        "surface-dim": "#131315",
+                        "surface-container-highest": "#353437",
+                        "surface-container-low": "#1b1b1d",
+                        "outline": "#8b919e",
+                        "on-primary-fixed": "#001c3a",
+                        "primary-fixed-dim": "#a5c8ff",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe08f",
+                        "surface-container-lowest": "#0e0e10",
+                        "bg-overlay": "#242429",
+                        "outline-variant": "#414752",
+                        "surface-bright": "#39393b",
+                        "on-surface": "#e5e1e4",
+                        "tertiary-container": "#d0a61f",
+                        "surface-variant": "#353437",
+                        "on-secondary-container": "#004326",
+                        "on-primary": "#00315e",
+                        "accent-red": "#FF5C5C",
+                        "border-subtle": "#2A2A31",
+                        "primary": "#a5c8ff",
+                        "on-primary-container": "#003464",
+                        "surface-container-high": "#2a2a2c",
+                        "on-tertiary": "#3d2e00",
+                        "on-error": "#690005",
+                        "accent-yellow-dim": "#3D3010",
+                        "secondary-container": "#01bb74",
+                        "surface": "#131315",
+                        "accent-green-dim": "#0F3D26",
+                        "text-primary": "#F0F0F5",
+                        "surface-tint": "#a5c8ff",
+                        "secondary-fixed": "#6bfdaf",
+                        "accent-red-dim": "#3D1010",
+                        "inverse-surface": "#e5e1e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "modal-lg": "640px",
+                        "sidebar-width": "240px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "modal-sm": "420px",
+                        "base": "8px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display": ["IBM Plex Sans"],
+                        "label-caps": ["IBM Plex Sans"],
+                        "h3": ["IBM Plex Sans"],
+                        "h2": ["IBM Plex Sans"],
+                        "mono-sm": ["IBM Plex Mono"],
+                        "body": ["IBM Plex Sans"],
+                        "small": ["IBM Plex Sans"],
+                        "mono": ["IBM Plex Mono"],
+                        "h1": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                        "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "small": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0D0D0F;
+            color: #F0F0F5;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2A31;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex overflow-hidden">
+<!-- SIDEBAR NAV (Shared Component Source) -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h2 class="font-h2 text-h2 font-bold text-primary">Acme Corp</h2>
+<p class="text-text-secondary text-small">Enterprise CRM</p>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<!-- Dashboard -->
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</div>
+<!-- Accounts (Active) -->
+<div class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body text-body">Accounts</span>
+</div>
+<!-- Leads -->
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</div>
+<!-- Pipeline -->
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</div>
+<!-- Settings -->
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</div>
+</nav>
+<div class="px-sm pt-md border-t border-border-subtle">
+<button class="w-full h-[36px] bg-primary-container text-on-primary-container font-h3 text-h3 rounded flex items-center justify-center gap-xs mb-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Record
+            </button>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated transition-colors cursor-pointer">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</div>
+<div class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated transition-colors cursor-pointer">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-sidebar-width flex-1 h-screen overflow-hidden flex flex-col bg-background">
+<!-- TOP NAV (Shared Component Source) -->
+<header class="h-14 bg-background border-b border-border-subtle flex justify-between items-center px-lg shrink-0">
+<div class="flex items-center gap-xl">
+<h1 class="font-h1 text-h1 text-primary">CRM Dashboard</h1>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="bg-bg-elevated border-border-subtle rounded-lg pl-10 pr-4 py-1.5 text-body text-text-primary focus:border-primary focus:ring-1 focus:ring-primary w-64 outline-none transition-all" placeholder="Search customer records..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">help</span>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer hover:text-primary transition-colors">apps</span>
+</div>
+<div class="h-8 w-px bg-border-subtle mx-xs"></div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-border-strong" data-alt="A professional close-up headshot of a senior software architect in a sleek, dark-toned studio setting. The lighting is dramatic and moody, with cool blue rim lighting that highlights technical precision. The subject has a confident, calm expression, fitting for a modern high-performance enterprise CRM application. The overall aesthetic is clean, sharp, and corporate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5AsBXZbIHo64khINSkHsjQqiciN8a3qhdwn7gApmlT8cIzVanYsAORHYbsYM8DDQrgyPaL0_s6hbfmuDa7CuLgN4LhCRwfBhOPepr1q133pDT2_DEcXb3pPCCzGRlCP6gHuuH9VDZeSnCNPWV7wHdMqdXGoNCXIroFbiTb-K1-GvBShM2RKkq10DYRHRJSMuU_PgH18zVahdbUoRpsk6ca2c9KYIJNkrYJwwld1Asszapr65nytuE3fxm3njWUwFM74RkRFAS2g"/>
+</div>
+</header>
+<!-- DASHBOARD CONTENT -->
+<div class="flex-1 overflow-y-auto p-lg custom-scrollbar">
+<!-- TWO COLUMN LAYOUT -->
+<div class="grid grid-cols-12 gap-lg max-w-7xl mx-auto">
+<!-- LEFT PANEL: CUSTOMER PROFILE -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<section class="bg-bg-surface border-t-2 border-primary rounded-xl p-xl shadow-sm">
+<div class="flex flex-col items-center text-center mb-lg">
+<div class="relative mb-md">
+<img alt="Sarah Jenkins" class="w-32 h-32 rounded-full border-4 border-bg-elevated shadow-lg" data-alt="A premium high-resolution portrait of a female corporate executive set against a dark, minimalist background. She is wearing a professional charcoal blazer. The lighting is sophisticated and directional, creating deep shadows and high contrast. The image exudes authority, precision, and modern enterprise elegance, matching a dark-mode technical UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbjkJCRznabMrn2GJH5yVckpg6YskUSRq2bVLGIG_ZU7trAGkbs_dS4aVsKZ9BajlrDRyVhncaGdFC2h3i2kjp0Jmm3ckvNEZjm6EfXBCJ46W83GxzoGSM0zGJ1XV2MD-ZSUwlcI5djP5Y0qU9AxfHHQLyseG_RvkRnEKra1V1ECfJonOhEtM3shwx-KzwkbUBQACm_IpjamRT7wAqgLNqIucuZOFZGUEwatQGKAROuZHIK1lvyWWczkqKQahlNgGyZB517-4zjQ"/>
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-secondary border-4 border-bg-surface rounded-full"></div>
+</div>
+<h2 class="font-h1 text-h1 text-text-primary mb-xs">Sarah Jenkins</h2>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-accent-green-dim text-secondary text-label-caps uppercase tracking-widest font-bold">
+                                Priority Client
+                            </span>
+</div>
+<div class="space-y-md mb-xl">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<p class="text-text-muted text-small uppercase font-bold tracking-tight">Email</p>
+<p class="font-body text-body text-text-primary">s.jenkins@nexus-corp.com</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">phone</span>
+</div>
+<div>
+<p class="text-text-muted text-small uppercase font-bold tracking-tight">Phone</p>
+<p class="font-body text-body text-text-primary">+1 (555) 924-1022</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">corporate_fare</span>
+</div>
+<div>
+<p class="text-text-muted text-small uppercase font-bold tracking-tight">Company</p>
+<p class="font-body text-body text-text-primary">Nexus Global Systems</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-text-muted text-small uppercase font-bold tracking-tight">Address</p>
+<p class="font-body text-body text-text-primary">422 Innovation Way, Suite 800<br/>Palo Alto, CA 94301</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md pt-lg border-t border-border-subtle">
+<button class="h-[36px] border border-border-strong text-text-primary rounded hover:bg-bg-elevated transition-colors flex items-center justify-center gap-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                                Edit
+                            </button>
+<button class="h-[36px] bg-accent-red-dim text-accent-red rounded hover:bg-opacity-80 transition-colors flex items-center justify-center gap-sm active:scale-95">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+                                Delete
+                            </button>
+</div>
+</section>
+<!-- QUICK STATS (Additional Value) -->
+<section class="bg-bg-surface border-t-2 border-tertiary rounded-xl p-md grid grid-cols-2 gap-md">
+<div class="p-md bg-bg-elevated rounded-lg">
+<p class="text-text-muted text-label-caps uppercase">Total Revenue</p>
+<p class="font-mono text-h2 text-tertiary mt-1">$42,910</p>
+</div>
+<div class="p-md bg-bg-elevated rounded-lg">
+<p class="text-text-muted text-label-caps uppercase">Open Deals</p>
+<p class="font-mono text-h2 text-secondary mt-1">3</p>
+</div>
+</section>
+</div>
+<!-- RIGHT PANEL: NOTES & INVOICES -->
+<div class="col-span-12 lg:col-span-8 space-y-lg">
+<!-- NOTES SECTION -->
+<section class="bg-bg-surface border-t-2 border-primary-container rounded-xl p-xl">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-h2 text-h2 text-text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">sticky_note_2</span>
+                                Internal Notes
+                            </h3>
+<button class="text-primary hover:underline text-body font-medium flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Note
+                            </button>
+</div>
+<div class="space-y-md">
+<div class="p-lg bg-bg-elevated rounded-lg border-l-4 border-secondary">
+<div class="flex justify-between mb-sm">
+<span class="text-secondary font-mono-sm text-mono-sm uppercase">Aug 14, 2023</span>
+<span class="text-text-muted text-small italic">by Marcus Chen</span>
+</div>
+<p class="text-body text-text-primary leading-relaxed">
+                                    Followed up regarding the Q3 expansion. Sarah mentioned they are looking to double their seat count if the API integration remains stable throughout the next sprint. Highly satisfied with current performance.
+                                </p>
+</div>
+<div class="p-lg bg-bg-elevated rounded-lg border-l-4 border-border-strong">
+<div class="flex justify-between mb-sm">
+<span class="text-text-secondary font-mono-sm text-mono-sm uppercase">Jul 28, 2023</span>
+<span class="text-text-muted text-small italic">by System Automator</span>
+</div>
+<p class="text-body text-text-primary leading-relaxed italic opacity-80">
+                                    Contract renewal confirmed. Document #REF-9921 signed via electronic portal.
+                                </p>
+</div>
+</div>
+</section>
+<!-- INVOICE HISTORY SECTION -->
+<section class="bg-bg-surface border-t-2 border-outline-variant rounded-xl p-xl">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-h2 text-h2 text-text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined text-text-secondary">receipt_long</span>
+                                Invoice History
+                            </h3>
+<div class="flex gap-sm">
+<button class="p-2 bg-bg-elevated text-text-secondary rounded hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 bg-bg-elevated text-text-secondary rounded hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-hidden border border-border-subtle rounded-xl">
+<table class="w-full text-left border-collapse">
+<thead class="bg-bg-base">
+<tr>
+<th class="px-md py-sm text-label-caps text-text-muted uppercase">Invoice ID</th>
+<th class="px-md py-sm text-label-caps text-text-muted uppercase">Date</th>
+<th class="px-md py-sm text-label-caps text-text-muted uppercase">Amount</th>
+<th class="px-md py-sm text-label-caps text-text-muted uppercase">Status</th>
+<th class="px-md py-sm text-label-caps text-text-muted uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-bg-elevated transition-colors cursor-default">
+<td class="px-md py-lg font-mono text-mono text-primary">#INV-9402</td>
+<td class="px-md py-lg text-body text-text-secondary">Oct 02, 2023</td>
+<td class="px-md py-lg font-mono text-mono text-text-primary">$12,450.00</td>
+<td class="px-md py-lg">
+<span class="px-2 py-0.5 rounded bg-accent-blue-dim text-primary-container text-mono-sm">PAID</span>
+</td>
+<td class="px-md py-lg text-right">
+<button class="text-text-muted hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-bg-elevated transition-colors cursor-default">
+<td class="px-md py-lg font-mono text-mono text-primary">#INV-8812</td>
+<td class="px-md py-lg text-body text-text-secondary">Sep 01, 2023</td>
+<td class="px-md py-lg font-mono text-mono text-text-primary">$12,450.00</td>
+<td class="px-md py-lg">
+<span class="px-2 py-0.5 rounded bg-accent-blue-dim text-primary-container text-mono-sm">PAID</span>
+</td>
+<td class="px-md py-lg text-right">
+<button class="text-text-muted hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-bg-elevated transition-colors cursor-default">
+<td class="px-md py-lg font-mono text-mono text-primary">#INV-8201</td>
+<td class="px-md py-lg text-body text-text-secondary">Aug 01, 2023</td>
+<td class="px-md py-lg font-mono text-mono text-text-primary">$12,450.00</td>
+<td class="px-md py-lg">
+<span class="px-2 py-0.5 rounded bg-accent-blue-dim text-primary-container text-mono-sm">PAID</span>
+</td>
+<td class="px-md py-lg text-right">
+<button class="text-text-muted hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-bg-elevated transition-colors cursor-default">
+<td class="px-md py-lg font-mono text-mono text-primary">#INV-7742</td>
+<td class="px-md py-lg text-body text-text-secondary">Jul 15, 2023</td>
+<td class="px-md py-lg font-mono text-mono text-text-primary">$2,560.00</td>
+<td class="px-md py-lg">
+<span class="px-2 py-0.5 rounded bg-accent-blue-dim text-primary-container text-mono-sm">PAID</span>
+</td>
+<td class="px-md py-lg text-right">
+<button class="text-text-muted hover:text-text-primary transition-colors">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- DASHBOARD CHATBOT (Requirement: Floating Action with pulse) -->
+<div class="fixed bottom-lg right-lg group">
+<div class="absolute inset-0 bg-primary opacity-20 rounded-full animate-ping scale-150"></div>
+<button class="relative w-14 h-14 bg-primary-container text-on-primary-container rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-10">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+<div class="absolute bottom-full right-0 mb-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all pointer-events-none">
+<div class="bg-bg-overlay border border-border-strong p-md rounded-xl shadow-2xl w-64">
+<p class="text-small text-text-primary">Need help with Sarah's account? I can summarize her recent activity.</p>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for hover effects on table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transition = 'background-color 0.2s ease';
+            });
+        });
+
+        // Simple pulse interaction logic if needed for data states
+        const activeBadges = document.querySelectorAll('.animate-pulse-slow');
+        activeBadges.forEach(badge => {
+            badge.style.animation = 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
+        });
+    </script>
+</body></html>

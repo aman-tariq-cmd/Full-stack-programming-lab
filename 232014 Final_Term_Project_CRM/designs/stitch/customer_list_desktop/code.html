@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CRM Pro | Customers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0D0D0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3D3D47;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4d9eff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#c1c7d4",
+                      "text-secondary": "#9090A0",
+                      "background": "#131315",
+                      "border-strong": "#3D3D47",
+                      "on-primary-fixed-variant": "#004785",
+                      "inverse-on-surface": "#313032",
+                      "inverse-primary": "#005fae",
+                      "on-secondary-fixed-variant": "#005230",
+                      "on-background": "#e5e1e4",
+                      "accent-blue-dim": "#1A3D6B",
+                      "tertiary-fixed-dim": "#eec13c",
+                      "on-tertiary-container": "#4f3d00",
+                      "bg-elevated": "#1C1C21",
+                      "text-muted": "#55555F",
+                      "on-tertiary-fixed-variant": "#584400",
+                      "on-secondary-fixed": "#002110",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#201f21",
+                      "tertiary": "#eec13c",
+                      "secondary": "#49e095",
+                      "primary-container": "#4d9eff",
+                      "error-container": "#93000a",
+                      "error": "#ffb4ab",
+                      "bg-surface": "#141417",
+                      "primary-fixed": "#d4e3ff",
+                      "secondary-fixed-dim": "#49e095",
+                      "on-secondary": "#003920",
+                      "surface-dim": "#131315",
+                      "surface-container-highest": "#353437",
+                      "surface-container-low": "#1b1b1d",
+                      "outline": "#8b919e",
+                      "on-primary-fixed": "#001c3a",
+                      "primary-fixed-dim": "#a5c8ff",
+                      "on-tertiary-fixed": "#241a00",
+                      "tertiary-fixed": "#ffe08f",
+                      "surface-container-lowest": "#0e0e10",
+                      "bg-overlay": "#242429",
+                      "outline-variant": "#414752",
+                      "surface-bright": "#39393b",
+                      "on-surface": "#e5e1e4",
+                      "tertiary-container": "#d0a61f",
+                      "surface-variant": "#353437",
+                      "on-secondary-container": "#004326",
+                      "on-primary": "#00315e",
+                      "accent-red": "#FF5C5C",
+                      "border-subtle": "#2A2A31",
+                      "primary": "#a5c8ff",
+                      "on-primary-container": "#003464",
+                      "surface-container-high": "#2a2a2c",
+                      "on-tertiary": "#3d2e00",
+                      "on-error": "#690005",
+                      "accent-yellow-dim": "#3D3010",
+                      "secondary-container": "#01bb74",
+                      "surface": "#131315",
+                      "accent-green-dim": "#0F3D26",
+                      "text-primary": "#F0F0F5",
+                      "surface-tint": "#a5c8ff",
+                      "secondary-fixed": "#6bfdaf",
+                      "accent-red-dim": "#3D1010",
+                      "inverse-surface": "#e5e1e4",
+                      "bg-base": "#0D0D0F"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "modal-lg": "640px",
+                      "sidebar-width": "240px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "xl": "32px",
+                      "modal-sm": "420px",
+                      "base": "8px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "display": ["IBM Plex Sans"],
+                      "label-caps": ["IBM Plex Sans"],
+                      "h3": ["IBM Plex Sans"],
+                      "h2": ["IBM Plex Sans"],
+                      "mono-sm": ["IBM Plex Mono"],
+                      "body": ["IBM Plex Sans"],
+                      "small": ["IBM Plex Sans"],
+                      "mono": ["IBM Plex Mono"],
+                      "h1": ["IBM Plex Sans"]
+              },
+              "fontSize": {
+                      "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "h3": ["15px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "mono-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                      "body": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "small": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "mono": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-bg-base text-text-primary font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- SIDEBAR ANCHOR -->
+<aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-bg-surface border-r border-border-subtle flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h2 class="font-h2 text-h2 font-bold text-primary">Acme Corp</h2>
+<p class="text-text-muted font-small">Enterprise CRM</p>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm bg-primary-container text-on-primary-container rounded-xl cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body text-body">Leads</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-body text-body">Accounts</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">view_column</span>
+<span class="font-body text-body">Pipeline</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-sm space-y-xs border-t border-border-subtle pt-lg">
+<button class="w-full mb-lg flex items-center justify-center gap-xs bg-primary-container text-on-primary-container font-h3 text-h3 h-9 rounded-lg hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Record</span>
+</button>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body text-body">Profile</span>
+</a>
+<a class="flex items-center gap-base px-md py-sm text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body text-body">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-[240px] flex flex-col min-h-screen">
+<!-- TOP BAR ANCHOR -->
+<header class="sticky top-0 h-14 bg-background/80 backdrop-blur-md border-b border-border-subtle flex items-center justify-between px-lg z-40">
+<div class="flex items-center gap-md">
+<h1 class="font-h1 text-h1 text-primary">Customers</h1>
+<span class="bg-accent-blue-dim text-primary text-[11px] font-mono px-2 py-0.5 rounded-full border border-primary/20">15 total</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden md:flex items-center bg-bg-elevated border border-border-subtle rounded-lg px-sm h-9 w-64 group focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-text-muted">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body w-full placeholder:text-text-muted" placeholder="Global search..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="text-text-secondary hover:text-text-primary p-xs"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-text-secondary hover:text-text-primary p-xs"><span class="material-symbols-outlined">help</span></button>
+<button class="text-text-secondary hover:text-text-primary p-xs"><span class="material-symbols-outlined">apps</span></button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-strong ml-xs">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrrgyXMM-qsOS35bIF2EkPnSp2RZD9fsRWfys_TNK81YiXm_JnePjGGqB62zZcu8MkYN22ByUeTTKwCieuId52NxXTNgI_Bw600AGYUliOckS4tvezy08jlipTPfOHMZ7dukPp8N-sB-kAxi6Gw_rKHokLwOi6wd7YvFkj61230tRJ7nk_oI4ne0juqReAgRXKfMRMPYVg9QqQ4wzNB8AWXQyse0ka6t8K-WdclHWTU5sHv1sYhbT1uA7s2bavWzs23JT0sNYLmw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SUB HEADER / FILTER BAR -->
+<div class="p-lg">
+<div class="bg-bg-surface rounded-xl border border-border-subtle p-md flex flex-col md:flex-row justify-between items-center gap-md mb-lg">
+<div class="flex flex-1 w-full gap-md">
+<div class="relative flex-1 max-w-sm">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="w-full bg-bg-elevated border-border-subtle rounded-lg pl-xl pr-md py-sm text-body focus:border-primary focus:ring-0 transition-all" placeholder="Search by name, email or company..." type="text"/>
+</div>
+<select class="bg-bg-elevated border-border-subtle rounded-lg px-md py-sm text-body text-text-secondary focus:border-primary focus:ring-0 cursor-pointer min-w-[140px]">
+<option>All Status</option>
+<option>Active</option>
+<option>Lead</option>
+<option>Inactive</option>
+</select>
+</div>
+<div class="flex items-center gap-sm w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-xs px-md py-sm bg-bg-elevated border border-border-subtle text-text-primary font-h3 text-h3 rounded-lg hover:bg-bg-overlay transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span>Filters</span>
+</button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-xs px-md py-sm bg-primary-container text-on-primary-container font-h3 text-h3 rounded-lg hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Add Customer</span>
+</button>
+</div>
+</div>
+<!-- DATA TABLE -->
+<div class="bg-bg-surface rounded-xl border border-border-subtle overflow-hidden shadow-2xl">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-bg-base border-b border-border-subtle">
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase">Customer</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase">Phone</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase">Company</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase">Status</th>
+<th class="px-md py-sm font-label-caps text-label-caps text-text-muted uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle/50">
+<!-- Row 1 -->
+<tr class="hover:bg-bg-elevated transition-colors group">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="w-9 h-9 rounded-lg bg-accent-blue-dim flex items-center justify-center border border-primary/20">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5lPmostR3KDmQSmV5qxn-61J7Qx-5K0UREKu44dxZ8lR0O3hZOLK6C2ANHF8hWsH4RIlcwqdzfRGCAyYGht5ibE7zeqx9bqqDsEwALdBBgjOk-agwc3KwAUJK4i_ITrKdUhwkia3ngUpaJSJnZgZ_ZAVv9w5Kzs5ejjoQmpbMFmOPNWHhSbf-QDMXXiO_o-F4rzkixqqRKPKaXVzx_t7WkHMoYMhjdQ5W3lIWpxyuagU0AAGixH6FvVUtHgLVyoQc41yMSWV9TA"/>
+</div>
+<div>
+<div class="font-h3 text-h3 text-text-primary leading-tight">Alex Rivera</div>
+<div class="font-small text-small text-text-muted">alex.rivera@techflow.io</div>
+</div>
+</div>
+</td>
+<td class="px-md py-md font-mono text-mono text-text-secondary">+1 (555) 902-1244</td>
+<td class="px-md py-md font-body text-body">TechFlow Systems</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-secondary-container/20 text-secondary border border-secondary/20">Active</span>
+</td>
+<td class="px-md py-md text-right">
+<button class="text-text-muted hover:text-primary transition-colors p-xs"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-bg-elevated transition-colors group">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="w-9 h-9 rounded-lg bg-accent-yellow-dim flex items-center justify-center border border-tertiary/20">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4ZrKxRgCbivlRaMBoHyO2JrgVfhvODwrGw-kWgBs_ydgyuNT-0NYR4bKZEC_uOuL5KmLHsxDn9XkR0ko1MEv4T5ljnf-ux4fqZNP0u4vpzXp1zIF9sb_I_WqavmqvGi3CAkruxjv2WRyXHsG0mbU69QOwg6BtagpLMDMylqfckcMQrNAPecbhu5GYb1VBZgghXbzXHNkKwn-rW_QPFtPmJwRdovufclRTIwKLrWM8Ux5Y90oBwegIq3kgjew7J2yKkqCu7mRq9g"/>
+</div>
+<div>
+<div class="font-h3 text-h3 text-text-primary leading-tight">Sarah Jenkins</div>
+<div class="font-small text-small text-text-muted">s.jenkins@quantum.com</div>
+</div>
+</div>
+</td>
+<td class="px-md py-md font-mono text-mono text-text-secondary">+1 (555) 012-3921</td>
+<td class="px-md py-md font-body text-body">Quantum Leap</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-container/20 text-tertiary border border-tertiary/20">Lead</span>
+</td>
+<td class="px-md py-md text-right">
+<button class="text-text-muted hover:text-primary transition-colors p-xs"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-bg-elevated transition-colors group">
+<td class="px-md py-md">
+<div class="flex items-center gap-md">
+<div class="w-9 h-9 rounded-lg bg-accent-red-dim flex items-center justify-center border border-error/20">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIywhyS2hlBoaXVSvzkEvzK9Tf9XOQF86Pg3qNSXQRv25K-83o7XSO6ZCCWxJFlHDTGOq-UI207tL_DtZLjCIh1Me5De2jtqAePh2QGAdtvzEHAGxoPcia9XVpuR5424dHiXNfGRDlhCtiHUd-kMMdHhTHUbqErL-Nvr8_bNuzrv-O8nosYTgQe2AmJKbH0ONLQtkXa_gq9zKhIVLtCKJjLqMc6N5xE1jh_aZvYoCNMBMbF5PIXyQt7kKsNTdmU9ClKWt5vIA8kA"/>
+</div>
+<div>
+<div class="font-h3 text-h3 text-text-primary leading-tight">Marcus Thorne</div>
+<div class="font-small text-small text-text-muted">mthorne@void.dev</div>
+</div>
+</div>
+</td>
+<td class="px-md py-md font-mono text-mono text-text-secondary">+1 (555) 882-1002</td>
+<td class="px-md py-md font-body text-body">Void Logic</td>
+<td class="px-md py-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-error-container/20 text-error border border-error/20">Inactive</span>
+</td>
+<td class="px-md py-md text-right">
+<button class="text-text-muted hover:text-primary transition-colors p-xs"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+</td>
+</tr>
+<!-- Repeat Rows (Simulation of 15 rows) -->
+<script>
+                            const data = [
+                                { name: "Elena Gilbert", email: "elena@mystic.tech", phone: "+1 (555) 443-1290", company: "Mystic Solutions", status: "Active", icon: "4" },
+                                { name: "David Kim", email: "dkim@nimbus.io", phone: "+1 (555) 231-5501", company: "Nimbus Cloud", status: "Lead", icon: "5" },
+                                { name: "Sophie Chen", email: "chen.s@vertex.net", phone: "+1 (555) 891-3321", company: "Vertex Labs", status: "Active", icon: "6" },
+                                { name: "Tom Reddle", email: "tred@serpent.com", phone: "+1 (555) 001-2291", company: "Serpent Design", status: "Inactive", icon: "7" },
+                                { name: "Anna Smith", email: "asmith@forge.io", phone: "+1 (555) 332-9011", company: "Forge AI", status: "Active", icon: "8" },
+                                { name: "Julian Voss", email: "voss@iron.works", phone: "+1 (555) 102-4456", company: "IronWorks", status: "Lead", icon: "9" },
+                                { name: "Lara Croft", email: "lara@tomb.dev", phone: "+1 (555) 776-3321", company: "Relic Hunters", status: "Active", icon: "10" },
+                                { name: "Bruce Wayne", email: "bruce@gotham.co", phone: "+1 (555) 999-1100", company: "Wayne Ent.", status: "Lead", icon: "11" },
+                                { name: "Diana Prince", email: "diana@themis.org", phone: "+1 (555) 222-8877", company: "Themis Labs", status: "Active", icon: "12" },
+                                { name: "Peter Parker", email: "pparker@daily.bugle", phone: "+1 (555) 321-4455", company: "Bugle Media", status: "Inactive", icon: "13" },
+                                { name: "Wanda Maxim", email: "wanda@hex.io", phone: "+1 (555) 666-3322", company: "Hex Dynamics", status: "Active", icon: "14" },
+                                { name: "Victor Stone", email: "stone@cybor.com", phone: "+1 (555) 123-0099", company: "Cyborg Labs", status: "Lead", icon: "15" }
+                            ];
+
+                            const tbody = document.querySelector('tbody');
+                            data.forEach(row => {
+                                const statusColor = row.status === 'Active' ? 'secondary' : (row.status === 'Lead' ? 'tertiary' : 'error');
+                                const bgVar = row.status === 'Active' ? 'secondary-container' : (row.status === 'Lead' ? 'tertiary-container' : 'error-container');
+                                
+                                const html = `
+                                    <tr class="hover:bg-bg-elevated transition-colors group">
+                                        <td class="px-md py-md">
+                                            <div class="flex items-center gap-md">
+                                                <div class="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center border border-border-subtle overflow-hidden">
+                                                    <img src="https://avatar.iran.liara.run/public/${row.icon}" alt="Avatar" class="w-full h-full object-cover">
+                                                </div>
+                                                <div>
+                                                    <div class="font-h3 text-h3 text-text-primary leading-tight">${row.name}</div>
+                                                    <div class="font-small text-small text-text-muted">${row.email}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-md py-md font-mono text-mono text-text-secondary">${row.phone}</td>
+                                        <td class="px-md py-md font-body text-body">${row.company}</td>
+                                        <td class="px-md py-md">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-${bgVar}/20 text-${statusColor} border border-${statusColor}/20">${row.status}</span>
+                                        </td>
+                                        <td class="px-md py-md text-right">
+                                            <button class="text-text-muted hover:text-primary transition-colors p-xs"><span class="material-symbols-outlined text-[20px]">more_horiz</span></button>
+                                        </td>
+                                    </tr>
+                                `;
+                                tbody.innerHTML += html;
+                            });
+                        </script>
+</tbody>
+</table>
+<!-- PAGINATION FOOTER -->
+<div class="p-md bg-bg-base border-t border-border-subtle flex items-center justify-between">
+<div class="text-small text-text-muted">
+                        Showing <span class="text-text-primary font-medium">1 - 15</span> of <span class="text-text-primary font-medium">15</span> results
+                    </div>
+<div class="flex items-center gap-xs">
+<button class="w-8 h-8 rounded border border-border-subtle flex items-center justify-center text-text-muted hover:bg-bg-elevated transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center text-small font-medium">1</button>
+<button class="w-8 h-8 rounded border border-border-subtle flex items-center justify-center text-text-muted hover:bg-bg-elevated transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ATMOSPHERIC EFFECTS -->
+<div class="fixed bottom-lg right-lg z-50">
+<button class="relative w-12 h-12 bg-primary-container rounded-full text-on-primary-container shadow-xl hover:scale-110 active:scale-95 transition-transform flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-[28px]">chat_bubble</span>
+<div class="absolute inset-0 border-4 border-white/20 rounded-full animate-ping opacity-20"></div>
+</button>
+</div>
+</main>
+<!-- TOAST NOTIFICATION SIMULATION -->
+<div class="fixed bottom-lg right-xl bg-bg-overlay border-l-[3px] border-primary px-lg py-md rounded-lg shadow-2xl flex items-center gap-md transform translate-y-20 opacity-0 transition-all duration-500 z-[100]" id="toast">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<div>
+<div class="text-h3 font-h3 text-text-primary">Sync Complete</div>
+<div class="text-small text-text-muted">Customer data was updated 2 mins ago.</div>
+</div>
+<button class="ml-xl text-text-muted hover:text-text-primary" onclick="hideToast()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<script>
+        // Micro-interaction for the toast
+        setTimeout(() => {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+        }, 1500);
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-20', 'opacity-0');
+        }
+
+        // Active state simulation for sidebar
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                document.querySelectorAll('aside nav a').forEach(l => {
+                    l.classList.remove('bg-primary-container', 'text-on-primary-container', 'rounded-xl');
+                    l.classList.add('text-text-secondary');
+                });
+                link.classList.add('bg-primary-container', 'text-on-primary-container', 'rounded-xl');
+                link.classList.remove('text-text-secondary');
+            });
+        });
+    </script>
+</body></html>

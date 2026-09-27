@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/aman-tariq-cmd/Full-stack-programming-lab.git'
+                git branch: 'main', url: 'https://github.com/aman-tariq-cmd/Full-stack-programming-lab.git'
             }
         }
 
@@ -28,14 +28,6 @@ pipeline {
             steps {
                 dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM/client') {
                     sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Build Docker Images') {
-            steps {
-                dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM') {
-                    sh 'docker-compose build'
                 }
             }
         }

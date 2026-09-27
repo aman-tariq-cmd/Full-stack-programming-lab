@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/aman-tariq-cmd/Full-stack-programming-lab.git'
+            }
+        }
+
+        stage('Install Server Dependencies') {
+            steps {
+                dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM/server') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Install Client Dependencies') {
+            steps {
+                dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM/client') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build Client') {
+            steps {
+                dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM/client') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                dir('232014 Final_Term_Project_CRM/Final_Term_Project_CRM') {
+                    sh 'docker-compose build'
+                }
+            }
+        }
+    }
+}
